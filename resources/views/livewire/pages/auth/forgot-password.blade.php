@@ -37,7 +37,7 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-[#800000] dark:text-[#800000]">
+    <div class="mb-4 text-sm text-[#800000]">
         {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
     </div>
 
@@ -47,13 +47,13 @@ new #[Layout('layouts.guest')] class extends Component
     <form wire:submit="sendPasswordResetLink">
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" class="text-[#800000] dark:text-[#800000]" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full bg-[#d9d9d9]/0 border-[#800000] rounded-lg dark:bg-[#d9d9d9]/0 dark:border-[#800000]" type="email" name="email" required autofocus />
+            <x-input-label for="email" :value="__('Email')" class="text-red-600" style="color: #b30000; "/>
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full bg-[#d9d9d9]/0 border-[#800000] rounded-lg" type="email" name="email" required autofocus  style="color: black; border: 2px solid #b30000; background-color: #ffffff;"/>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="bg-[#b30000] border-[#800000] text-white dark:bg-[#b30000] dark:border-[#800000]">
+            <x-primary-button class="bg-[#b30000] border-[#800000] text-white" style="background-color: #b30000; color: #FFFFFF;">
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
         </div>
