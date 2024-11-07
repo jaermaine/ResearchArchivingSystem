@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Home Page</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -82,7 +82,7 @@
                             class="flex flex-col lg:flex-row items-start gap-4 p-6 bg-white rounded-md shadow-lg ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20]">
 
                             <!-- Image Container (Hidden on mobile) -->
-                            <div class="w-[191px] h-[434px] bg-[#ff3333] rounded-md flex items-center justify-center hidden lg:flex">
+                            <div class="w-[210px] h-[434px] bg-[#ff3333] rounded-md flex items-center justify-center hidden lg:flex">
                                 <img class="w-[172px] h-[172px]" src="img/coecsa.png" alt="COECSA Logo" />
                             </div>
 
