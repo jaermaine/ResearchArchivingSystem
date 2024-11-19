@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('document_student', function (Blueprint $table) {
+        Schema::create('sessions', function (Blueprint $table) {
             $table->id()->primary();
-            $table->foreignId('document_id')->constrained('documents')->nullable();
-            $table->foreignId('student_id')->constrained('student');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('document_student');
+        Schema::dropIfExists('sessions');
     }
 };
