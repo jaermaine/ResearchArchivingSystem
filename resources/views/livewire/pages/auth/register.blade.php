@@ -69,6 +69,8 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
+@section('title', 'Registration Page')
+
 <div>
     <form wire:submit="register">
         @csrf
