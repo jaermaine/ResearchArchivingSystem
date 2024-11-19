@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id()->primary();
             $table->string('title')->unique();
             $table->string('field_topic');
-            $table->foreignId('document_status_id')->constrained('document_statuses')->nullable();
+            $table->foreignId('document_status_id')->constrained('document_statuses');
             $table->timestamps();
         });
     }

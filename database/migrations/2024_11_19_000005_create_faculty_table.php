@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('first_name');
             $table->string('last_name');
-            $table->foreignId('document_id')->constrained('documents')->nullable();
-            $table->foreignId('deparment_id')->constrained('departments')->nullable();
+            $table->foreignId('document_id')->constrained('documents');
+            $table->foreignId('deparment_id')->constrained('departments');
             $table->timestamps();
         });
     }

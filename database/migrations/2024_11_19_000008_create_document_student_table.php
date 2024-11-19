@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('document_student', function (Blueprint $table) {
             $table->id()->primary();
             $table->foreignId('document_id')->constrained('documents')->nullable();
-            $table->foreignId('student_id')->constrained('student')->nullable();
+            $table->foreignId('student_id')->constrained('student');
             $table->timestamps();
         });
     }
