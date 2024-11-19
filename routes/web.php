@@ -7,11 +7,8 @@ Route::view('/', 'welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        if (auth()->user()->role === 'faculty') {
-            return view('faculty.dashboard');
-        }
-        return view('student.dashboard');
-    })->name('dashboard');
+        return view('dashboard');
+    })->middleware(['auth'])->name('dashboard');
 
     Route::view('faculty/dashboard', 'faculty.dashboard')
         ->middleware('role:faculty')
@@ -30,5 +27,9 @@ Route::get('/debug-session', function () {
     Session::put('test', 'value');
     return Session::get('test');
 });
+
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
 
 require __DIR__.'/auth.php';
