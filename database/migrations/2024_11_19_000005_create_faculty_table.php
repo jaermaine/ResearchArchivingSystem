@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->foreignId('document_id')->constrained('documents')->nullable();
-            $table->foreignId('deparment_id')->constrained('departments')->nullable();
+            $table->foreignId('department_id')->constrained('departments')->nullable();
             $table->timestamps();
         });
     }
