@@ -71,6 +71,7 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="register">
+        @csrf
         <!-- First Name -->
         <div class = "mt-4">
             <x-input-label for="first_name" :value="__('First Name')" class="text-red-600" style="color: #b30000;" />
