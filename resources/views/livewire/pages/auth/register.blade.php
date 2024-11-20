@@ -3,7 +3,6 @@
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Faculty;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -62,18 +61,9 @@ new #[Layout('layouts.guest')] class extends Component
             ]);
         }
 
-        event(new Registered($user));
+        Auth::logout();
 
-        Auth::login($user);
-
-        $redirectRoute = match($validated['role']) {
-            'student' => 'student-dashboard',
-            'faculty' => 'faculty-dashboard',
-            default => 'welcome'
-        };
-        
-        $this->redirect(route($redirectRoute), navigate: true);
-        
+        $this->redirect(route('login', absolute: false), navigate: true);
     }
 }; ?>
 
