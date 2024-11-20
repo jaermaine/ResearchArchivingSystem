@@ -3,7 +3,6 @@
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Faculty;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -41,6 +40,7 @@ new #[Layout('layouts.guest')] class extends Component
         $user = User::create([
             'email' => $validated['email'],
             'password' => $validated['password'],
+            'role' => $validated['role'],
         ]);
 
         if ($validated['role'] === 'student') {
@@ -51,7 +51,7 @@ new #[Layout('layouts.guest')] class extends Component
                 'document_id' => null,
                 'department_id' => null,
             ]);
-        } else {
+        } elseif ($validated['role'] === 'faculty') {
             Faculty::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
@@ -61,11 +61,9 @@ new #[Layout('layouts.guest')] class extends Component
             ]);
         }
 
-        event(new Registered($user));
+        Auth::logout();
 
-        Auth::login($user);
-
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->redirect(route('login', absolute: false), navigate: true);
     }
 }; ?>
 
