@@ -34,10 +34,10 @@
 <body class="font-sans text-gray-900 antialiased" style="background-image: url('img/BG - REGISTER.png'); background-size: cover; background-position: center;">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
         <div class="flex space-x-4"> <!-- Add 'flex' and 'space-x-4' for side-by-side alignment with spacing -->
-            <a href="/" wire:navigate>
+            <a href="/welcome" wire:navigate>
                 <img class="w-[125px] h-[125px] md:w-[165px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" /> <!-- LPU LOGO -->
             </a>
-            <a href="/" wire:navigate>
+            <a href="/welcome" wire:navigate>
                 <img class="w-[125px] h-[125px] md:w-[185px] md:h-[171px]" src="img/coecsa.png" alt="COECSA Logo" /> <!-- COECSA LOGO -->
             </a>
         </div>
