@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id()->primary();
-            $table->string('title')->unique();
+            $table->string('title');
             $table->string('abstract');
             $table->string('field_topic');
-            $table->foreignId('document_status_id')->constrained('document_statuses')->nullable();
+            $table->foreignId('document_status_id')->nullable()->constrained('document_statuses');
             $table->timestamps();
         });
     }
