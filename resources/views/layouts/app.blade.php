@@ -60,6 +60,10 @@ new class extends Component
 
         function closeModal() {
             document.getElementById('modal').classList.add('hidden');
+            document.getElementById('title').value = '';
+            document.getElementById('abstract').value = '';
+            document.getElementById('field_topic').value = '';
+            document.getElementById('faculty').value = '';
         }
     </script>
 </head>

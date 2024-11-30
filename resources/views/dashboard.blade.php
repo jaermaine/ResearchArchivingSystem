@@ -4,8 +4,8 @@
 
     <!-- Student/Faculty layout content -->
     @if(Auth::user()->role == 'student')
-        @include('layouts.student-dashboard')
+        @extends('layouts.student-dashboard')
     @elseif(Auth::user()->role == 'faculty')
-        @include('layouts.faculty-dashboard')
+        @extends('layouts.faculty-dashboard')
     @endif
 @endsection

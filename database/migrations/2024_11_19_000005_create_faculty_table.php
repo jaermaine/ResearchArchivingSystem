@@ -18,12 +18,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->foreignId('document_id')->nullable()->constrained('documents');
-            $table->foreignId('department_id')->nullable()->constrained('departments');
+            $table->foreignId('department_id')->constrained('departments');
             $table->timestamps();
         });
 
         DB::statement('ALTER TABLE faculty ALTER COLUMN document_id SET DEFAULT NULL');
-        DB::statement('ALTER TABLE faculty ALTER COLUMN department_id SET DEFAULT NULL');
     }
 
     /**
