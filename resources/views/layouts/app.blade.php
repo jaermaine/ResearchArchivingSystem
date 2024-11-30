@@ -123,12 +123,13 @@ new class extends Component
                     </div>
                 </header>
 
-
                 <main class="mt-6">
                     <div class="container">
                         @yield('content')
                     </div>
-                    @yield('table')
+                    <div class="container mx-auto p-4">
+                        @yield('table')
+                    </div>
 
                     @yield('button')
 
