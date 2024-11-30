@@ -34,5 +34,3 @@
     </tbody>
 </table>
 @endsection
-<!-- documents.id, documents.title, documents.abstract, documents.field_topic, document_statuses.name, 
-student.first_name, student.last_name -->
