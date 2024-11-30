@@ -8,13 +8,10 @@ use App\Models\Department;
 
 class DepartmentList extends Component
 {
-    #[Computed()]
-    public function departments(){
-        return Department::all();
-    }
+    public $department_id;
 
     public function render()
     {
-        return view('livewire.department-list');
+        return view('livewire.department-list', ['departments' => Department::all()]);
     }
 }
