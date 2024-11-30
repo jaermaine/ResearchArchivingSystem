@@ -6,17 +6,13 @@ use App\Http\Controllers\DashboardController; // Add this line to import the con
 use App\Http\Controllers\SessionController; // Add this line to import the controller
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\FacultyListController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\DepartmentListController;
 
-Route::view('/', 'welcome');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']) // Update this line to use the controller
-        ->middleware(['auth'])
-        ->name('dashboard');
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
-});
+Route::get('/dashboard', [DashboardController::class, 'index']) // Update this line to use the controller
+    ->middleware(['auth'])
+    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -27,7 +23,7 @@ Route::get('/debug-session', function () {
     return Session::get('test');
 });
 
-Route::view('/', 'welcome')->name('home');});
+Route::view('/', 'welcome')->name('home');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -47,6 +43,11 @@ Route::view('/login', 'pages.auth.login')->name('login');
 Route::post('logout', [SessionsController::class, 'destroy'])
     ->name('logout');
 
-Route::get('/fetch-faculties', [FacultyListController::class, 'fetchFaculties']); 
+Route::get('/', [FacultyListController::class, 'fetchFaculties']);
 
-require __DIR__.'/auth.php';
+//Route::get('/fetch-departments', [DepartmentListController::class, 'fetchDepartments']);
+
+Route::post('/submit-document', [DocumentController::class, 'submit_document'])
+->name('submit-document');
+
+require __DIR__ . '/auth.php';
