@@ -125,7 +125,9 @@ new class extends Component
 
 
                 <main class="mt-6">
-
+                    <div class="container">
+                        @yield('content')
+                    </div>
                     @yield('table')
 
                     @yield('button')
