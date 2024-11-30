@@ -9,9 +9,13 @@ use App\Http\Controllers\FacultyListController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DepartmentListController;
 use App\Http\Controllers\DocumentStudentController;
+use App\Livewire\DocumentStatusController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DocumentStudentController::class, 'setTable'])->name('faculty-dashboard');
+    Route::get('/documents/download/{id}', [DocumentStatusController::class, 'download'])->name('download-document');
+    Route::get('/documents/approve/{id}', [DocumentStatusController::class, 'approve'])->name('approve-documents');
+    Route::get('/documents/reject/{id}', [DocumentStatusController::class, 'reject'])->name('reject-documents');
 });
 
 Route::view('/', 'welcome')->name('home');
