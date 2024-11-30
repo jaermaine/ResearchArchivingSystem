@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('document_faculty', function (Blueprint $table) {
             $table->id()->primary();
-            $table->foreignId('documents_id')->constrained('documents')->nullable();
+            $table->foreignId('document_id')->constrained('documents')->nullable();
             $table->foreignId('faculty_id')->constrained('faculty')->nullable();
             $table->timestamps();
         });

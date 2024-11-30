@@ -1,11 +1,11 @@
+@extends('layouts.app')
+
 @section('title', 'Dashboard')
 
 @section('content')
-
-    <!-- Student/Faculty layout content -->
     @if(Auth::user()->role == 'student')
-        @extends('layouts.student-dashboard')
+        @include('layouts.student-dashboard')
     @elseif(Auth::user()->role == 'faculty')
-        @extends('layouts.faculty-dashboard')
+        @include('layouts.faculty-dashboard', ['documents' => $documents])
     @endif
 @endsection
