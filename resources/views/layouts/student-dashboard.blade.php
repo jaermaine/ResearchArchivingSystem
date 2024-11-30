@@ -1,3 +1,7 @@
+<?php
+    use App\Models\Faculty;
+?>
+
 @extends('layouts.app')
 
 @section('button')
@@ -26,9 +30,15 @@
                 <label for="field_topic" class="block text-gray-700">Field/Topic</label>
                 <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            
-            <div wire:init="mount">
-                @livewire('faculty-list')
+
+            <div class="mb-4">
+                <label for="faculty" class="block text-gray-700">Faculty</label>
+                <select id="faculty" name="faculty" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="" hidden>Select Faculty</option>
+                    @foreach (Faculty::all() as $faculty)
+                    <option value="{{ $faculty->id }}">{{ $faculty->first_name . " " .$faculty->last_name}}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-4">
