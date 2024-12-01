@@ -1,16 +1,17 @@
 <?php
-    use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\Facades\DB;
 
-    $student_id = DB::table('student')
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+$student_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
     ->value('id');
 
-    $department_id = DB::table('student')
+$department_id = DB::table('student')
     ->where('user_id', '=', $student_id)
     ->value('department_id');
 
-    $faculties = DB::table('faculty')
+$faculties = DB::table('faculty')
     ->where('department_id', "=",  $department_id)
     ->select("faculty.id", "faculty.first_name", "faculty.last_name")
     ->get();
@@ -83,9 +84,10 @@
             </div>
 
             <div class="mb-4">
-                <label for="file" class="block text-gray-700">Upload File</label>
+                <label for="file" class="block text-gray-700">Upload File (*.pdf only)</label>
                 <input type="file" id="file" name="file" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
+
             <div class="flex justify-end">
                 <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-2" onclick="closeModal()">Cancel</button>
                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Submit</button>
