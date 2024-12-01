@@ -24,11 +24,8 @@ class DocumentController extends Controller
             'abstract' => 'required|string',
             'field_topic' => 'required|string',
             'faculty' => 'required|integer',
-            //'file' => 'required|file|mimes:pdf,docx,doc' // Adjust mime types as needed
+            'file' => 'required|file|mimes:pdf|max:20480' // Adjust mime types as needed
         ]);
-
-        // Handle file upload (optional, if you want to store the file on the server)
-        //$filePath = $request->file('file')->store('public/documents');
 
         $document = Documents::create([
             'title' => $validated['title'],
@@ -42,19 +39,14 @@ class DocumentController extends Controller
             'faculty_id' => $validated['faculty']
         ]);
 
-        DocumentStudent::create([
+        $document_student = DocumentStudent::create([
             'document_id' => $document->id,
             'student_id' => $student_id
         ]);
+        
+        $file_address = "{$document_student->id}{$document->id}{$student_id}";
 
-        // Create a new Document record
-        // $document = new Documents;
-        // $document->title = $validatedData['title'];
-        // $document->abstract = $validatedData['abstract'];
-        // $document->faculty = $validatedData['faculty'];
-        // $document->file_path = $filePath; // If you're storing the file
-        // $document->save();
-
+        $request->file('file')->move('files', "{$file_address}" . '.pdf');
 
         // Redirect or return a response
         return redirect()->back()

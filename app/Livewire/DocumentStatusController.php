@@ -4,11 +4,19 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Documents;
+use Illuminate\Support\Facades\DB;
 
 class DocumentStatusController extends Component
 {
     public function download($id){
-        //
+        $document = DB::table('document_student')
+        ->where('document_id', '=', "{$id}")
+        ->select('document_student.id', 'document_id', 'student_id')
+        ->first();
+
+        $file_name = "{$document->id}{$document->document_id}{$document->student_id}";
+
+        return response()->download(public_path("files/{$file_name}.pdf"));
     }
 
     public function approve($id){
