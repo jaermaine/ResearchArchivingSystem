@@ -52,7 +52,7 @@ class DocumentStudentController extends Controller
             ->join('document_faculty', 'documents.id', '=', 'document_faculty.document_id')
             ->join('faculty', 'document_faculty.faculty_id', '=', 'faculty.id')
             ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.field_topic', 
-            'document_statuses.name', 'student.first_name', 'student.last_name')
+            'document_statuses.name', 'faculty.first_name', 'faculty.last_name')
             ->where('student_id', '=', $student_id)
             ->get();
 
