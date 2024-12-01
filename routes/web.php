@@ -38,8 +38,6 @@ Route::view('/login', 'pages.auth.login')->name('login');
 Route::post('logout', [SessionsController::class, 'destroy'])
     ->name('logout');
 
-Route::get('/', [FacultyListController::class, 'fetchFaculties']);
-
 Route::post('/submit-document', [DocumentController::class, 'submit_document'])->name('submit-document');
 
 require __DIR__ . '/auth.php';
