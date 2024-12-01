@@ -1,8 +1,49 @@
 <?php
-    use App\Models\Faculty;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\DB;
+
+    $student_id = DB::table('student')
+    ->where('user_id', '=', Auth::user()->id)
+    ->value('id');
+
+    $department_id = DB::table('student')
+    ->where('user_id', '=', $student_id)
+    ->value('department_id');
+
+    $faculties = DB::table('faculty')
+    ->where('department_id', "=",  $department_id)
+    ->select("faculty.id", "faculty.first_name", "faculty.last_name")
+    ->get();
 ?>
 
-@extends('layouts.app')
+@section('content')
+<table class="min-w-full bg-white border border-gray-200">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b">ID</th>
+            <th class="py-2 px-4 border-b">Title</th>
+            <th class="py-2 px-4 border-b">Abstract</th>
+            <th class="py-2 px-4 border-b">Field</th>
+            <th class="py-2 px-4 border-b">Status</th>
+            <th class="py-2 px-4 border-b">First Name</th>
+            <th class="py-2 px-4 border-b">Last Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($documents as $item)
+        <tr>
+            <td class="py-2 px-4 border-b text-center">{{ $item->id }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->title }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->abstract }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->field_topic }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->name }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->first_name }}</td>
+            <td class="py-2 px-4 border-b text-center">{{ $item->last_name }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@endsection
 
 @section('button')
 <!-- Submit Document Button -->
@@ -35,7 +76,7 @@
                 <label for="faculty" class="block text-gray-700">Faculty</label>
                 <select id="faculty" name="faculty" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="" hidden>Select Faculty</option>
-                    @foreach (Faculty::all() as $faculty)
+                    @foreach ($faculties as $faculty)
                     <option value="{{ $faculty->id }}">{{ $faculty->first_name . " " .$faculty->last_name}}</option>
                     @endforeach
                 </select>
