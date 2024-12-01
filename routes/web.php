@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DepartmentListController;
 use App\Http\Controllers\DocumentStudentController;
 use App\Livewire\DocumentStatusController;
+use App\Http\Controllers\SearchDocumentsController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DocumentStudentController::class, 'setTable'])->name('faculty-dashboard');
@@ -18,7 +19,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/documents/reject/{id}', [DocumentStatusController::class, 'reject'])->name('reject-documents');
 });
 
+Route::get('/search-document/{search_input?}', [SearchDocumentsController::class, 'search_document'])->name('search-document');
+
 Route::view('/', 'welcome')->name('home');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -28,10 +35,6 @@ Route::get('/debug-session', function () {
     Session::put('test', 'value');
     return Session::get('test');
 });
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
 
 Route::view('/login', 'pages.auth.login')->name('login');
 
