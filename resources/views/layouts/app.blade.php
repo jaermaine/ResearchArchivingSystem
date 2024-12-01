@@ -118,9 +118,6 @@ new class extends Component
                     <div class="container">
                         @yield('content')
                     </div>
-                    <div class="container mx-auto p-4">
-                        @yield('table')
-                    </div>
 
                     @yield('button')
 
