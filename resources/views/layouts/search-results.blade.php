@@ -1,5 +1,5 @@
 @extends('layouts.home')
 
 @section('content')
-    @include('layouts.guest-description')
+    @include('layouts.search-page')
 @endsection
