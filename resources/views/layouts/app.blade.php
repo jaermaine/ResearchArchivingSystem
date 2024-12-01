@@ -18,15 +18,6 @@ new class extends Component
 
         $this->redirect('/', navigate: true);
     }
-
-    public function submit(): void
-    {
-        $document = Documents::create([
-            'title' => $this->title,
-            'abstract' => $this->abstract,
-            'faculty' => $this->faculty,
-        ]);
-    }
 }; ?>
 
 <!DOCTYPE html>

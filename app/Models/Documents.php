@@ -15,9 +15,7 @@ class Documents extends Model
         'title',
         'abstract',
         'field_topic',
-        'user_id',
         'document_status_id',
-        'department_id',
     ];
 
     public function department(): belongsTo
