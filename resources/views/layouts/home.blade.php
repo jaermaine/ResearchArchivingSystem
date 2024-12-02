@@ -57,8 +57,9 @@
 
                         <!-- LOGIN & REGISTER links on the right -->
                         <div class="flex space-x-4 text-red-500">
-                            <a href="{{ route('login') }}" class="hover:underline">Log in</a>
-                            <a href="{{ route('register') }}" class="hover:underline">Register</a>
+                            @if (Route::has('login'))
+                            <livewire:welcome.navigation />
+                            @endif
                         </div>
                     </div>
 
