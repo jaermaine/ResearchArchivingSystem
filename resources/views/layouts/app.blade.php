@@ -66,17 +66,18 @@ new class extends Component
                 <!-- Browsing on Desktop -->
                 <header class="hidden lg:grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="w-[100px] h-[100px] flex-col justify-center items-center inline-flex md:w-[154px] md:h-[171px] hidden md:flex">
-                        <img class="w-[100px] h-[100px] md:w-[154px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" />
+                        <a href="/welcome">
+                            <img href="home"class="w-[100px] h-[100px] md:w-[154px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" />
+                        </a>
                     </div>
 
-                    <div class="w-full flex items-center bg-[#FFC1C1] rounded-full w-[500px] h-[55px] md:w-[500px] md:h-[55px]">
-                        <input type="text" placeholder="Search..." class="bg-transparent border-none outline-none focus:outline-none focus:ring-0 placeholder-gray-500 flex-grow" />
-                        <button type="submit" class="ml-2">
-                            <img src="img/search.png" alt="Search" class="w-[1px] h-[1px] md:w-[45px] md:h-[40px]" />
-                        </button>
-                    </div>
+                    <div></div>
 
                     <div class="flex items-center justify-end">
+                        <form action=""class="flex space-x-4 text-red-500">
+                            @csrf
+                            <button type="submit" class="hover:underline">Profile</button>
+                        </form>
                         <form method="POST" action="/logout" class="flex space-x-4 text-red-500">
                             @csrf
                             <button type="submit" class="hover:underline">Log Out</button>
@@ -91,7 +92,9 @@ new class extends Component
                     <div class="flex items-center justify-between w-full px-4">
                         <!-- LPU LOGO on the left -->
                         <div class="w-[60px] h-[60px] flex items-center justify-center">
-                            <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
+                            <a href="/welcome">
+                                <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
+                            </a>
                         </div>
 
                         <!-- Profile -->
@@ -100,16 +103,6 @@ new class extends Component
                                 @csrf
                                 <button type="submit" class="hover:underline">Log Out</button>
                             </form>
-                        </div>
-                    </div>
-
-                    <!-- Search bar below logo and links -->
-                    <div class="mt-4 w-full px-4">
-                        <div class="flex items-center bg-[#FFC1C1] rounded-full h-[45px]">
-                            <input type="text" placeholder="Search..." class="bg-transparent border-none outline-none focus:outline-none focus:ring-0 placeholder-gray-500 flex-grow px-4" />
-                            <button type="submit" class="ml-2 pr-4">
-                                <img src="img/search.png" alt="Search" class="w-[25px] h-[25px]" />
-                            </button>
                         </div>
                     </div>
                 </header>

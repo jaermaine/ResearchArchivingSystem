@@ -9,7 +9,7 @@ class SearchDocumentsController extends Controller
 {
     public $search_input;
 
-    public function search_document($search_input)
+    public function search_document($search_input = '')
     {
         $searchResults = DB::table('documents')
             ->join('document_student', 'documents.id', '=', 'document_student.document_id')
