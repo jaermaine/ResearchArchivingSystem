@@ -14,17 +14,18 @@ class DocumentSeeder extends Seeder
     public function run(): void
     {
         Documents::create([
-            'title' => 'Test Title',
-            'abstract' => 'Test Abstract',
-            'field_topic' => 'Test Field Topic',
+            'title' => 'Web and Mobile-Based 360° Faculty Evaluation System for Comprehensive Performance Assessment',
+            'abstract' => 'Digital platform aimed at automating and streamlining the faculty evaluation process at educational institutions.',
+            'field_topic' => 'Evaluation System',
             'document_status_id' => 1,
         ]);
 
         Documents::create([
-            'title' => 'Test Title1',
-            'abstract' => 'Test Abstract1',
-            'field_topic' => 'Test Field Topic1',
+            'title' => 'Cloud-based Research Archiving System: A Design Framework for Scalable Repositories',
+            'abstract' => 'Provide a platform that eases the submission process of papers related to Thesis, Research, and Capstone Projects.',
+            'field_topic' => 'Document Archiving',
             'document_status_id' => 1,
         ]);
+
     }
 }
