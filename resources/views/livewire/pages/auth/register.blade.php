@@ -3,12 +3,12 @@
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Faculty;
-use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\DB;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -19,14 +19,22 @@ new #[Layout('layouts.guest')] class extends Component
     public string $role = 'student'; // Default role
     public string $first_name = '';
     public string $last_name = '';
-    //public string $department_id = '1';
+    public string $department_id = ''; // Add department_id property
+    public array $departments = [];
+
+    public function mount(): void
+    {
+        $this->departments = DB::table('departments')
+            ->select("departments.id", "departments.name")
+            ->get()
+            ->toArray();
+    }
 
     /**
      * Handle an incoming registration request.
      */
     public function register(): void
     {
-
         $validated = $this->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -36,6 +44,7 @@ new #[Layout('layouts.guest')] class extends Component
                 ->symbols(1)
                 ->numbers(1)],
             'role' => ['required', 'in:student,faculty'],
+            'department_id' => ['required', 'exists:departments,id'], // Add department_id validation
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -51,14 +60,14 @@ new #[Layout('layouts.guest')] class extends Component
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'user_id' => $user->id,
-                'department_id' => 1,
+                'department_id' => $validated['department_id'], // Use validated department_id
             ]);
         } elseif ($validated['role'] === 'faculty') {
             Faculty::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'user_id' => $user->id,
-                'department_id' => 1,
+                'department_id' => $validated['department_id'], // Use validated department_id
             ]);
         }
 
@@ -66,7 +75,9 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirect(route('login', absolute: false), navigate: true);
     }
-}; ?>
+};
+
+?>
 
 @section('title', 'Registration Page')
 
@@ -109,9 +120,15 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Department -->
-        <div class = "mt-4">
-            <!-- omit comment once finished livewire('department-list') -->
-        </div> 
+        <div class="mt-4">
+            <label for="department" class="text-red-600" style="color: #b30000;">Department</label>
+            <select wire:model="department_id" id="department" name="department" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
+                <option value="" hidden>Select Department</option>
+                @foreach ($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }} </option>
+                @endforeach
+            </select>
+        </div>
 
         <!-- Role -->
         <div class="mt-4">
