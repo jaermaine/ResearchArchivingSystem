@@ -20,7 +20,7 @@ class DocumentStudentSeeder extends Seeder
 
         DocumentStudent::create([
             'document_id' => 2,
-            'student_id' => 1,
+            'student_id' => 2,
         ]);
     }
 }
