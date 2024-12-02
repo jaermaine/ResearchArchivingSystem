@@ -8,7 +8,7 @@ $student_id = DB::table('student')
     ->value('id');
 
 $department_id = DB::table('student')
-    ->where('user_id', '=', $student_id)
+    ->where('user_id', '=', Auth::user()->id)
     ->value('department_id');
 
 $faculties = DB::table('faculty')
