@@ -74,7 +74,9 @@
 
 
                 <main class="mt-6">
-                    @yield('content')
+                    <div class="container">
+                        @yield('content')
+                    </div>
                 </main>
 
                 <footer class="py-16 text-center text-sm text-black">
