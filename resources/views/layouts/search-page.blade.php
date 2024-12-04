@@ -15,5 +15,5 @@
             </div>
         </form>
     </div>
+    @endforeach
 </div>
-@endforeach
