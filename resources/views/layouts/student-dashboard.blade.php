@@ -95,15 +95,15 @@ $faculties = DB::table('faculty')
             @csrf
             <div class="mb-4">
                 <label for="title" class="block text-gray-700">Title</label>
-                <input type="text" id="title" name="title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="title" name="title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter the title of your document">
             </div>
             <div class="mb-4">
                 <label for="abstract" class="block text-gray-700">Abstract</label>
-                <textarea id="abstract" name="abstract" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <textarea id="abstract" name="abstract" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Provide a brief summary of your document"></textarea>
             </div>
             <div class="mb-4">
                 <label for="field_topic" class="block text-gray-700">Field/Topic</label>
-                <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify the field or topic of your document"></textarea>
             </div>
 
             <div class="mb-4">
@@ -118,7 +118,7 @@ $faculties = DB::table('faculty')
 
             <div class="mb-4">
                 <label for="file" class="block text-gray-700">Upload File (*.pdf only)</label>
-                <input type="file" id="file" name="file" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="file" id="file" name="file" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Upload your document in PDF format">
             </div>
 
             <div class="flex justify-end">
