@@ -11,6 +11,7 @@ use App\Http\Controllers\DepartmentListController;
 use App\Http\Controllers\DocumentStudentController;
 use App\Livewire\DocumentStatusController;
 use App\Http\Controllers\SearchDocumentsController;
+use App\Http\Controllers\DocumentInformationPageController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DocumentStudentController::class, 'setTable'])->name('faculty-dashboard');
@@ -20,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/search-document/{search_input?}', [SearchDocumentsController::class, 'search_document'])->name('search-document');
+
+Route::get('document/info/{id?}', [SearchDocumentsController::class, 'document_info'])->name('document-info');
 
 Route::view('/', 'welcome')->name('home');
 
