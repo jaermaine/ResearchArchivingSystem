@@ -1,5 +1,9 @@
 @extends('layouts.home')
 
 @section('content')
-    @include('layouts.search-page')
+    @if(isset($searchResults))
+        @include('layouts.search-page')
+    @elseif(isset($documentResults))
+        @include('layouts.document-info')
+    @endif
 @endsection
