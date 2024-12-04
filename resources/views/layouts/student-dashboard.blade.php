@@ -20,7 +20,7 @@ $faculties = DB::table('faculty')
 @section('content')
 <table class="min-w-full bg-white border border-gray-200">
     <thead>
-        <tr>
+        <tr class="hidden md:table-row">
             <th class="py-2 px-4 border-b">ID</th>
             <th class="py-2 px-4 border-b">Title</th>
             <th class="py-2 px-4 border-b">Abstract</th>
@@ -32,14 +32,47 @@ $faculties = DB::table('faculty')
     </thead>
     <tbody>
         @foreach($documents as $item)
-        <tr>
-            <td class="py-2 px-4 border-b text-center">{{ $item->id }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->title }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->abstract }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->field_topic }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->name }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->first_name }}</td>
-            <td class="py-2 px-4 border-b text-center">{{ $item->last_name }}</td>
+        <tr class="block md:table-row border-b md:border-none">
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->id }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->title }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->abstract }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->field_topic }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->name }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->first_name }}
+                </span>
+            </td>
+            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
+                <span class="md:hidden font-bold">
+                    {{ $item->last_name }}
+                </span>
+            </td>
+        </tr>
+        <tr class="block md:hidden">
+            <td colspan="8" class="py-2 px-4">
+                <hr class="border-t border-gray-300">
+            </td>
         </tr>
         @endforeach
     </tbody>
