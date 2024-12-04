@@ -34,39 +34,39 @@ $faculties = DB::table('faculty')
         @foreach($documents as $item)
         <tr class="block md:table-row border-b md:border-none">
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->id }}
+                <span class="md:hidden font-bold">ID:
                 </span>
+                {{ $item->id }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->title }}
+                <span class="md:hidden font-bold">Title:
                 </span>
+                {{ $item->title }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->abstract }}
+                <span class="md:hidden font-bold">Abstract:
                 </span>
+                {{ $item->abstract }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->field_topic }}
+                <span class="md:hidden font-bold">Field/Topic
                 </span>
+                {{ $item->field_topic }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->name }}
+                <span class="md:hidden font-bold">Name:
                 </span>
+                {{ $item->name }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->first_name }}
+                <span class="md:hidden font-bold">First Name:
                 </span>
+                {{ $item->first_name }}
             </td>
             <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">
-                    {{ $item->last_name }}
+                <span class="md:hidden font-bold">Last Name:
                 </span>
+                {{ $item->last_name }}
             </td>
         </tr>
         <tr class="block md:hidden">
