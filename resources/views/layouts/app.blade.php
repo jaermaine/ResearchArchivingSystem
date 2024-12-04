@@ -76,9 +76,9 @@ new class extends Component
                     <div></div>
 
                     <div class="flex items-center justify-end">
-                        <form action=""class="flex space-x-4 text-red-500">
+                        <form action="/welcome"class="flex space-x-4 text-red-500">
                             @csrf
-                            <button type="submit" class="hover:underline">Profile</button>
+                            <button type="submit" class="hover:underline">Home</button>
                         </form>
                         <form method="POST" action="/logout" class="flex space-x-4 text-red-500">
                             @csrf
