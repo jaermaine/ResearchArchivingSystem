@@ -14,9 +14,12 @@ class SearchDocumentsController extends Controller
         $searchResults = DB::table('documents')
             ->join('document_student', 'documents.id', '=', 'document_student.document_id')
             ->join('student', 'document_student.student_id', '=', 'student.id')
-            ->where('title', 'like', '%' . $search_input . '%')
-            ->orWhere('abstract', 'like', '%' . $search_input . '%')
-            ->orWhere('field_topic', 'like', '%' . $search_input . '%')
+            ->where('document_status_id', '=', 2)
+            ->where(function($query) use ($search_input) {
+                $query->where('title', 'like', '%' . $search_input . '%')
+                      ->orWhere('abstract', 'like', '%' . $search_input . '%')
+                      ->orWhere('field_topic', 'like', '%' . $search_input . '%');
+            })
             ->select('documents.id', 'documents.title', 'student.first_name', 'student.last_name')
             ->get();
 
