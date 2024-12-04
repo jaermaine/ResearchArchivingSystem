@@ -17,7 +17,7 @@ class StudentSeeder extends Seeder
             'first_name' => 'Cj',
             'last_name' => 'Rojo',
             'user_id' => 1,
-            'department_id' => 1,
+            'department_id' => 2,
         ]);
 
         Student::create([
