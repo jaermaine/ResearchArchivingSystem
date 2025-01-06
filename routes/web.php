@@ -12,6 +12,13 @@ use App\Http\Controllers\DocumentStudentController;
 use App\Livewire\DocumentStatusController;
 use App\Http\Controllers\SearchDocumentsController;
 use App\Http\Controllers\DocumentInformationPageController;
+use App\Http\Controllers\ProfileController;
+
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+
+Route::get('/search-documents', [SearchDocumentsController::class, 'search_document'])->name('search.documents');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DocumentStudentController::class, 'setTable'])->name('faculty-dashboard');
