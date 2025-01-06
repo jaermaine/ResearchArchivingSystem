@@ -3,16 +3,19 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 
 class SearchField extends Component
 {
-
-    public $searchInput;
+    public $selectedCategory = '';
+    public $searchInput = '';
 
     public function search()
     {
-        return redirect()->route('search-document', ['search_input' => $this->searchInput ?? '']);
+        // Redirect to search route even if no category is selected
+        return redirect()->route('search.documents', [
+            'category' => $this->selectedCategory,
+            'search_input' => $this->searchInput,
+        ]);
     }
 
     public function render()
