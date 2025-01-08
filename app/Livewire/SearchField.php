@@ -3,16 +3,31 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 
 class SearchField extends Component
 {
-
+    public $selectedCategory;
     public $searchInput;
+
+    public function mount()
+    {
+        //selected values will remain the same
+        $this->selectedCategory = session('selectedCategory', '');
+        $this->searchInput = session('searchInput', '');
+    }
 
     public function search()
     {
-        return redirect()->route('search-document', ['search_input' => $this->searchInput ?? '']);
+        //store values remains the same after reloading/proceeding to another page
+        session([
+            'selectedCategory' => $this->selectedCategory,
+            'searchInput' => $this->searchInput,
+        ]);
+
+        return redirect()->route('search.documents', [
+            'category' => $this->selectedCategory,
+            'search_input' => $this->searchInput,
+        ]);
     }
 
     public function render()
