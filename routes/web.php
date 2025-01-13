@@ -13,6 +13,8 @@ use App\Livewire\DocumentStatusController;
 use App\Http\Controllers\SearchDocumentsController;
 use App\Http\Controllers\DocumentInformationPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
 
@@ -52,5 +54,16 @@ Route::post('logout', [SessionsController::class, 'destroy'])
     ->name('logout');
 
 Route::post('/submit-document', [DocumentController::class, 'submit_document'])->name('submit-document');
+
+Route::get('/settings', function () {
+    return view('layouts.settings');
+})->name('settings');
+
+Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update');
+
+Route::post('/settings/add-contact', [SettingsController::class, 'addContact'])->name('settings.addContact');
+
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+Route::post('/settings/update-name', [SettingsController::class, 'updateName'])->name('settings.updateName');
 
 require __DIR__ . '/auth.php';
