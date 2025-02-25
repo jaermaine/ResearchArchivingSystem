@@ -18,74 +18,28 @@ $faculties = DB::table('faculty')
 ?>
 
 @section('content')
-<table class="min-w-full bg-white border border-gray-200">
-    <thead>
-        <tr class="hidden md:table-row">
-            <th class="py-2 px-4 border-b">ID</th>
-            <th class="py-2 px-4 border-b">Title</th>
-            <th class="py-2 px-4 border-b">Abstract</th>
-            <th class="py-2 px-4 border-b">Field</th>
-            <th class="py-2 px-4 border-b">Status</th>
-            <th class="py-2 px-4 border-b">First Name</th>
-            <th class="py-2 px-4 border-b">Last Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($documents as $item)
-        <tr class="block md:table-row border-b md:border-none">
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">ID:
-                </span>
-                {{ $item->id }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">Title:
-                </span>
-                {{ $item->title }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">Abstract:
-                </span>
-                {{ $item->abstract }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">Field/Topic
-                </span>
-                {{ $item->field_topic }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">Name:
-                </span>
-                {{ $item->name }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">First Name:
-                </span>
-                {{ $item->first_name }}
-            </td>
-            <td class="py-2 px-4 border-b md:border-none text-center block md:table-cell">
-                <span class="md:hidden font-bold">Last Name:
-                </span>
-                {{ $item->last_name }}
-            </td>
-        </tr>
-        <tr class="block md:hidden">
-            <td colspan="8" class="py-2 px-4">
-                <hr class="border-t border-gray-300">
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@endsection
-
-@section('button')
-<!-- Submit Document Button -->
-<div class="mt-4">
+<div class="flex justify-end mb-4">
     <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onclick="openModal()">
         Submit Document
     </button>
 </div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @foreach($documents as $item)
+    <div class="bg-white rounded-md shadow-lg p-4">
+        <div class="font-bold">ID: {{ $item->id }}</div>
+        <div class="font-semibold">Title: {{ $item->title }}</div>
+        <div>Abstract: {{ $item->abstract }}</div>
+        <div>Field/Topic: {{ $item->field_topic }}</div>
+        <div>Status: {{ $item->name }}</div>
+        <div>First Name: {{ $item->first_name }}</div>
+        <div>Last Name: {{ $item->last_name }}</div>
+    </div>
+    @endforeach
+</div>
+@endsection
+
+@section('button')
 
 <!-- Modal -->
 <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
@@ -99,16 +53,14 @@ $faculties = DB::table('faculty')
             </div>
             <div class="mb-4">
                 <label for="abstract" class="block text-gray-700">Abstract</label>
-                <textarea id="abstract" name="abstract" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Provide a brief summary of your document"></textarea>
-            </div>
-            <div class="mb-4">
+                <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document"></textarea>            <div class="mb-4">
                 <label for="field_topic" class="block text-gray-700">Field/Topic</label>
-                <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify the field or topic of your document"></textarea>
+                <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Specify the field or topic of your document"></textarea>
             </div>
             <div class="mb-4">
-                <label for="faculty" class="block text-gray-700">Faculty</label>
+                <label for="faculty" class="block text-gray-700">Adviser</label>
                 <select id="faculty" name="faculty" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="" hidden>Select Faculty</option>
+                    <option value="" hidden>Select Adviser</option>
                     @foreach ($faculties as $faculty)
                     <option value="{{ $faculty->id }}">{{ $faculty->first_name . " " .$faculty->last_name}}</option>
                     @endforeach
@@ -120,10 +72,25 @@ $faculties = DB::table('faculty')
             </div>
             <div class="flex justify-end">
                 <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-2" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Submit</button>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" wire:click="submitDocument">Submit</button>
             </div>
         </form>
     </div>
 </div>
+
+@if (session()->has('success'))
+<div x-data="{ show: true }"
+    x-show="show"
+    x-transition
+    x-init="setTimeout(() => show = false, 3000)"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
+        <h2 class="text-xl font-bold mb-4">Submitted Successfully!</h2>
+        <p>Your document has been submitted.</p>
+        <br>
+        <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-2" @click="show : false">Close</button>
+    </div>
+</div>
+@endif
 
 @endsection
