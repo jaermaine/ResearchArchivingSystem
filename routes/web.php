@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/documents/download/{id}', [DocumentStatusController::class, 'download'])->name('download-document');
     Route::get('/documents/approve/{id}', [DocumentStatusController::class, 'approve'])->name('approve-documents');
     Route::get('/documents/reject/{id}', [DocumentStatusController::class, 'reject'])->name('reject-documents');
+    Route::get('/documents/edit/{id}', [DocumentStatusController::class, 'edit'])->name('edit-documents');
 });
 
 Route::get('/search-document/{search_input?}', [SearchDocumentsController::class, 'search_document'])->name('search-document');
