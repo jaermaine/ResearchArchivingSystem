@@ -121,9 +121,9 @@ new #[Layout('layouts.guest')] class extends Component
 
         <!-- Department -->
         <div class="mt-4">
-            <label for="department" class="text-red-600" style="color: #b30000;">Department</label>
+            <label for="department" class="text-red-600" style="color: #b30000;">Course</label>
             <select wire:model="department_id" id="department" name="department" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
-                <option value="" hidden>Select Department</option>
+                <option value="" hidden>Select Course</option>
                 @foreach ($departments as $department)
                 <option value="{{ $department->id }}">{{ $department->name }} </option>
                 @endforeach
