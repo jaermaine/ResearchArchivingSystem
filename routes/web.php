@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SessionsController;
-use App\Http\Controllers\FacultyListController;
+use App\Http\Controllers\AdviserListController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DepartmentListController;
 use App\Http\Controllers\DocumentStudentController;
