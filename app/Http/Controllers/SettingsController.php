@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Student;
-use App\Models\Faculty;
+use App\Models\Adviser;
 use App\Models\User;
 
 class SettingsController extends Controller
@@ -18,17 +18,17 @@ class SettingsController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        // Check if the user is a student or faculty
+        // Check if the user is a student or adviser
         $student = Student::where('user_id', $userId)->first();
-        $faculty = Faculty::where('user_id', $userId)->first();
+        $faculty = Adviser::where('user_id', $userId)->first();
 
         // Set first name and last name based on user type
         if ($student) {
             $firstName = $student->first_name;
             $lastName = $student->last_name;
-        } elseif ($faculty) {
-            $firstName = $faculty->first_name;
-            $lastName = $faculty->last_name;
+        } elseif ($adviser) {
+            $firstName = $adviser->first_name;
+            $lastName = $adviser->last_name;
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
         }
@@ -57,15 +57,15 @@ class SettingsController extends Controller
         // Update name
         if ($request->filled('first_name') && $request->filled('last_name')) {
             $student = Student::where('user_id', $userId)->first();
-            $faculty = Faculty::where('user_id', $userId)->first();
+            $adviser = Adviser::where('user_id', $userId)->first();
 
             if ($student) {
                 $student->update([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                 ]);
-            } elseif ($faculty) {
-                $faculty->update([
+            } elseif ($adviser) {
+                $adviser->update([
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                 ]);
