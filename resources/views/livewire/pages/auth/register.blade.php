@@ -24,8 +24,8 @@ new #[Layout('layouts.guest')] class extends Component
     public string $suffix = ''; // Suffix
     public function mount(): void
     {
-        $this->departments = DB::table('departments')
-            ->select("departments.id", "departments.name")
+        $this->program = DB::table('program')
+            ->select("program.id", "program.name")
             ->get()
             ->toArray();
     }
@@ -45,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component
                 ->symbols(1)
                 ->numbers(1)],
             'role' => ['required', 'in:student,faculty'],
-            'department_id' => ['required', 'exists:departments,id'],
+            'program_id' => ['required', 'exists:program,id'],
         ]);
 
 
@@ -63,15 +63,15 @@ new #[Layout('layouts.guest')] class extends Component
                 'last_name' => $validated['last_name'],
                 'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'],
+                //'program_id' => $validated['college_id'],
             ]);
-        } elseif ($validated['role'] === 'faculty') {
-            Faculty::create([
+        } elseif ($validated['role'] === 'adviser') {
+            Adviser::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'],
+                //'college_id' => $validated['college_id'],
             ]);
         }
 
@@ -130,17 +130,6 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-red-600" style="color: #b30000;" />
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" style="color: black; border: 2px solid #b30000; background-color: #ffffff; " />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <!-- Department -->
-        <div class="mt-4">
-            <label for="department" class="text-red-600" style="color: #b30000;">Department</label>
-            <select wire:model="department_id" id="department" name="department" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
-                <option value="" hidden>Select Department</option>
-                @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->name }} </option>
-                @endforeach
-            </select>
         </div>
 
         <!-- Role -->
