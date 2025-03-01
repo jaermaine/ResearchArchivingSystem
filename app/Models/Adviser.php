@@ -11,7 +11,7 @@ class Faculty extends Model
 {
     use HasFactory;
 
-    protected $table = 'faculty'; // Ensure this is 'faculty' and not 'faculties'
+    protected $table = 'adviser'; // Ensure this is 'faculty' and not 'faculties'
 
     protected $fillable = [
         'first_name',
@@ -19,10 +19,10 @@ class Faculty extends Model
         'suffix',
         'user_id',
         'document_id',
-        'department_id',
+        'college_id',
     ];
 
-    public function department(): belongsTo
+    public function college(): belongsTo
     {
         return $this->belongsTo(Department::class);
     }
@@ -34,6 +34,6 @@ class Faculty extends Model
 
     public function document_student(): hasMany
     {
-        return $this->hasMany(DocumentFaculty::class);
+        return $this->hasMany(DocumentAdviser::class);
     }
 }
