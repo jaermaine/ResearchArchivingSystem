@@ -7,13 +7,13 @@ $student_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
     ->value('id');
 
-$department_id = DB::table('student')
+$college_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
-    ->value('department_id');
+    ->value('college_id');
 
-$faculties = DB::table('faculty')
-    ->where('department_id', "=",  $department_id)
-    ->select("faculty.id", "faculty.first_name", "faculty.last_name")
+$faculties = DB::table('adviser')
+    ->where('college_id', "=",  $college_id)
+    ->select("adviser.id", "adviser.first_name", "adviser.last_name")
     ->get();
 ?>
 
@@ -30,7 +30,7 @@ $faculties = DB::table('faculty')
         <div class="font-bold">ID: {{ $item->id }}</div>
         <div class="font-semibold">Title: {{ $item->title }}</div>
         <div>Abstract: {{ $item->abstract }}</div>
-        <div>Field/Topic: {{ $item->field_topic }}</div>
+        <div>Keyword: {{ $item->keyword }}</div>
         <div>Status: {{ $item->name }}</div>
         <div>First Name: {{ $item->first_name }}</div>
         <div>Last Name: {{ $item->last_name }}</div>
@@ -54,15 +54,15 @@ $faculties = DB::table('faculty')
             <div class="mb-4">
                 <label for="abstract" class="block text-gray-700">Abstract</label>
                 <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document"></textarea>            <div class="mb-4">
-                <label for="field_topic" class="block text-gray-700">Field/Topic</label>
-                <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Specify the field or topic of your document"></textarea>
+                <label for="keyword" class="block text-gray-700">Keyword</label>
+                <textarea id="keyword" name="keyword" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Specify the field or topic of your document"></textarea>
             </div>
             <div class="mb-4">
-                <label for="faculty" class="block text-gray-700">Adviser</label>
-                <select id="faculty" name="faculty" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="adviser" class="block text-gray-700">Adviser</label>
+                <select id="adviser" name="adviser" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="" hidden>Select Adviser</option>
-                    @foreach ($faculties as $faculty)
-                    <option value="{{ $faculty->id }}">{{ $faculty->first_name . " " .$faculty->last_name}}</option>
+                    @foreach ($faculties as $adviser)
+                    <option value="{{ $adviser->id }}">{{ $adviser->first_name . " " .$adviser->last_name}}</option>
                     @endforeach
                 </select>
             </div>
