@@ -8,7 +8,7 @@ new class extends Component
 {
     public string $title = '';
     public string $abstract = '';
-    public string $faculty = '';
+    public string $adviser = '';
     /**
      * Log the current user out of the application.
      */
@@ -57,7 +57,7 @@ new class extends Component
             document.getElementById('title').value = '';
             document.getElementById('abstract').value = '';
             document.getElementById('field_topic').value = '';
-            document.getElementById('faculty').value = '';
+            document.getElementById('adviser').value = '';
         }
     </script>
 </head>
