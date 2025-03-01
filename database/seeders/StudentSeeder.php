@@ -17,14 +17,14 @@ class StudentSeeder extends Seeder
             'first_name' => 'Cj',
             'last_name' => 'Rojo',
             'user_id' => 1,
-            'department_id' => 2,
+            'college_id' => 2,
         ]);
 
         Student::create([
             'first_name' => 'Jaermaine',
             'last_name' => 'Domingcil',
             'user_id' => 4,
-            'department_id' => 2,
+            'college_id' => 2,
         ]);
     }
 }

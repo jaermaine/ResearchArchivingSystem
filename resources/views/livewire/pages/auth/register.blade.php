@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Student;
-use App\Models\Faculty;
+use App\Models\Adviser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -19,13 +19,16 @@ new #[Layout('layouts.guest')] class extends Component
     public string $role = 'student'; // Default role
     public string $first_name = '';
     public string $last_name = '';
-    public string $department_id = ''; // Add department_id property
-    public array $departments = [];
+    // public string $program_id = ''; // Add department_id property
+    // public array $program = [];
+    // public string $college_id = ''; // Add department_id property
+    // public array $college = [];
+    // public string $year_id = ''; // Add department_id property
 
     public function mount(): void
     {
-        $this->departments = DB::table('departments')
-            ->select("departments.id", "departments.name")
+        $this->program = DB::table('program')
+            ->select("program.id", "program.name")
             ->get()
             ->toArray();
     }
@@ -40,11 +43,11 @@ new #[Layout('layouts.guest')] class extends Component
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)
-                ->mixedCase(1)
-                ->symbols(1)
-                ->numbers(1)],
+                ->mixedCase()
+                ->symbols()
+                ->numbers()],
             'role' => ['required', 'in:student,faculty'],
-            'department_id' => ['required', 'exists:departments,id'], // Add department_id validation
+            'program_id' => ['required', 'exists:program,id'], // Add department_id validation
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -60,14 +63,14 @@ new #[Layout('layouts.guest')] class extends Component
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'], // Use validated department_id
+                //'college_id' => $validated['college_id'], // Use validated department_id
             ]);
-        } elseif ($validated['role'] === 'faculty') {
-            Faculty::create([
+        } elseif ($validated['role'] === 'adviser') {
+            Adviser::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'], // Use validated department_id
+                //'department_id' => $validated['department_id'], // Use validated department_id
             ]);
         }
 
@@ -119,23 +122,12 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <!-- Department -->
-        <div class="mt-4">
-            <label for="department" class="text-red-600" style="color: #b30000;">Department</label>
-            <select wire:model="department_id" id="department" name="department" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
-                <option value="" hidden>Select Department</option>
-                @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->name }} </option>
-                @endforeach
-            </select>
-        </div>
-
         <!-- Role -->
         <div class="mt-4">
             <x-input-label for="role" :value="__('Role')" class="text-red-600" style="color: #b30000;" />
             <select wire:model="role" id="role" name="role" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
                 <option value="student">{{ __('Student') }}</option>
-                <option value="faculty">{{ __('Faculty') }}</option>
+                <option value="adviser">{{ __('Adviser') }}</option>
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
-use App\Models\Faculty;
+use App\Models\Adviser;
 
 class SettingsController extends Controller
 {
@@ -16,15 +16,15 @@ class SettingsController extends Controller
 
         // Check if the user is a student or faculty
         $student = Student::where('user_id', $userId)->first();
-        $faculty = Faculty::where('user_id', $userId)->first();
+        $adviser = Adviser::where('user_id', $userId)->first();
 
         // Set first name and last name based on user type
         if ($student) {
             $firstName = $student->first_name;
             $lastName = $student->last_name;
-        } elseif ($faculty) {
-            $firstName = $faculty->first_name;
-            $lastName = $faculty->last_name;
+        } elseif ($adviser) {
+            $firstName = $adviser->first_name;
+            $lastName = $adviser->last_name;
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
         }
@@ -52,15 +52,15 @@ class SettingsController extends Controller
 
         // Use Eloquent models instead of DB facade
         $student = Student::where('user_id', $userId)->first();
-        $faculty = Faculty::where('user_id', $userId)->first();
+        $adviser = Adviser::where('user_id', $userId)->first();
 
         if ($student) {
             $student->update([
                 'first_name' => $firstName,
                 'last_name' => $lastName,
             ]);
-        } elseif ($faculty) {
-            $faculty->update([
+        } elseif ($adviser) {
+            $adviser->update([
                 'first_name' => $firstName,
                 'last_name' => $lastName,
             ]);
@@ -84,9 +84,9 @@ class SettingsController extends Controller
         ]);
 
         // Update the contact number for the authenticated user
-        $user = Auth::user();
-        $user->contact_number = $request->contact_number;
-        $user->save();
+        // $user = Auth::user();
+        // $user->contact_number = $request->contact_number;
+        // $user->save();
 
         // Redirect back with a success message
         return back()->with('success', 'Contact number added successfully!');

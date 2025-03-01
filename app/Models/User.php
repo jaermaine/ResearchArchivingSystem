@@ -64,13 +64,13 @@ class User extends Authenticatable
         return $this->role;
     }
 
-    public function document_student(): hasMany
+    public function student(): hasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    public function faculty(): hasMany
+    public function adviser(): hasMany
     {
-        return $this->hasMany(Faculty::class);
+        return $this->hasMany(Adviser::class);
     }
 }

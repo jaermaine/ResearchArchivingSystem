@@ -4,23 +4,23 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\DocumentFaculty;
+use App\Models\DocumentAdviser;
 
-class DocumentFacultySeeder extends Seeder
+class DocumentAdviserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DocumentFaculty::create([
+        DocumentAdviser::create([
             'document_id' => 1,
-            'faculty_id' => 1,
+            'adviser_id' => 1,
         ]);
 
-        DocumentFaculty::create([
+        DocumentAdviser::create([
             'document_id' => 2,
-            'faculty_id' => 2,
+            'adviser_id' => 2,
         ]);
     }
 }

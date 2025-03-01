@@ -15,14 +15,14 @@ class DocumentStudentController extends Controller
         if($role == 'student') {
             $documents = $this->setTableForStudent();
         } else {
-            $documents = $this->setTableForFaculty();
+            $documents = $this->setTableForAdviser();
         }
 
         return view('dashboard', data: ['documents' => $documents]);
     }
 
-    public function setTableForFaculty(){
-        $faculty_id = DB::table('faculty')
+    public function setTableForAdviser(){
+        $adviser_id = DB::table('adviser')
             ->where('user_id', '=', Auth::user()->id)
             ->value('id');
 
@@ -30,11 +30,11 @@ class DocumentStudentController extends Controller
             ->join('documents', 'document_student.document_id', '=', 'documents.id')
             ->join('student', 'document_student.student_id', '=', 'student.id')
             ->join('document_statuses', 'documents.document_status_id', '=', 'document_statuses.id')
-            ->join('document_faculty', 'documents.id', '=', 'document_faculty.document_id')
-            ->join('faculty', 'document_faculty.faculty_id', '=', 'faculty.id')
-            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.field_topic', 
+            ->join('document_adviser', 'documents.id', '=', 'document_adviser.document_id')
+            ->join('adviser', 'document_adviser.adviser_id', '=', 'adviser.id')
+            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.keyword', 
             'document_statuses.name', 'student.first_name', 'student.last_name', 'documents.document_status_id')
-            ->where('faculty_id', '=', $faculty_id)
+            ->where('adviser_id', '=', $adviser_id)
             ->get();
 
         return $documents;
@@ -49,10 +49,10 @@ class DocumentStudentController extends Controller
             ->join('documents', 'document_student.document_id', '=', 'documents.id')
             ->join('student', 'document_student.student_id', '=', 'student.id')
             ->join('document_statuses', 'documents.document_status_id', '=', 'document_statuses.id')
-            ->join('document_faculty', 'documents.id', '=', 'document_faculty.document_id')
-            ->join('faculty', 'document_faculty.faculty_id', '=', 'faculty.id')
-            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.field_topic', 
-            'document_statuses.name', 'faculty.first_name', 'faculty.last_name')
+            ->join('document_adviser', 'documents.id', '=', 'document_adviser.document_id')
+            ->join('adviser', 'document_adviser.adviser_id', '=', 'adviser.id')
+            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.keyword', 
+            'document_statuses.name', 'adviser.first_name', 'adviser.last_name')
             ->where('student_id', '=', $student_id)
             ->get();
 

@@ -2,28 +2,30 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Faculty extends Model
+class Adviser extends Model
 {
+
     use HasFactory;
 
-    protected $table = 'faculty'; // Ensure this is 'faculty' and not 'faculties'
+    protected $table = 'adviser';
 
     protected $fillable = [
         'first_name',
         'last_name',
         'user_id',
         'document_id',
-        'department_id',
+        'college_id',
     ];
 
-    public function department(): belongsTo
+    public function college(): belongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(College::class);
     }
 
     public function users(): belongsTo
@@ -31,8 +33,9 @@ class Faculty extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function document_student(): hasMany
+    public function document_adviser(): hasMany
     {
-        return $this->hasMany(DocumentFaculty::class);
+        return $this->hasMany(DocumentAdviser::class);
     }
+
 }
