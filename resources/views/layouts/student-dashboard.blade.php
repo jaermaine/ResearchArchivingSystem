@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 $student_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
     ->value('id');
-
 $college_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
     ->value('college_id');

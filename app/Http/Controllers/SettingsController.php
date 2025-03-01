@@ -20,7 +20,7 @@ class SettingsController extends Controller
 
         // Check if the user is a student or adviser
         $student = Student::where('user_id', $userId)->first();
-        $faculty = Adviser::where('user_id', $userId)->first();
+        $adviser = Adviser::where('user_id', $userId)->first();
 
         // Set first name and last name based on user type
         if ($student) {
@@ -70,6 +70,24 @@ class SettingsController extends Controller
                     'last_name' => $request->last_name,
                 ]);
             }
+          
+        // Use Eloquent models instead of DB facade
+        $student = Student::where('user_id', $userId)->first();
+        $adviser = Adviser::where('user_id', $userId)->first();
+
+        if ($student) {
+            $student->update([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+            ]);
+        } elseif ($adviser) {
+            $adviser->update([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+            ]);
+        } else {
+            return redirect()->route('home')->with('error', 'User role not found.');
+          
         }
 
         // Update contact number
@@ -85,6 +103,10 @@ class SettingsController extends Controller
 
             $user->password = Hash::make($request->new_password);
         }
+        // Update the contact number for the authenticated user
+        // $user = Auth::user();
+        // $user->contact_number = $request->contact_number;
+        // $user->save();
 
         return back()->with('success', 'Updated successfully.');
     }

@@ -19,17 +19,36 @@ class Student extends Model
         'suffix',
         'user_id',
         'document_id',
-        'department_id',
+        'college_id',
+        'program_id',
+        'year_level_id',
+        'section_id'
     ];
 
-    public function department(): belongsTo
+    public function college(): belongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(College::class);
     }
+
+    public function program(): belongsTo
+    {
+        return $this->belongsTo(Program::class);
+    }
+
+    public function year(): belongsTo
+    {
+        return $this->belongsTo(Year::class);
+    }
+
+    public function section(): belongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
+
 
     public function users(): belongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class); 
     }
 
     public function document_student(): hasMany

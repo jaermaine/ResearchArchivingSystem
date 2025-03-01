@@ -33,6 +33,11 @@ class DocumentStatusController extends Component
 
         $file_name = "{$document_student->id}{$document_student->document_id}{$document_student->student_id}";
         $file_path = public_path("files/{$file_name}");
+        
+        if (!file_exists($file_path . '.pdf')) {
+            return redirect()->back()->with('error', 'File not found.'); // Handle the error if the file does not exist
+        }
+
         $compressed_folder = storage_path('compressed');
         if (!is_dir($compressed_folder)) {
             mkdir($compressed_folder, 0777, true); // Create the folder if it doesn't exist
@@ -52,6 +57,14 @@ class DocumentStatusController extends Component
         $document->document_status_id = 3;
         $document->save();
 
+        return redirect()->back();
+    }
+
+    public function edit($id)
+    {
+        $document = Documents::find($id);
+        $document->document_status_id = 1; // set status back to pending
+        $document->save();
         return redirect()->back();
     }
 

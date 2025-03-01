@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Student;
-use App\Models\Faculty;
+use App\Models\Adviser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -22,6 +22,12 @@ new #[Layout('layouts.guest')] class extends Component
     public string $department_id = ''; // Add department_id property
     public array $departments = [];
     public string $suffix = ''; // Suffix
+    // public string $program_id = ''; // Add department_id property
+    // public array $program = [];
+    // public string $college_id = ''; // Add department_id property
+    // public array $college = [];
+    // public string $year_id = ''; // Add department_id property
+
     public function mount(): void
     {
         $this->program = DB::table('program')
@@ -41,11 +47,11 @@ new #[Layout('layouts.guest')] class extends Component
             'suffix' => ['nullable', 'string', 'max:255'], // Ensure suffix validation
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)
-                ->mixedCase(1)
-                ->symbols(1)
-                ->numbers(1)],
+                ->mixedCase()
+                ->symbols()
+                ->numbers()],
             'role' => ['required', 'in:student,faculty'],
-            'program_id' => ['required', 'exists:program,id'],
+            'program_id' => ['required', 'exists:program,id'], // Add department_id validation
         ]);
 
 
@@ -64,6 +70,7 @@ new #[Layout('layouts.guest')] class extends Component
                 'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
                 //'program_id' => $validated['college_id'],
+                //'college_id' => $validated['college_id'], // Use validated department_id
             ]);
         } elseif ($validated['role'] === 'adviser') {
             Adviser::create([
@@ -72,6 +79,7 @@ new #[Layout('layouts.guest')] class extends Component
                 'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
                 //'college_id' => $validated['college_id'],
+                //'department_id' => $validated['department_id'], // Use validated department_id
             ]);
         }
 
@@ -137,7 +145,7 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-label for="role" :value="__('Role')" class="text-red-600" style="color: #b30000;" />
             <select wire:model="role" id="role" name="role" class="block mt-1 w-full" style="color: black; border: 2px solid #b30000; background-color: #ffffff;">
                 <option value="student">{{ __('Student') }}</option>
-                <option value="faculty">{{ __('Faculty') }}</option>
+                <option value="adviser">{{ __('Adviser') }}</option>
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>

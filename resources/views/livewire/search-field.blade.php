@@ -7,7 +7,7 @@
             <option value="">Any Field</option>
             <option value="title">By Title</option>
             <option value="author">By Author</option>
-            <option value="department">By Dept</option>
+            <option value="department">By Course</option>
             <option value="date">By Year</option>
         </select>
 

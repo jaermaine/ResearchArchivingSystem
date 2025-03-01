@@ -2,31 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Student;
-use App\Models\Faculty;
-use App\Models\Documents;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Department extends Model
+class Section extends Model
 {
     use HasFactory;
     
-    protected $table = 'departments'; // Ensure this is 'faculty' and not 'faculties'
+    protected $table = 'section';
 
     protected $fillable = [
-        'name'
+        'name',
+        'program_id',
+        'year_id',
+        'section_number'
     ];
 
     public function student(): HasMany
     {
         return $this->hasMany(Student::class);
-    }
-
-    public function faculty(): HasMany
-    {
-        return $this->hasMany(Faculty::class);
     }
 
     public function document(): HasMany

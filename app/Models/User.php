@@ -65,7 +65,7 @@ class User extends Authenticatable
         return $this->role;
     }
 
-    public function document_student(): hasMany
+    public function student(): hasMany
     {
         return $this->hasMany(Student::class);
     }

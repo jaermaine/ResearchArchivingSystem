@@ -8,7 +8,7 @@ new class extends Component
 {
     public string $title = '';
     public string $abstract = '';
-    public string $faculty = '';
+    public string $adviser = '';
     /**
      * Log the current user out of the application.
      */
@@ -41,7 +41,8 @@ new class extends Component
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="COECSA Archive" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    </link>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -56,33 +57,33 @@ new class extends Component
             document.getElementById('title').value = '';
             document.getElementById('abstract').value = '';
             document.getElementById('field_topic').value = '';
-            document.getElementById('faculty').value = '';
+            document.getElementById('adviser').value = '';
         }
     </script>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="bg-gray-50 text-black/50">
-        <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+<body class="font-sans antialiased" style="background-image: url('/background.png'); background-size: cover; background-position: center;">
+    <div class="text-black/50">
+        <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#C91F37] selection:text-white">
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <!-- Browsing on Desktop -->
                 <header class="hidden lg:grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="w-[100px] h-[100px] flex-col justify-center items-center inline-flex md:w-[154px] md:h-[171px] hidden md:flex">
                         <a href="/welcome">
-                            <img href="home"class="w-[100px] h-[100px] md:w-[154px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" />
+                            <img href="home" class="w-[100px] h-[100px] md:w-[154px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" />
                         </a>
                     </div>
 
                     <div></div>
 
-                    <div class="flex items-center justify-end">
-                        <form action="/welcome"class="flex space-x-4 text-red-500">
+                    <div class="flex items-center justify-end ">
+                        <form action="/welcome" class="flex space-x-4 text-red-500">
                             @csrf
-                            <button type="submit" class="hover:underline">Home</button>
+                            <button type="submit" class="rounded-md px-3 py-2 text-lg sm:text-2xl text-[#C91F37] ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] font-['ZapfHumnst-BT']">Home</button>
                         </form>
                         <form method="POST" action="/logout" class="flex space-x-4 text-red-500">
                             @csrf
-                            <button type="submit" class="hover:underline">Log Out</button>
+                            <button type="submit" class="rounded-md px-3 py-2 text-lg sm:text-2xl text-[#C91F37] ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] font-['ZapfHumnst-BT']">Log Out</button>
                         </form>
                     </div>
                 </header>
@@ -101,7 +102,7 @@ new class extends Component
 
                         <!-- Profile -->
                         <div class="flex items-center justify-end">
-                            <form method="POST" action="/logout" class="flex space-x-4 text-red-500">
+                            <form method="POST" action="/logout" class="flex space-x-4 text-[#C91F37]">
                                 @csrf
                                 <button type="submit" class="hover:underline">Log Out</button>
                             </form>
@@ -118,9 +119,9 @@ new class extends Component
 
                 </main>
 
-                <footer class="py-16 text-center text-sm text-black">
-                    Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
-                </footer>
+                <br>
+                <br>
+                
             </div>
         </div>
     </div>
