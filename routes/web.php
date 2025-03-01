@@ -60,11 +60,14 @@ Route::get('/settings', function () {
     return view('layouts.settings');
 })->name('settings');
 
-Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update');
+Route::post('/settings/update', [SettingsController::class, 'updateSettings'])->name('settings.updateSettings');
+
+Route::post('/settings/update-password', [SettingsController::class, 'updatePassword'])->name('settings.updatePassword');
 
 Route::post('/settings/add-contact', [SettingsController::class, 'addContact'])->name('settings.addContact');
 
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+
 Route::post('/settings/update-name', [SettingsController::class, 'updateName'])->name('settings.updateName');
 
 require __DIR__ . '/auth.php';

@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Student;
 use App\Models\Adviser;
+use App\Models\User;
 
 class SettingsController extends Controller
 {
     public function index()
     {
+        /** @var \App\Models\User $user **/
         $user = Auth::user();
         $userId = $user->id;
 
-        // Check if the user is a student or faculty
+        // Check if the user is a student or adviser
         $student = Student::where('user_id', $userId)->first();
         $adviser = Adviser::where('user_id', $userId)->first();
 
@@ -29,27 +33,44 @@ class SettingsController extends Controller
             return redirect()->route('home')->with('error', 'User role not found.');
         }
 
-        return view('layouts.settings', compact('firstName', 'lastName'));
+        return view('layouts.settings', compact('firstName', 'lastName', 'user'));
     }
 
-    public function updateName(Request $request)
+    public function updateSettings(Request $request)
     {
-        // Validate name fields
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-        ], [
-            'first_name.required' => 'First name is required.',
-            'last_name.required' => 'Last name is required.',
-        ]);
-
+        /** @var \App\Models\User $user **/
         $user = Auth::user();
         $userId = $user->id;
 
-        // Initialize firstName and lastName from the request
-        $firstName = $request->first_name;
-        $lastName = $request->last_name;
+        // Validate the request
+        $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:15|unique:users,contact_number,' . $userId,
+            'current_password' => 'nullable|string',
+            'new_password' => 'nullable|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[!@#$%^&*(),.?":{}|<>]/',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // New validation for profile picture
+        ], [
+            'new_password.regex' => 'The new password must contain at least one uppercase letter, one lowercase letter, and one special character.',
+        ]);
 
+        // Update name
+        if ($request->filled('first_name') && $request->filled('last_name')) {
+            $student = Student::where('user_id', $userId)->first();
+            $adviser = Adviser::where('user_id', $userId)->first();
+
+            if ($student) {
+                $student->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                ]);
+            } elseif ($adviser) {
+                $adviser->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                ]);
+            }
+          
         // Use Eloquent models instead of DB facade
         $student = Student::where('user_id', $userId)->first();
         $adviser = Adviser::where('user_id', $userId)->first();
@@ -66,29 +87,27 @@ class SettingsController extends Controller
             ]);
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
+          
         }
 
-        // Return with success message
-        return back()->with('success', 'Name updated successfully!');
-    }
+        // Update contact number
+        if ($request->filled('contact_number')) {
+            $user->contact_number = $request->contact_number;
+        }
 
-    public function addContact(Request $request)
-    {
-        // Validate the contact number
-        $request->validate([
-            'contact_number' => 'required|regex:/^[0-9]{10,15}$/|unique:users,contact_number',
-        ], [
-            'contact_number.required' => 'Contact number is required.',
-            'contact_number.regex' => 'Contact number must be 10-15 digits.',
-            'contact_number.unique' => 'This contact number is already in use.',
-        ]);
+        // Update password
+        if ($request->filled('current_password') && $request->filled('new_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Incorrect current password.']);
+            }
 
+            $user->password = Hash::make($request->new_password);
+        }
         // Update the contact number for the authenticated user
         // $user = Auth::user();
         // $user->contact_number = $request->contact_number;
         // $user->save();
 
-        // Redirect back with a success message
-        return back()->with('success', 'Contact number added successfully!');
+        return back()->with('success', 'Updated successfully.');
     }
 }
