@@ -43,7 +43,7 @@ class DocumentController extends Controller
             'document_id' => $document->id,
             'student_id' => $student_id
         ]);
-        
+
         $file_address = "{$document_student->id}{$document->id}{$student_id}";
 
         $request->file('file')->move('files', "{$file_address}" . '.pdf');

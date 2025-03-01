@@ -21,7 +21,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $last_name = '';
     public string $department_id = ''; // Add department_id property
     public array $departments = [];
-
+    public string $suffix = ''; // Suffix
     public function mount(): void
     {
         $this->departments = DB::table('departments')
@@ -38,14 +38,16 @@ new #[Layout('layouts.guest')] class extends Component
         $validated = $this->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'suffix' => ['nullable', 'string', 'max:255'], // Ensure suffix validation
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)
                 ->mixedCase(1)
                 ->symbols(1)
                 ->numbers(1)],
             'role' => ['required', 'in:student,faculty'],
-            'department_id' => ['required', 'exists:departments,id'], // Add department_id validation
+            'department_id' => ['required', 'exists:departments,id'],
         ]);
+
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -59,17 +61,20 @@ new #[Layout('layouts.guest')] class extends Component
             Student::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
+                'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'], // Use validated department_id
+                'department_id' => $validated['department_id'],
             ]);
         } elseif ($validated['role'] === 'faculty') {
             Faculty::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
+                'suffix' => $validated['suffix'] ?? null, // Ensure suffix is handled properly
                 'user_id' => $user->id,
-                'department_id' => $validated['department_id'], // Use validated department_id
+                'department_id' => $validated['department_id'],
             ]);
         }
+
 
         Auth::logout();
 
@@ -97,6 +102,14 @@ new #[Layout('layouts.guest')] class extends Component
             <x-text-input wire:model="last_name" id="last_name" class="block mt-1 w-full" type="text" name="last_name" required autofocus autocomplete="last_name" style="color: black; border: 2px solid #b30000; background-color: #ffffff;" />
             <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
         </div>
+
+        <!-- Suffix -->
+        <div class="mt-4">
+            <x-input-label for="suffix" :value="__('Suffix')" class="text-red-600" style="color: #b30000;" />
+            <x-text-input wire:model="suffix" id="suffix" class="block mt-1 w-full" type="text" name="suffix" placeholder="Ex. Engr./Arch. (OPTIONAL)" autofocus autocomplete="name" style="color: black; border: 2px solid #b30000; background-color: #ffffff;" />
+            <x-input-error :messages="$errors->get('suffix')" class="mt-2" />
+        </div>
+
 
         <!-- Email Address -->
         <div class="mt-4">

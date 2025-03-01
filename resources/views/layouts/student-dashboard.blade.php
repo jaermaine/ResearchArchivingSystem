@@ -105,6 +105,59 @@ $faculties = DB::table('faculty')
                 <label for="field_topic" class="block text-gray-700">Field/Topic</label>
                 <textarea id="field_topic" name="field_topic" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Specify the field or topic of your document"></textarea>
             </div>
+
+            <!-- Keywords -->
+            <div class="mb-4">
+                <label for="keywords" class="block text-gray-700">Keywords (max 5)</label>
+                <input type="text" id="keywordInput" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a keyword">
+                <button type="button" onclick="addKeyword()" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+
+                <!-- Keywords List (Horizontal) -->
+                <div id="keywordList" class="flex flex-wrap gap-2 mt-2"></div>
+
+                <!-- Hidden Input to Store Keywords -->
+                <input type="hidden" id="keywords" name="keywords">
+
+                <script>
+                    let keywords = []; // Store keywords
+
+                    function addKeyword() {
+                        let input = document.getElementById("keywordInput");
+                        let keywordList = document.getElementById("keywordList");
+
+                        if (input.value.trim() !== "" && keywords.length < 5) {
+                            keywords.push(input.value.trim()); // Add new keyword
+                            input.value = ""; // Clear input
+                            updateKeywordList(); // Refresh display
+                        } else if (keywords.length >= 5) {
+                            alert("You can only input up to 5 keywords."); // Show popup alert
+                        }
+                    }
+
+                    function removeKeyword(index) {
+                        keywords.splice(index, 1); // Remove the keyword at the given index
+                        updateKeywordList(); // Refresh display
+                    }
+
+                    function updateKeywordList() {
+                        let keywordList = document.getElementById("keywordList");
+                        keywordList.innerHTML = ""; // Clear previous list
+
+                        keywordList.classList.add("flex", "flex-wrap", "gap-2", "mt-2");
+
+                        keywords.forEach((kw, index) => {
+                            let div = document.createElement("div");
+                            div.classList.add("bg-blue-500", "text-white", "px-3", "py-1", "rounded-full", "flex", "items-center", "gap-2");
+
+                            div.innerHTML = `${kw} <button type="button" onclick="removeKeyword(${index})" class="text-white font-bold ml-2">&times;</button>`;
+                            keywordList.appendChild(div);
+                        });
+
+                        document.getElementById("keywords").value = JSON.stringify(keywords);
+                    }
+                </script>
+            </div>
+
             <div class="mb-4">
                 <label for="faculty" class="block text-gray-700">Faculty</label>
                 <select id="faculty" name="faculty" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">

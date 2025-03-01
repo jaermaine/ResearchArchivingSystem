@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Student;
 use App\Models\Faculty;
+use App\Models\User;
 
 class SettingsController extends Controller
 {
     public function index()
     {
+        /** @var \App\Models\User $user **/
         $user = Auth::user();
         $userId = $user->id;
 
@@ -29,66 +33,59 @@ class SettingsController extends Controller
             return redirect()->route('home')->with('error', 'User role not found.');
         }
 
-        return view('layouts.settings', compact('firstName', 'lastName'));
+        return view('layouts.settings', compact('firstName', 'lastName', 'user'));
     }
 
-    public function updateName(Request $request)
+    public function updateSettings(Request $request)
     {
-        // Validate name fields
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-        ], [
-            'first_name.required' => 'First name is required.',
-            'last_name.required' => 'Last name is required.',
-        ]);
-
+        /** @var \App\Models\User $user **/
         $user = Auth::user();
         $userId = $user->id;
 
-        // Initialize firstName and lastName from the request
-        $firstName = $request->first_name;
-        $lastName = $request->last_name;
-
-        // Use Eloquent models instead of DB facade
-        $student = Student::where('user_id', $userId)->first();
-        $faculty = Faculty::where('user_id', $userId)->first();
-
-        if ($student) {
-            $student->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } elseif ($faculty) {
-            $faculty->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } else {
-            return redirect()->route('home')->with('error', 'User role not found.');
-        }
-
-        // Return with success message
-        return back()->with('success', 'Name updated successfully!');
-    }
-
-    public function addContact(Request $request)
-    {
-        // Validate the contact number
+        // Validate the request
         $request->validate([
-            'contact_number' => 'required|regex:/^[0-9]{10,15}$/|unique:users,contact_number',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:15|unique:users,contact_number,' . $userId,
+            'current_password' => 'nullable|string',
+            'new_password' => 'nullable|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[!@#$%^&*(),.?":{}|<>]/',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // New validation for profile picture
         ], [
-            'contact_number.required' => 'Contact number is required.',
-            'contact_number.regex' => 'Contact number must be 10-15 digits.',
-            'contact_number.unique' => 'This contact number is already in use.',
+            'new_password.regex' => 'The new password must contain at least one uppercase letter, one lowercase letter, and one special character.',
         ]);
 
-        // Update the contact number for the authenticated user
-        $user = Auth::user();
-        $user->contact_number = $request->contact_number;
-        $user->save();
+        // Update name
+        if ($request->filled('first_name') && $request->filled('last_name')) {
+            $student = Student::where('user_id', $userId)->first();
+            $faculty = Faculty::where('user_id', $userId)->first();
 
-        // Redirect back with a success message
-        return back()->with('success', 'Contact number added successfully!');
+            if ($student) {
+                $student->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                ]);
+            } elseif ($faculty) {
+                $faculty->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                ]);
+            }
+        }
+
+        // Update contact number
+        if ($request->filled('contact_number')) {
+            $user->contact_number = $request->contact_number;
+        }
+
+        // Update password
+        if ($request->filled('current_password') && $request->filled('new_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Incorrect current password.']);
+            }
+
+            $user->password = Hash::make($request->new_password);
+        }
+
+        return back()->with('success', 'Updated successfully.');
     }
 }
