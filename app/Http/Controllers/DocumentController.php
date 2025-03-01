@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Documents;
-use App\Models\Faculty;
-use App\Models\DocumentFaculty;
+use App\Models\Adviser;
+use App\Models\DocumentAdviser;
 use App\Models\DocumentStudent;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +22,7 @@ class DocumentController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'abstract' => 'required|string',
-            'field_topic' => 'required|string',
+            'keyword' => 'required|string',
             'faculty' => 'required|integer',
             'file' => 'required|file|mimes:pdf|max:20480' // Adjust mime types as needed
         ]);
@@ -30,13 +30,13 @@ class DocumentController extends Controller
         $document = Documents::create([
             'title' => $validated['title'],
             'abstract' => $validated['abstract'],
-            'field_topic' => $validated['field_topic'],
+            'keyword' => $validated['keyword'],
             'document_status_id' => 1
         ]);
 
-        DocumentFaculty::create([
+        DocumentAdviser::create([
             'document_id' => $document->id,
-            'faculty_id' => $validated['faculty']
+            'adviser_id' => $validated['adviser']
         ]);
 
         $document_student = DocumentStudent::create([
