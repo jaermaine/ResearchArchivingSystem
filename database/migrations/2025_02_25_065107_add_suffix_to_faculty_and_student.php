@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('faculty', function (Blueprint $table) {
+        Schema::table('adviser', function (Blueprint $table) {
             $table->string('suffix')->nullable()->after('last_name');
         });
 
@@ -18,7 +18,7 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::table('faculty', function (Blueprint $table) {
+        Schema::table('adviser', function (Blueprint $table) {
             $table->dropColumn('suffix');
         });
 
