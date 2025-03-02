@@ -76,6 +76,8 @@ class SettingsController extends Controller
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                 ]);
+            } else {
+                return redirect()->route('home')->with('error', 'User role not found.');
             }
         }
 
