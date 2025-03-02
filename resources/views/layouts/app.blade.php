@@ -80,7 +80,7 @@ new class extends Component
                         <livewire:menu-dropdown />
                     </div>
                 </header>
-l
+                l
                 <!-- Browsing on Mobile -->
                 <header class="flex lg:hidden flex-col items-center py-4 w-full">
 
@@ -95,29 +95,31 @@ l
 
                         <!-- Profile -->
                         <div class="flex items-center justify-end">
-                            <form method="POST" action="/logout" class="flex space-x-4 text-[#C91F37]">
-                                @csrf
-                                <button type="submit" class="hover:underline">Log Out</button>
-                            </form>
+                            <div class="flex space-x-4">
+                                <livewire:menu-dropdown />
+                            </div>
                         </div>
                     </div>
                 </header>
 
                 <main class="mt-6">
-                    <div class="container">
-                        @yield('content')
-                    </div>
+                    <div class="container mx-auto p-6">
+                        <!-- Main Wrapper with border -->
+                        <div class="flex flex-col md:flex-row gap-6 border-2 border-[#b30000] rounded-lg p-6" style="background-color: rgba(255, 255, 255, 0.9);">
 
-                    @yield('button')
+                            @yield('content')
+
+                            @yield('button')
+                        </div>
 
                 </main>
-
-                <br>
-                <br>
-                
             </div>
         </div>
     </div>
 </body>
+
+<footer class="py-16 text-center text-sm text-black">
+    Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
+</footer>
 
 </html>
