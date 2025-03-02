@@ -69,25 +69,9 @@ class SettingsController extends Controller
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
                 ]);
-            }
-          
-        // Use Eloquent models instead of DB facade
-        $student = Student::where('user_id', $userId)->first();
-        $adviser = Adviser::where('user_id', $userId)->first();
-
-        if ($student) {
-            $student->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } elseif ($adviser) {
-            $adviser->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } else {
-            return redirect()->route('home')->with('error', 'User role not found.');
-          
+            } else {
+                return redirect()->route('home')->with('error', 'User role not found.');
+            }    
         }
 
         // Update contact number
