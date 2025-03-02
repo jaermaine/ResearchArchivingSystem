@@ -48,7 +48,15 @@ class SettingsController extends Controller
             'last_name' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:15|unique:users,contact_number,' . $userId,
             'current_password' => 'nullable|string',
-            'new_password' => 'nullable|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[!@#$%^&*(),.?":{}|<>]/',
+            'new_password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',  // At least one lowercase letter
+                'regex:/[A-Z]/',  // At least one uppercase letter
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
+            ],
         ], [
             'new_password.regex' => 'The new password must contain at least one uppercase letter, one lowercase letter, and one special character.',
         ]);
@@ -83,7 +91,15 @@ class SettingsController extends Controller
             }
             $user->password = Hash::make($request->new_password);
         }
+
+        // Save user changes
+        $user->save();
+
+        // Redirect back with a success message
+        return redirect()->route('settings')->with('success', 'Settings updated successfully.');
     }
+
+
 
     public function updateProfilePicture(Request $request)
     {
