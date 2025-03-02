@@ -17,11 +17,6 @@ $faculties = DB::table('adviser')
 ?>
 
 @section('content')
-<div class="flex justify-end mb-4">
-    <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onclick="openModal()">
-        Submit Document
-    </button>
-</div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     @foreach($documents as $item)
@@ -36,13 +31,18 @@ $faculties = DB::table('adviser')
     </div>
     @endforeach
 </div>
+<div class="flex justify-end mb-4">
+    <button class="text-white py-2 px-4 rounded bg-[#800000] hover:bg-red-700" onclick="openModal()">
+        Submit Document
+    </button>
+</div>
 @endsection
 
 @section('button')
 
 <!-- Modal -->
 <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg mx-4 sm:mx-6 md:mx-8 lg:mx-10 xl:mx-12">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl mx-4 sm:mx-6 md:mx-8 lg:mx-10 xl:mx-12 max-h-[80vh] overflow-y-auto">
         <h2 class="text-xl font-bold mb-4">Submit Document</h2>
         <form method="POST" action="/submit-document" enctype="multipart/form-data">
             @csrf
@@ -52,16 +52,16 @@ $faculties = DB::table('adviser')
             </div>
             <div class="mb-4">
                 <label for="abstract" class="block text-gray-700">Abstract</label>
-                <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document"></textarea>            <div class="mb-4">
-                <label for="keyword" class="block text-gray-700">Keyword</label>
-                <textarea id="keyword" name="keyword" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Specify the field or topic of your document"></textarea>
+                <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document"></textarea>
             </div>
-                
+
             <!-- Keywords -->
             <div class="mb-4">
                 <label for="keywords" class="block text-gray-700">Keywords (max 5)</label>
-                <input type="text" id="keywordInput" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a keyword">
-                <button type="button" onclick="addKeyword()" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+                <div class="flex">
+                    <input type="text" id="keywordInput" class="flex-grow px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a keyword">
+                    <button type="button" onclick="addKeyword()" class="bg-[#800000] text-white py-2 px-4 rounded hover:bg-red-700 ml-2">Add</button>
+                </div>
 
                 <!-- Keywords List (Horizontal) -->
                 <div id="keywordList" class="flex flex-wrap gap-2 mt-2"></div>
@@ -98,7 +98,7 @@ $faculties = DB::table('adviser')
 
                         keywords.forEach((kw, index) => {
                             let div = document.createElement("div");
-                            div.classList.add("bg-blue-500", "text-white", "px-3", "py-1", "rounded-full", "flex", "items-center", "gap-2");
+                            div.classList.add("bg-[#800000]", "hover:bg-red-700", "text-white", "px-3", "py-1", "rounded-full", "flex", "items-center", "gap-2");
 
                             div.innerHTML = `${kw} <button type="button" onclick="removeKeyword(${index})" class="text-white font-bold ml-2">&times;</button>`;
                             keywordList.appendChild(div);
@@ -124,7 +124,7 @@ $faculties = DB::table('adviser')
             </div>
             <div class="flex justify-end">
                 <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-2" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" wire:click="submitDocument">Submit</button>
+                <button type="submit" class="bg-[#800000] text-white py-2 px-4 rounded hover:bg-red-700" wire:click="submitDocument">Submit</button>
             </div>
         </form>
     </div>
