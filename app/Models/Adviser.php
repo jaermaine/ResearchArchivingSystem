@@ -24,7 +24,6 @@ class Adviser extends Model
 
     public function college(): belongsTo
     {
-        return $this->belongsTo(Department::class);
         return $this->belongsTo(College::class);
     }
 
