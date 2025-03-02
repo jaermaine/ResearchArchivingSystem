@@ -13,7 +13,6 @@ use App\Livewire\DocumentStatusController;
 use App\Http\Controllers\SearchDocumentsController;
 use App\Http\Controllers\DocumentInformationPageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SettingsController;
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -69,5 +68,8 @@ Route::post('/settings/add-contact', [SettingsController::class, 'addContact'])-
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 
 Route::post('/settings/update-name', [SettingsController::class, 'updateName'])->name('settings.updateName');
+
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+Route::post('/settings/update-profile-picture', [SettingsController::class, 'updateProfilePicture'])->name('settings.updateProfilePicture');
 
 require __DIR__ . '/auth.php';

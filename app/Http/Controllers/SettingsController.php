@@ -48,13 +48,20 @@ class SettingsController extends Controller
             'last_name' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:15|unique:users,contact_number,' . $userId,
             'current_password' => 'nullable|string',
-            'new_password' => 'nullable|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[!@#$%^&*(),.?":{}|<>]/',
-            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // New validation for profile picture
+            'new_password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',  // At least one lowercase letter
+                'regex:/[A-Z]/',  // At least one uppercase letter
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
+            ],
         ], [
             'new_password.regex' => 'The new password must contain at least one uppercase letter, one lowercase letter, and one special character.',
         ]);
 
-        // Update name
+        // Update first name and last name
         if ($request->filled('first_name') && $request->filled('last_name')) {
             $student = Student::where('user_id', $userId)->first();
             $adviser = Adviser::where('user_id', $userId)->first();
@@ -70,24 +77,6 @@ class SettingsController extends Controller
                     'last_name' => $request->last_name,
                 ]);
             }
-          
-        // Use Eloquent models instead of DB facade
-        $student = Student::where('user_id', $userId)->first();
-        $adviser = Adviser::where('user_id', $userId)->first();
-
-        if ($student) {
-            $student->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } elseif ($adviser) {
-            $adviser->update([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-            ]);
-        } else {
-            return redirect()->route('home')->with('error', 'User role not found.');
-          
         }
 
         // Update contact number
@@ -100,14 +89,43 @@ class SettingsController extends Controller
             if (!Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Incorrect current password.']);
             }
-
             $user->password = Hash::make($request->new_password);
         }
-        // Update the contact number for the authenticated user
-        // $user = Auth::user();
-        // $user->contact_number = $request->contact_number;
-        // $user->save();
 
-        return back()->with('success', 'Updated successfully.');
+        // Save user changes
+        $user->save();
+
+        // Redirect back with a success message
+        return redirect()->route('settings')->with('success', 'Settings updated successfully.');
+    }
+
+
+
+    public function updateProfilePicture(Request $request)
+    {
+        $request->validate([
+            'profile_picture' => 'image|max:2048'
+        ]);
+
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+
+        // Delete old profile picture if it exists
+        if ($user->profile_picture && Storage::disk('public')->exists('profile_pictures/' . $user->profile_picture)) {
+            Storage::disk('public')->delete('profile_pictures/' . $user->profile_picture);
+        }
+
+        // Store new image
+        $file = $request->file('profile_picture');
+        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+        // Store the original image
+        $file->storeAs('profile_pictures', $fileName, 'public');
+
+        // Update database
+        $user->profile_picture = $fileName;
+        $user->save();
+
+        return back()->with('success', 'Profile picture updated successfully!');
     }
 }
