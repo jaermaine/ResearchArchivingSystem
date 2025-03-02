@@ -12,6 +12,9 @@ class Faculty extends Model
     use HasFactory;
 
     protected $table = 'adviser'; // Ensure this is 'faculty' and not 'faculties'
+
+}
+
 class Adviser extends Model
 {
 
