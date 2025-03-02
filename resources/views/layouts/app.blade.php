@@ -77,17 +77,10 @@ new class extends Component
                     <div></div>
 
                     <div class="flex items-center justify-end ">
-                        <form action="/welcome" class="flex space-x-4 text-red-500">
-                            @csrf
-                            <button type="submit" class="rounded-md px-3 py-2 text-lg sm:text-2xl text-[#C91F37] ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] font-['ZapfHumnst-BT']">Home</button>
-                        </form>
-                        <form method="POST" action="/logout" class="flex space-x-4 text-red-500">
-                            @csrf
-                            <button type="submit" class="rounded-md px-3 py-2 text-lg sm:text-2xl text-[#C91F37] ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] font-['ZapfHumnst-BT']">Log Out</button>
-                        </form>
+                        <livewire:menu-dropdown />
                     </div>
                 </header>
-
+l
                 <!-- Browsing on Mobile -->
                 <header class="flex lg:hidden flex-col items-center py-4 w-full">
 
