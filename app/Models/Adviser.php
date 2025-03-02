@@ -7,14 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Faculty extends Model
-{
-    use HasFactory;
-
-    protected $table = 'adviser'; // Ensure this is 'faculty' and not 'faculties'
-
-}
-
 class Adviser extends Model
 {
 
@@ -33,7 +25,6 @@ class Adviser extends Model
 
     public function college(): belongsTo
     {
-        return $this->belongsTo(Department::class);
         return $this->belongsTo(College::class);
     }
 
