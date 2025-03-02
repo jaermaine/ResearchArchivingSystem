@@ -156,7 +156,7 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4" style="background-color: #b30000; color: #FFFFFF;">
+            <x-primary-button class="ms-4 hover:bg-red-700" style="background-color: #800000; color: #FFFFFF;">
                 {{ __('Register') }}
             </x-primary-button>
         </div>

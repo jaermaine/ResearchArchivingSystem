@@ -14,7 +14,7 @@
 
     <div class="container mx-auto p-6">
       <!-- Main Wrapper with border -->
-      <div class="flex flex-col md:flex-row gap-6 border-2 border-[#b30000] rounded-lg p-6" style="background-color: rgba(255, 255, 255, 0.9);">
+      <div class="flex flex-col md:flex-row gap-6 rounded-lg p-6">
 
         <!-- Left Column: User Settings -->
         <div class="md:w-1/2">
@@ -42,7 +42,7 @@
                   <input type="file" id="profile_picture_input" name="profile_picture" accept="image/*" required class="hidden"
                     onchange="previewImage(event)">
 
-                  <button type="submit" class="h-10 px-4 py-2 bg-[#800000] text-white text-sm font-medium rounded-md mt-3">
+                  <button type="submit" class="h-10 px-4 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium rounded-md mt-3">
                     Save Picture
                   </button>
                 </form>
@@ -124,7 +124,7 @@
               </div>
 
               <!-- Save Changes Button -->
-              <button type="submit" class="h-10 px-6 py-2 bg-[#800000] text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
+              <button type="submit" class="h-10 px-6 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
                 Save Changes
               </button>
             </div>
@@ -175,7 +175,7 @@
 
           <!-- Submit Button -->
           <div class="mt-6">
-            <button type="button" class="h-10 px-6 py-2 bg-[#800000] text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
+            <button type="button" class="h-10 px-6 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
               Update
             </button>
           </div>

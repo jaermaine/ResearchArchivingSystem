@@ -60,7 +60,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-4" style="background-color: #b30000; color: #FFFFFF;">
+            <x-primary-button class="ms-4" style="background-color: #800000; color: #FFFFFF;">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
