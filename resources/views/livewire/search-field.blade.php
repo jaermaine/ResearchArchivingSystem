@@ -3,7 +3,7 @@
         
         <!-- Category Dropdown -->
         <select wire:model="selectedCategory" 
-                class="bg-[#FFC1C1] border-[#808080] outline-none focus:ring-0 w-full md:w-[170px] h-[50px] px-4 rounded-lg">
+                class=" border-[#808080] outline-none focus:ring-0 w-full md:w-[170px] h-[50px] px-4 rounded-lg">
             <option value="">Any Field</option>
             <option value="title">By Title</option>
             <option value="author">By Author</option>
@@ -12,7 +12,7 @@
         </select>
 
         <!-- Search Bar -->
-        <div class="flex items-center bg-[#FFC1C1] rounded-full h-[50px] w-full border-2 border-[#808080]">
+        <div class="flex items-center rounded-full h-[50px] w-full border-2 border-[#808080]">
             @if($selectedCategory === 'date')
                 <input wire:model="searchInput"
                        class="bg-transparent border-none focus:ring-0 focus:outline-none placeholder-gray-500 flex-grow h-full px-4 rounded-full" />
