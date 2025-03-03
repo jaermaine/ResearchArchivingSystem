@@ -14,6 +14,7 @@ class AllSeeder extends Seeder
     {
         $this->call([
             CollegeSeeder::class,
+            ProgramSeeder::class,
             DocumentStatusSeeder::class,
             DocumentSeeder::class,
             UserSeeder::class,
@@ -21,6 +22,7 @@ class AllSeeder extends Seeder
             AdviserSeeder::class,
             DocumentAdviserSeeder::class,
             DocumentStudentSeeder::class,
+            AdminSeeder::class
         ]);
     }
 }

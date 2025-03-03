@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     protected $default_cj_password = 'cjRojo@1';
     protected $default_steve_password = 'steveSmith@1';
     protected $default_jaermaine_password = "jaermaineDomingcil@1";
+    protected $default_romuel_password = "romuelBorja@1";
 
     public function run(): void
     {
@@ -41,5 +42,13 @@ class UserSeeder extends Seeder
             'password' => $this->default_jaermaine_password,
             'role' => 'student',
         ]);
+
+        User::create([
+            'email' => 'romuel.borja@uni.edu.com',
+            'password' => $this->default_romuel_password,
+            'role' => 'student',
+        ]);
+
+        
     }
 }
