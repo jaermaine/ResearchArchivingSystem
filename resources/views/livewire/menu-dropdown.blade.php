@@ -1,9 +1,8 @@
-<div class="relative inline-block" x-data="{ open: false, selectedItem: localStorage.getItem('selectedItem') || 'Menu' }">
+<div class="relative inline-block" x-data="{ open: false }">
     <!-- Menu Button -->
     <button @mouseenter="open = true" @mouseleave="open = false"
             class="bg-[#b30000] text-white px-4 py-2 rounded-lg hover:bg-red-800 ml-0"
-            style="width: 150px; height: 50px;">
-        <span x-text="selectedItem" class="truncate"></span> 
+            style="width: 150px; height: 50px;">Menu
     </button>
 
     <!-- Dropdown Menu -->
@@ -11,12 +10,12 @@
          x-show="open" x-transition
          class="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
 
-        <a href="/welcome" @click="localStorage.setItem('selectedItem', 'Home'); selectedItem = 'Home'; open = false" 
+        <a href="/welcome" 
            class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">Home</a>
         <hr class="my-1">
-        <a href="/dashboard" @click="localStorage.setItem('selectedItem', 'My Documents'); selectedItem = 'My Documents'; open = false" 
+        <a href="/dashboard"
            class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">My Documents</a>
-        <a href="/settings" @click="localStorage.setItem('selectedItem', 'Profile Settings'); selectedItem = 'Profile Settings'; open = false" 
+        <a href="/settings"
            class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">Profile Settings</a>
         <hr class="my-1">
         <form method="POST" action="/logout">

@@ -9,7 +9,7 @@ use App\Models\User;
 
 class Admin extends Model
 {
-    protected $table = 'adviser';
+    protected $table = 'admin';
 
     protected $fillable = [
         'first_name',

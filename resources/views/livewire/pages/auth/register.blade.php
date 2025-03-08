@@ -51,7 +51,7 @@ new #[Layout('layouts.guest')] class extends Component
                 ->symbols()
                 ->numbers()],
             'role' => ['required', 'in:student,faculty'],
-            'program_id' => ['required', 'exists:program,id'], // Add department_id validation
+            //'program_id' => ['required', 'exists:program,id'], // Add department_id validation
         ]);
 
 

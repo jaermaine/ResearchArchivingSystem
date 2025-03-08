@@ -16,6 +16,8 @@ class DashboardController extends Controller
             return view('adviser-dashboard'); // Admin-specific dashboard
         } elseif ($user -> hasRole('student')) {
             return view('student-dashboard'); // Student-specific dashboard
+        } elseif ($user -> hasRole('admin')) {
+            return view('admin-dashboard'); // Admin-specific dashboard
         }
 
         // Default view for unrecognized roles or fallback

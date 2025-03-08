@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\DocumentStudent;
+use App\Models\DocumentAdviser;
 use Livewire\Component;
 use App\Models\Documents;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DocumentStatusController extends Component
@@ -67,9 +70,40 @@ class DocumentStatusController extends Component
         $document->save();
         return redirect()->back();
     }
-
-    public function render()
+    
+    public function admin_edit(Request $request, $id)
     {
-        return view('livewire.document-status-controller');
+        $document = Documents::find($id);
+
+        if (!$document) {
+            return redirect()->back()->with('error', 'Document not found.');
+        }
+
+        $request->validate([
+            'status' => 'required|integer|in:1,2,3'
+        ]);
+        
+        $document->document_status_id = $request->status;
+        $document->save();
+
+        return redirect()->back()->with('success', 'Document status updated.');
+    }
+    public function admin_delete($id)
+    {
+    $document = Documents::find($id);
+
+    if (!$document) {
+        return redirect()->back()->with('error', 'Document not found.');
+    }
+        try {
+            DocumentStudent::where('document_id', $id)->delete();
+            DocumentAdviser::where('document_id', $id)->delete();
+
+            $document->delete();
+
+            return redirect()->back()->with('success', 'Document deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting the document.');
+        }
     }
 }
