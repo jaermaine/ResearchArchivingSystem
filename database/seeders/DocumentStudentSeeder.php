@@ -22,5 +22,30 @@ class DocumentStudentSeeder extends Seeder
             'document_id' => 2,
             'student_id' => 2,
         ]);
+
+        DocumentStudent::create([
+            'document_id' => 3,
+            'student_id' => 3,
+        ]);
+        
+        DocumentStudent::create([
+            'document_id' => 4,
+            'student_id' => 4,
+        ]);
+        
+        DocumentStudent::create([
+            'document_id' => 5,
+            'student_id' => 5,
+        ]);
+        
+        DocumentStudent::create([
+            'document_id' => 6,
+            'student_id' => 6,
+        ]);
+        
+        DocumentStudent::create([
+            'document_id' => 7,
+            'student_id' => 7,
+        ]);
     }
 }
