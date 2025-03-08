@@ -52,4 +52,5 @@ class DocumentController extends Controller
         return redirect()->back()
             ->with('success', 'Document submitted successfully!');
     }
+    
 }

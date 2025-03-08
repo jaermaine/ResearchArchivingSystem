@@ -26,8 +26,7 @@ $faculties = DB::table('adviser')
         <div>Abstract: {{ $item->abstract }}</div>
         <div>Keyword: {{ $item->keyword }}</div>
         <div>Status: {{ $item->name }}</div>
-        <div>First Name: {{ $item->first_name }}</div>
-        <div>Last Name: {{ $item->last_name }}</div>
+        <div>Adviser Name: {{ $item->last_name }} {{ $item->first_name }}</div>
     </div>
     @endforeach
 </div>
