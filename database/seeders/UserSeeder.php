@@ -29,13 +29,13 @@ class UserSeeder extends Seeder
         User::create([
             'email' => 'jane.doe@uni.edu.com',
             'password' => $this->default_jane_password,
-            'role' => 'faculty',
+            'role' => 'adviser',
         ]);
 
         User::create([
             'email' => 'steve.smith@uni.edu.com',
             'password' => $this->default_steve_password,
-            'role' => 'faculty',
+            'role' => 'adviser',
         ]);
 
         User::create([
