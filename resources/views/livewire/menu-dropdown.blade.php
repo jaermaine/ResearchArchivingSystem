@@ -1,31 +1,32 @@
-<div>
-    <form method="POST" action="/logout" id="logoutForm">
-    @csrf
-        <select id="dropdown" onchange="handleDropdownChange()" class="outline-none focus:ring-0 w-full h-[50px] px-4 rounded-lg">
-            <option value="" selected hidden>Menu</option>
-            <option value="welcome">Home</option>
-            <hr>
-            <option value="dashboard">My Documents</option>
-            <option value="settings">Profile Settings</option>
-            <hr>
-            <option value="logout">Log out</option>
-        </select>
-        <button type="submit" id="logoutButton" style="display: none;">Log out</button>
-    </form>
+<div class="relative inline-block" x-data="{ open: false, selectedItem: localStorage.getItem('selectedItem') || 'Menu' }">
+    <!-- Menu Button -->
+    <button @mouseenter="open = true" @mouseleave="open = false"
+            class="bg-[#b30000] text-white px-4 py-2 rounded-lg hover:bg-red-800 ml-0"
+            style="width: 150px; height: 50px;">
+        <span x-text="selectedItem" class="truncate"></span> 
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div @mouseenter="open = true" @mouseleave="open = false"
+         x-show="open" x-transition
+         class="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+
+        <a href="/welcome" @click="localStorage.setItem('selectedItem', 'Home'); selectedItem = 'Home'; open = false" 
+           class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">Home</a>
+        <hr class="my-1">
+        <a href="/dashboard" @click="localStorage.setItem('selectedItem', 'My Documents'); selectedItem = 'My Documents'; open = false" 
+           class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">My Documents</a>
+        <a href="/settings" @click="localStorage.setItem('selectedItem', 'Profile Settings'); selectedItem = 'Profile Settings'; open = false" 
+           class="block px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">Profile Settings</a>
+        <hr class="my-1">
+        <form method="POST" action="/logout">
+            @csrf
+            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-200 font-['ZapfHumnst-BT']">
+                Log out
+            </button>
+        </form>
+    </div>
 </div>
 
-<script>
-    function handleDropdownChange() {
-        var selectedOption = document.getElementById('dropdown').value;
-
-        if (selectedOption === 'welcome') {
-            window.location.href = '/welcome';
-        }else if (selectedOption === 'dashboard') {
-            window.location.href = '/dashboard';
-        } else if (selectedOption === 'settings') {
-            window.location.href = '/settings';
-        } else if (selectedOption === 'logout') {
-            document.getElementById('logoutButton').click();
-        }
-    }
-</script>
+<!-- Alpine.js -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
