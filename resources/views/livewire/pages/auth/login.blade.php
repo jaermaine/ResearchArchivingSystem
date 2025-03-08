@@ -27,6 +27,8 @@ new #[Layout('layouts.guest')] class extends Component
 @section('title', 'Login Page')
 
 <div>
+    <img class="w-[350px] h-[100px] md:w-[390px] md:h-[150px]" src="img/lpuc-logo.png" alt="LPU Logo" /> <!-- LPU LOGO -->
+    <br>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

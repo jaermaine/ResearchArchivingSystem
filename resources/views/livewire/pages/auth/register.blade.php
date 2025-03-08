@@ -95,6 +95,7 @@ new #[Layout('layouts.guest')] class extends Component
 @section('title', 'Registration Page')
 
 <div>
+    <img class="w-[350px] h-[100px] md:w-[390px] md:h-[150px]" src="img/lpuc-logo.png" alt="LPU Logo" /> <!-- LPU LOGO -->
     <form wire:submit="register">
         @csrf
         <!-- First Name -->
@@ -114,7 +115,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Suffix -->
         <div class="mt-4">
             <x-input-label for="suffix" :value="__('Suffix')" class="text-red-600" style="color: #b30000;" />
-            <x-text-input wire:model="suffix" id="suffix" class="block mt-1 w-full" type="text" name="suffix" placeholder="Ex. Engr./Arch. (OPTIONAL)" autofocus autocomplete="name" style="color: black; border: 2px solid #b30000; background-color: #ffffff;" />
+            <x-text-input wire:model="suffix" id="suffix" class="block mt-1 w-full placeholder-gray-300" type="text" name="suffix" placeholder="Ex. Engr./Arch. (OPTIONAL)" autofocus autocomplete="name" style="color: black; border: 2px solid #b30000; background-color: #ffffff;" />
             <x-input-error :messages="$errors->get('suffix')" class="mt-2" />
         </div>
 
