@@ -12,7 +12,8 @@
         </select>
 
         <!-- Search Bar -->
-        <div class="flex items-center rounded-full h-[50px] w-full border-2 border-[#808080]">
+            <div class="flex items-center rounded-lg h-[50px] w-full md:w-[500px] border-2 border-[#808080]">
+
             @if($selectedCategory === 'date')
                 <input wire:model="searchInput"
                        class="bg-transparent border-none focus:ring-0 focus:outline-none placeholder-gray-500 flex-grow h-full px-4 rounded-full" />

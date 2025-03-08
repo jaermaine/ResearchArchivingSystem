@@ -67,58 +67,64 @@ new class extends Component
         <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#C91F37] selection:text-white">
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <!-- Browsing on Desktop -->
-                <header class="hidden lg:grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                    <div class="w-[100px] h-[100px] flex-col justify-center items-center inline-flex md:w-[154px] md:h-[171px] hidden md:flex">
-                        <a href="/welcome">
-                            <img href="home" class="w-[100px] h-[100px] md:w-[154px] md:h-[171px]" src="img/LPU logo.png" alt="LPU Logo" />
-                        </a>
-                    </div>
 
-                    <div></div>
-
-                    <div class="flex items-center justify-end ">
-                        <livewire:menu-dropdown />
-                    </div>
-                </header>
-                l
-                <!-- Browsing on Mobile -->
-                <header class="flex lg:hidden flex-col items-center py-4 w-full">
-
-                    <!-- Top row with LPU Logo and Login/Register links -->
-                    <div class="flex items-center justify-between w-full px-4">
-                        <!-- LPU LOGO on the left -->
-                        <div class="w-[60px] h-[60px] flex items-center justify-center">
-                            <a href="/welcome">
-                                <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
-                            </a>
-                        </div>
-
-                        <!-- Profile -->
-                        <div class="flex items-center justify-end">
-                            <div class="flex space-x-4">
-                                <livewire:menu-dropdown />
+                <body class="font-sans antialiased" style="background-image: url('/background.png'); background-size: cover; background-position: center;">
+                    <div class="text-black/50">
+                        <!-- Added white header box with shadow -->
+                        <div class="w-full bg-white fixed top-0 left-0 right-0 z-10" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+                            <div class="container mx-auto px-2 py-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <a href="/welcome" class="text-xl font-bold text-[#b30000]">
+                                            <img class="w-[230px] h-[90px]" src="img/lpuc-logo.png" alt="LPU Logo" />
+                                        </a>
+                                    </div>
+                                    <!-- You can add navigation or other header elements here -->
+                                    <div class="flex items-center">
+                                        <livewire:menu-dropdown />
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Browsing on Mobile -->
+                        <header class="flex lg:hidden flex-col items-center py-4 w-full">
+
+                            <!-- Top row with LPU Logo and Login/Register links -->
+                            <div class="flex items-center justify-between w-full px-4">
+                                <!-- LPU LOGO on the left -->
+                                <div class="w-[60px] h-[60px] flex items-center justify-center">
+                                    <a href="/welcome">
+                                        <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
+                                    </a>
+                                </div>
+
+                                <!-- Profile -->
+                                <div class="flex items-center justify-end">
+                                    <div class="flex space-x-4">
+                                        <livewire:menu-dropdown />
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+
+                        <main class="mt-6">
+                            <div class="container mx-auto p-6">
+                                <!-- Main Wrapper with border -->
+                                <div class="flex flex-col md:flex-row gap-6 border-2 border-[#b30000] rounded-lg p-6" style="background-color: rgba(255, 255, 255, 0.9);">
+
+                                    @yield('content')
+
+                                    @yield('button')
+                                </div>
+
+                        </main>
                     </div>
-                </header>
-
-                <main class="mt-6">
-                    <div class="container mx-auto p-6">
-                        <!-- Main Wrapper with border -->
-                        <div class="flex flex-col md:flex-row gap-6 border-2 border-[#b30000] rounded-lg p-6" style="background-color: rgba(255, 255, 255, 0.9);">
-
-                            @yield('content')
-
-                            @yield('button')
-                        </div>
-
-                </main>
             </div>
         </div>
-    </div>
 </body>
 
-<footer class="py-16 text-center text-sm text-black">
+<footer class="fixed bottom-0 left-0 right-0 py-4 bg-white text-center text-sm text-black" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
     Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
 </footer>
 

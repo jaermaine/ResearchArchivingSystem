@@ -20,7 +20,7 @@ $faculties = DB::table('adviser')
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     @foreach($documents as $item)
-    <div class="bg-white rounded-md shadow-lg p-4">
+    <div class="bg-white rounded-md shadow-2xl p-6">
         <div class="font-bold">ID: {{ $item->id }}</div>
         <div class="font-semibold">Title: {{ $item->title }}</div>
         <div>Abstract: {{ $item->abstract }}</div>
