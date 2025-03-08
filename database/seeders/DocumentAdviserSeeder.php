@@ -22,5 +22,30 @@ class DocumentAdviserSeeder extends Seeder
             'document_id' => 2,
             'adviser_id' => 2,
         ]);
+
+        DocumentAdviser::create([
+            'document_id' => 3,
+            'adviser_id' => 3,
+        ]);
+        
+        DocumentAdviser::create([
+            'document_id' => 4,
+            'adviser_id' => 4,
+        ]);
+        
+        DocumentAdviser::create([
+            'document_id' => 5,
+            'adviser_id' => 5,
+        ]);
+        
+        DocumentAdviser::create([
+            'document_id' => 6,
+            'adviser_id' => 6,
+        ]);
+        
+        DocumentAdviser::create([
+            'document_id' => 7,
+            'adviser_id' => 7,
+        ]);
     }
 }
