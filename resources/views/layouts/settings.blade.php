@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>User Management</title>
 </head>
 
@@ -12,17 +12,17 @@
     @extends('layouts.app')
     @section('content')
 
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-3 sm:p-6" style="max-height: 600px; overflow-y: auto;">
       <!-- Main Wrapper with border -->
-      <div class="flex flex-col md:flex-row gap-6 rounded-lg p-6">
+      <div class="flex flex-col md:flex-row gap-3 sm:gap-6 rounded-lg p-3 sm:p-6">
 
         <!-- Left Column: User Settings -->
         <div class="md:w-1/2">
-          <h2 class="text-2xl font-bold mb-4 text-[#800000]">User Settings</h2>
+          <h2 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-[#800000]">User Settings</h2>
 
           <!-- Profile Picture -->
           <div class="mb-4">
-            <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600 mb-2" for="profile_picture" style="color: #b30000;">
+            <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600 mb-1 sm:mb-2" for="profile_picture" style="color: #b30000;">
               Profile Picture:
             </label>
 
@@ -42,7 +42,7 @@
                   <input type="file" id="profile_picture_input" name="profile_picture" accept="image/*" required class="hidden"
                     onchange="previewImage(event)">
 
-                  <button type="submit" class="h-10 px-4 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium rounded-md mt-3">
+                  <button type="submit" class="h-8 sm:h-10 px-3 sm:px-4 py-1 sm:py-2 bg-[#800000] hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-md mt-2 sm:mt-3">
                     Save Picture
                   </button>
                 </form>
@@ -71,14 +71,14 @@
 
               <!-- Display Name -->
               <div class="user-info flex items-center">
-                <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600 mr-2" for="current_name" style="color: #b30000;">
+                <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600 mr-1 sm:mr-2" for="current_name" style="color: #b30000;">
                   Current Name:
                 </label>
-                <h2 class="text-black text-xl" id="current_name">{{ $firstName ?? 'Not set' }} {{ $lastName ?? 'Not set' }}</h2>
+                <h2 class="text-black text-sm sm:text-xl" id="current_name">{{ $firstName ?? 'Not set' }} {{ $lastName ?? 'Not set' }}</h2>
               </div>
 
               <!-- Change Name -->
-              <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600" for="change_name" style="color: #b30000;">
+              <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="change_name" style="color: #b30000;">
                 Change Name
               </label>
               <div>
@@ -93,7 +93,7 @@
               </div>
 
               <!-- Contact Number -->
-              <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600" for="contact_number" style="color: #b30000;">
+              <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="contact_number" style="color: #b30000;">
                 Contact Number
               </label>
               <div>
@@ -104,7 +104,7 @@
               </div>
 
               <!-- Change Password -->
-              <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600" for="change_password" style="color: #b30000;">
+              <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="change_password" style="color: #b30000;">
                 Change Password
               </label>
               <div>
@@ -124,7 +124,7 @@
               </div>
 
               <!-- Save Changes Button -->
-              <button type="submit" class="h-10 px-6 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
+              <button type="submit" class="h-8 sm:h-10 px-4 sm:px-6 py-1 sm:py-2 bg-[#800000] hover:bg-red-700 text-white text-xs sm:text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2 sm:gap-2.5 inline-flex">
                 Save Changes
               </button>
             </div>
@@ -133,11 +133,11 @@
 
         <!-- Right Column: College and Program Dropdowns -->
         <div class="md:w-1/2 md:pl-6">
-          <h2 class="text-2xl font-bold mb-4 text-[#800000]">Academic Information</h2>
+          <h2 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-[#800000]">Academic Information</h2>
 
           <!-- College Dropdown -->
           <div class="space-y-2">
-            <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600" for="firstDropdown" style="color: #b30000;">
+            <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="firstDropdown" style="color: #b30000;">
               College
             </label>
             <div>
@@ -158,7 +158,7 @@
 
           <!-- Program Dropdown -->
           <div class="space-y-2 mt-4">
-            <label class="block font-medium text-xl text-gray-700 dark:text-gray-300 text-red-600" for="secondDropdown" style="color: #b30000;">
+            <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="secondDropdown" style="color: #b30000;">
               Program
             </label>
             <div>
@@ -171,11 +171,11 @@
           </div>
 
           <!-- Result Display -->
-          <div id="selectionResult" class="mt-4 text-black text-xl"></div>
+          <div id="selectionResult" class="mt-3 sm:mt-4 text-black text-sm sm:text-xl"></div>
 
           <!-- Submit Button -->
           <div class="mt-6">
-            <button type="button" class="h-10 px-6 py-2 bg-[#800000] hover:bg-red-700 text-white text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2.5 inline-flex">
+            <button type="button" class="h-8 sm:h-10 px-4 sm:px-6 py-1 sm:py-2 bg-[#800000] hover:bg-red-700 text-white text-xs sm:text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2 sm:gap-2.5 inline-flex">
               Update
             </button>
           </div>

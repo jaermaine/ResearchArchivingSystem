@@ -70,40 +70,28 @@ new class extends Component
 
                 <body class="font-sans antialiased" style="background-image: url('/background.png'); background-size: cover; background-position: center;">
                     <div class="text-black/50">
+                        
                         <!-- Added white header box with shadow -->
-                        <div class="w-full bg-white fixed top-0 left-0 right-0 z-10" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+                        <div class="w-full bg-white fixed top-0 left-0 right-0 p-2 z-10" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
                             <div class="container mx-auto px-2 py-3">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
                                         <a href="/welcome" class="text-xl font-bold text-[#b30000]">
-                                            <img class="w-[230px] h-[90px]" src="img/lpuc-logo.png" alt="LPU Logo" />
+                                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="img/lpuc-logo.png" alt="LPU Logo" />
                                         </a>
                                     </div>
                                     <!-- You can add navigation or other header elements here -->
-                                    <div class="flex items-center">
-                                        <livewire:menu-dropdown />
-                                    </div>
+                                    @if (Route::has('login'))
+                                    <livewire:welcome.navigation />
+                                    @endif
                                 </div>
                             </div>
                         </div>
 
                         <!-- Browsing on Mobile -->
                         <header class="flex lg:hidden flex-col items-center py-4 w-full">
-
-                            <!-- Top row with LPU Logo and Login/Register links -->
                             <div class="flex items-center justify-between w-full px-4">
-                                <!-- LPU LOGO on the left -->
                                 <div class="w-[60px] h-[60px] flex items-center justify-center">
-                                    <a href="/welcome">
-                                        <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
-                                    </a>
-                                </div>
-
-                                <!-- Profile -->
-                                <div class="flex items-center justify-end">
-                                    <div class="flex space-x-4">
-                                        <livewire:menu-dropdown />
-                                    </div>
                                 </div>
                             </div>
                         </header>

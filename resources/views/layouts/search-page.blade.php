@@ -1,4 +1,4 @@
-<div class="w-full md:w-[1250px] h-[500px] p-6 bg-white rounded-md shadow border border-[#ffcccc] flex flex-col justify-start items-center gap-2.5 overflow-y-auto">
+<div class="w-full md:w-[1250px] mx-auto h-[500px] p-6 bg-white rounded-md shadow border border-[#ffcccc] flex flex-col justify-start items-center gap-2.5 overflow-y-auto">
     @foreach($searchResults as $result)
     <div class="w-full md:w-[900px] h-auto relative mb-4 p-4 bg-white rounded-md shadow">
         <div class="text-black text-xl font-semibold">
