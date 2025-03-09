@@ -15,7 +15,7 @@ class Documents extends Model
     protected $fillable = [
         'title',
         'abstract',
-        'field_topic',
+        'keyword',
         'document_status_id',
     ];
 

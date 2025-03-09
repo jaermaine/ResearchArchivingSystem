@@ -19,11 +19,13 @@ class DocumentController extends Controller
             ->where('user_id', '=', Auth::user()->id)
             ->value('id');
 
+        // $co_author_id = $request->input('co_author');
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'abstract' => 'required|string',
             'keyword' => 'required|string',
-            'faculty' => 'required|integer',
+            'adviser' => 'required|integer',
             'file' => 'required|file|mimes:pdf|max:20480' // Adjust mime types as needed
         ]);
 
