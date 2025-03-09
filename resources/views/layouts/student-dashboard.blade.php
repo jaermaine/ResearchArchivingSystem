@@ -10,7 +10,7 @@ $college_id = DB::table('student')
     ->where('user_id', '=', Auth::user()->id)
     ->value('college_id');
 
-$faculties = DB::table('adviser')
+$advisers = DB::table('adviser')
     ->where('college_id', "=",  $college_id)
     ->select("adviser.id", "adviser.first_name", "adviser.last_name")
     ->get();
@@ -47,18 +47,18 @@ $faculties = DB::table('adviser')
             @csrf
             <div class="mb-4">
                 <label for="title" class="block text-gray-700">Title</label>
-                <input type="text" id="title" name="title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter the title of your document">
+                <input type="text" id="title" name="title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter the title of your document" required>
             </div>
             <div class="mb-4">
                 <label for="abstract" class="block text-gray-700">Abstract</label>
-                <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document"></textarea>
+                <textarea id="abstract" name="abstract" rows="8" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Provide a brief summary of your document" required></textarea>
             </div>
 
             <!-- Keywords -->
             <div class="mb-4">
-                <label for="keywords" class="block text-gray-700">Keywords (max 5)</label>
+                <label for="keyword" class="block text-gray-700">Keywords (max 5)</label>
                 <div class="flex">
-                    <input type="text" id="keywordInput" class="flex-grow px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a keyword">
+                    <input type="text" id="keywordInput" class="flex-grow px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter a keyword" required>
                     <button type="button" onclick="addKeyword()" class="bg-[#800000] text-white py-2 px-4 rounded hover:bg-red-700 ml-2">Add</button>
                 </div>
 
@@ -66,7 +66,7 @@ $faculties = DB::table('adviser')
                 <div id="keywordList" class="flex flex-wrap gap-2 mt-2"></div>
 
                 <!-- Hidden Input to Store Keywords -->
-                <input type="hidden" id="keywords" name="keywords">
+                <input type="hidden" id="keyword" name="keyword">
 
                 <script>
                     let keywords = []; // Store keywords
@@ -77,6 +77,7 @@ $faculties = DB::table('adviser')
 
                         if (input.value.trim() !== "" && keywords.length < 5) {
                             keywords.push(input.value.trim()); // Add new keyword
+                            document.getElementById("keywordInput").removeAttribute('required');
                             input.value = ""; // Clear input
                             updateKeywordList(); // Refresh display
                         } else if (keywords.length >= 5) {
@@ -87,6 +88,9 @@ $faculties = DB::table('adviser')
                     function removeKeyword(index) {
                         keywords.splice(index, 1); // Remove the keyword at the given index
                         updateKeywordList(); // Refresh display
+                        if(keywords.length == 0){
+                            document.getElementById("keywordInput").setAttribute('required', 'required');
+                        }
                     }
 
                     function updateKeywordList() {
@@ -103,23 +107,23 @@ $faculties = DB::table('adviser')
                             keywordList.appendChild(div);
                         });
 
-                        document.getElementById("keywords").value = JSON.stringify(keywords);
+                        document.getElementById("keyword").value = keywords.toString();
                     }
                 </script>
             </div>
 
             <div class="mb-4">
                 <label for="adviser" class="block text-gray-700">Adviser</label>
-                <select id="adviser" name="adviser" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select id="adviser" name="adviser" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <option value="" hidden>Select Adviser</option>
-                    @foreach ($faculties as $adviser)
+                    @foreach ($advisers as $adviser)
                     <option value="{{ $adviser->id }}">{{ $adviser->first_name . " " .$adviser->last_name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-4">
                 <label for="file" class="block text-gray-700">Upload File (*.pdf only)</label>
-                <input type="file" id="file" name="file" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Upload your document in PDF format">
+                <input type="file" id="file" name="file" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Upload your document in PDF format" required>
             </div>
             <div class="flex justify-end">
                 <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-2" onclick="closeModal()">Cancel</button>
