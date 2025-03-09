@@ -14,6 +14,7 @@ use App\Http\Controllers\SearchDocumentsController;
 use App\Http\Controllers\DocumentInformationPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -76,7 +77,6 @@ Route::post('/settings/update-profile-picture', [SettingsController::class, 'upd
 Route::get('/admin', [AdminController::class, 'setTableForAdmin'])->name('admin.dashboard');
 
 Route::put('/admin/edit/{id}', action: [DocumentStatusController::class, 'admin_edit'])->name('admin-edit');
-
 Route::delete('/admin/delete/{id}', action: [DocumentStatusController::class, 'admin_delete'])->name('admin-delete');
 
 require __DIR__ . '/auth.php';
