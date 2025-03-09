@@ -14,7 +14,8 @@ class DocumentStudentController extends Controller
         
         if($role == 'student') {
             $documents = $this->setTableForStudent();
-        if ($role == 'adviser')
+        }
+        else if ($role == 'adviser'){
             $documents = $this->setTableForAdviser();
         } else {
         if ($role == 'admin')
