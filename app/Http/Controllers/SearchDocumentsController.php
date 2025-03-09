@@ -23,7 +23,8 @@ class SearchDocumentsController extends Controller
                 'documents.id',
                 'documents.title',
                 'student.first_name',
-                'student.last_name'
+                'student.last_name',
+                'documents.keyword'
             )->get();
 
             $hasResults = count($searchResults);
@@ -40,8 +41,12 @@ class SearchDocumentsController extends Controller
                 case 'author':
                     $query->where(DB::raw("CONCAT(student.first_name, ' ', student.last_name)"), 'like', '%' . $searchInput . '%');
                     break;
-                case 'department':
-                    $query->where('documents.field_topic', 'like', '%' . $searchInput . '%');
+                case 'keyword':
+                    $query->where('documents.keyword', 'like', '%' . $searchInput . '%');
+                    break;
+                case 'program':
+                    $query->join('program', 'documents.program_id', '=', 'program.id')
+                    ->where('program.name', 'like', '%' . $searchInput . '%');
                     break;
                 case 'date':
                     // Check if the search input is just a year
@@ -78,8 +83,8 @@ class SearchDocumentsController extends Controller
         $documentResults = DB::table('documents')
             ->join('document_student', 'documents.id', '=', 'document_student.document_id')
             ->join('student', 'document_student.student_id', '=', 'student.id')
+            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.keyword', 'student.first_name', 'student.last_name', 'documents.created_at')
             ->where('documents.id', '=', $id)
-            ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.field_topic', 'student.first_name', 'student.last_name', 'documents.created_at')
             ->first();
 
         return view('layouts.search-results', compact('documentResults'));
