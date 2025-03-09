@@ -12,7 +12,7 @@
             <strong>Abstract:</strong> {{ $documentResults->abstract }}
         </p>
         <p class="text-gray-700 mb-4">
-            <strong>Field/Topic:</strong> {{ $documentResults->field_topic }}
+            <strong>Keywords:</strong> {{ $documentResults->keyword }}
         </p>
         <p class="text-gray-700 mb-4">
             <strong>Author:</strong> {{ $documentResults->last_name }}, {{ $documentResults->first_name }}
