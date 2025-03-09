@@ -18,6 +18,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'Digital platform aimed at automating and streamlining the faculty evaluation process at educational institutions.',
             'keyword' => 'Evaluation System',
             'document_status_id' => 2,
+            'program_id' => 17
         ]);
 
         Documents::create([
@@ -25,6 +26,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'Provide a platform that eases the submission process of papers related to Thesis, Research, and Capstone Projects.',
             'keyword' => 'Document Archiving',
             'document_status_id' => 2,
+            'program_id' => 17
         ]);
 
         Documents::create([
@@ -32,6 +34,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'This study investigates the performance of various machine learning algorithms in predicting data patterns.',
             'keyword' => 'machine learning, algorithms, prediction',
             'document_status_id' => 2,
+            'program_id' => 17
         ]);
         
         Documents::create([
@@ -39,6 +42,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'An examination of the effects of social media usage on the behavioral patterns of young adults.',
             'keyword' => 'social media, youth, behavior',
             'document_status_id' => 2,
+            'program_id' => 10
         ]);
         
         Documents::create([
@@ -46,6 +50,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'This project focuses on creating a mobile application to facilitate language acquisition.',
             'keyword' => 'mobile app, language learning, education',
             'document_status_id' => 2,
+            'program_id' => 18
         ]);
         
         Documents::create([
@@ -53,6 +58,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'A study on the importance and implementation of renewable energy sources for sustainable development.',
             'keyword' => 'renewable energy, sustainability, development',
             'document_status_id' => 2,
+            'program_id' => 24
         ]);
         
         Documents::create([
@@ -60,6 +66,7 @@ class DocumentSeeder extends Seeder
             'abstract' => 'Research on the impact of climate change on the biodiversity and stability of coastal ecosystems.',
             'keyword' => 'climate change, coastal ecosystems, biodiversity',
             'document_status_id' => 2,
+            'program_id' => 4
         ]);
     }
 }
