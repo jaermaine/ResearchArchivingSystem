@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('keyword');
             $table->foreignId('document_status_id')->nullable()->constrained('document_statuses');
             $table->foreignId('document_type_id')->nullable()->constrained('document_type');
+            $table->foreignId('program_id')->nullable()->constrained('program');
             $table->timestamps();
         });
     }
