@@ -16,61 +16,39 @@
 </head>
 
 <body class="antialiased font-sans">
-    <div class="bg-gray-50 text-black/50">
-        <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
-            <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <!-- Browsing on Desktop -->
-                <div class="w-full bg-white fixed top-0 left-0 right-0 z-10" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-                    <div class="container mx-auto px-2 py-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <a href="/welcome" class="text-xl font-bold text-[#b30000]">
-                                    <img class="w-[230px] h-[90px]" src="img/lpuc-logo.png" alt="LPU Logo" />
-                                </a>
-                            </div>
-                            <!-- You can add navigation or other header elements here -->
-                            @if (Route::has('login'))
-                                <livewire:welcome.navigation />
-                            @endif
-                        </div>
+        <div class="bg-gray-50 text-black/50">
+
+        <!-- FIXED HEADER - always stays at top -->
+        <div class="w-full bg-white fixed top-0 left-0 right-0 p-2 z-20" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="container mx-auto px-2 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="/welcome" class="text-xl font-bold text-[#b30000]">
+                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="{{ asset('img/lpuc-logo.png') }}" alt="LPU Logo" />
+                        </a>
                     </div>
+                    @if (Route::has('login'))
+                    <livewire:welcome.navigation />
+                    @endif
                 </div>
-
-                <!-- SEARCH BAR -->
-                <div>
-                    <livewire:search-field />
-                </div>
-
-                <!-- Browsing on Mobile -->
-                <header class="flex lg:hidden flex-col items-center py-4 w-full">
-                    <div class="flex items-center justify-between w-full px-4">
-                        <div class="w-[60px] h-[60px] flex items-center justify-center">
-                            <a href="/welcome">
-                                <img class="w-[60px] h-[60px]" src="img/LPU logo.png" alt="LPU Logo" />
-                            </a>
-                        </div>
-                        <div class="flex space-x-4 text-red-500">
-                            @if (Route::has('login'))
-                                <livewire:welcome.navigation />
-                            @endif
-                        </div>
-                    </div>
-                    <div>
-                        <livewire:search-field />
-                    </div>
-                </header>
-
-                <main class="mt-6">
-                    <div class="container">
-                        @yield('content')
-                    </div>
-                </main>
-
-                <footer class="fixed bottom-0 left-0 right-0 py-4 bg-white text-center text-sm text-black" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
-                    Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
-                </footer>
-
             </div>
+        </div>
+
+        <!-- SEARCH BAR - scrolls with the page -->
+        <div class="w-full bg-gray-50 relative top-[120px] sm:top-[150px] sm:left-[140px] right-0 z-10 py-4">
+            <div class="container mx-auto">
+                <livewire:search-field />
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT - scrollable area with appropriate padding -->
+        <div class="container mx-auto pt-[180px] sm:pt-[200px] pb-16 md:w-[1250px] overflow-hidden">
+            @yield('content')
+        </div>
+
+        <!-- FIXED FOOTER -->
+        <div class="fixed bottom-0 left-0 right-0 py-4 bg-white text-center text-sm text-black z-10" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
+            Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
         </div>
     </div>
 </body>
