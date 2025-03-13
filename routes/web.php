@@ -74,9 +74,10 @@ Route::post('/settings/update-name', [SettingsController::class, 'updateName'])-
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::post('/settings/update-profile-picture', [SettingsController::class, 'updateProfilePicture'])->name('settings.updateProfilePicture');
 
-Route::get('/admin', [AdminController::class, 'setTableForAdmin'])->name('admin.dashboard');
+Route::get('/admin-dashboard', [AdminController::class, 'fetchStudents'])->name('admin-dashboard');
 
 Route::put('/admin/edit/{id}', action: [DocumentStatusController::class, 'admin_edit'])->name('admin-edit');
 Route::delete('/admin/delete/{id}', action: [DocumentStatusController::class, 'admin_delete'])->name('admin-delete');
+Route::put('/update-student', [DocumentStudentController::class, 'updateStudent'])->name('update-student');
 
 require __DIR__ . '/auth.php';

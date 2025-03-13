@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 
 class DocumentStudentController extends Controller
@@ -15,14 +16,18 @@ class DocumentStudentController extends Controller
         if($role == 'student') {
             $documents = $this->setTableForStudent();
         }
-        else if ($role == 'adviser'){
+        else if ($role == 'adviser') {
             $documents = $this->setTableForAdviser();
-        } else {
-        if ($role == 'admin')
+        } 
+        else if ($role == 'admin') {
+            $program = $this->fetchProgram();
+            $college = $this->fetchCollege();
+            $advisers = $this->fetchAdviser();
+            $students = $this->fetchStudents();
             $documents = $this->setTableForAdmin();
         }
 
-        return view('dashboard', data: ['documents' => $documents]);
+        return view('dashboard', data: ['documents' => $documents, 'students' => $students, 'advisers' => $advisers, 'college' => $college, 'program' => $program]);
     }
 
     public function setTableForAdviser(){
@@ -75,5 +80,53 @@ class DocumentStudentController extends Controller
             ->get();
 
         return $documents;
+    }
+    public function fetchStudents()
+    {
+        $students = DB::table('student')
+            ->join('users', 'student.user_id', '=', 'users.id')
+            ->join('program', 'student.program_id', '=', 'program.id')
+            ->join('college', 'program.college_id', '=', 'college.id')
+            ->select('student.id', 'student.first_name', 'student.last_name', 'users.email', 'program.name as program', 'college.name as college')
+            ->get();
+
+        return $students;
+    }
+    public function fetchAdviser()
+    {
+        $advisers = DB::table('adviser')
+            ->join('users', 'adviser.user_id', '=', 'users.id')
+            ->select('adviser.id', 'adviser.first_name', 'adviser.last_name', 'users.email')
+            ->get();
+
+        return $advisers;
+    }
+    public function fetchCollege()
+    {
+        $college = DB::table('college')
+            ->select('id', 'name')
+            ->get();
+
+        return $college;
+    }
+    public function fetchProgram()
+    {
+        $program = DB::table('program')
+            ->select('id', 'name', 'abbreviation')
+            ->get();
+
+        return $program;
+    }
+    public function updateStudent(Request $request) {
+        $student = Student::findOrFail($request->student_id);
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->program_id = $request->program_id;
+        $student->section_id = $request->section_id;
+        $student->year_id = $request->year_id;
+        $student->college_id = $request->college_id;
+        $student->save();
+    
+        return redirect()->back()->with('success', 'Student updated successfully!');
     }
 }
