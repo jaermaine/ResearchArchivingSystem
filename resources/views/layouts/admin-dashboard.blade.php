@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -29,7 +27,7 @@
         <!-- Tab Content -->
         <div x-show="activeTab === 'documents'" class="p-4 border rounded-md shadow-md bg-white">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach($documents as $document)                
+                @foreach($documents as $document)
                     <div class="bg-white rounded shadow-lg p-4 relative mb-4">
                         <h3 class="text-lg font-semibold text-gray-800">Title: {{ $document->title }}</h3>
                         <p>ID: {{ $document->id }}</p>
@@ -115,11 +113,24 @@
                     @endforeach
                 </div>
                 <!-- Modal for Editing -->
-                <div x-show="openEditModal"
-                    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div x-show="openEditModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+                    x-data="{
+                filteredPrograms: [],
+                updatePrograms() {
+                    let selectedCollegeId = this.selectedStudent.college_id;
+                    if (!selectedCollegeId) return;
+
+                    fetch('{{ route('filter-programs') }}?college_id=' + selectedCollegeId)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.filteredPrograms = data;
+                        });
+                }
+            }" x-init="updatePrograms()">
+
                     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
                         <h2 class="text-xl font-semibold mb-4">Edit Student</h2>
-                        <form method="POST" action="{{ route('update-student') }}">
+                        <form method="POST" action="{{ route('update-student') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -132,11 +143,11 @@
                             <label class="block mt-2">Last Name</label>
                             <input type="text" name="last_name" class="w-full border p-2 rounded"
                                 x-model="selectedStudent.last_name">
-                            
+
                             <label class="block mt-2">Email</label>
                             <input type="text" name="email" class="w-full border p-2 rounded"
                                 x-model="selectedStudent.email">
-                            
+
                             <label class="block mt-2">Section</label>
                             <input type="text" name="section" class="w-full border p-2 rounded"
                                 x-model="selectedStudent.section">
@@ -146,8 +157,9 @@
                                 x-model="selectedStudent.year_level">
 
                             <label class="block mt-2">College</label>
-                            <select name="college_id" class="w-full border p-2 rounded"
-                                x-model="selectedStudent.college_id">
+                            <select name="college_id" class="w-full border p-2 rounded" x-model="selectedStudent.college_id"
+                                @change="updatePrograms()">
+                                <option value="" disabled selected>Select a College</option>
                                 @foreach($college as $colleges)
                                     <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
                                 @endforeach
@@ -156,9 +168,10 @@
                             <label class="block mt-2">Program</label>
                             <select name="program_id" class="w-full border p-2 rounded"
                                 x-model="selectedStudent.program_id">
-                                @foreach($program as $programs)
-                                    <option value="{{ $programs->id }}">{{ $programs->name }}</option>
-                                @endforeach
+                                <option value="" disabled selected>Select a Program</option>
+                                <template x-for="program in filteredPrograms" :key="program . id">
+                                    <option :value="program . id" x-text="program.name"></option>
+                                </template>
                             </select>
 
                             <div class="flex justify-end mt-4">

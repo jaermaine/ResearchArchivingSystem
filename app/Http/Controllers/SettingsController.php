@@ -33,7 +33,11 @@ class SettingsController extends Controller
             return redirect()->route('home')->with('error', 'User role not found.');
         }
 
-        return view('layouts.settings', compact('firstName', 'lastName', 'user'));
+        //Fetch colleges and programs
+        $college = \App\Models\College::all();
+        $program = \App\Models\Program::all();
+
+        return view('layouts.settings', compact('firstName', 'lastName', 'user', 'college', 'program'));
     }
 
     public function updateSettings(Request $request)

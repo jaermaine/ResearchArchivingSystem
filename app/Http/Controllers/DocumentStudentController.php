@@ -4,22 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\College;
+use App\Models\Program;
 use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
+
 
 class DocumentStudentController extends Controller
 {
     public function setTable()
     {
-        $role = Auth::user()->role;
-        
-        if($role == 'student') {
-            $documents = $this->setTableForStudent();
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'Unauthorized action.');
         }
-        else if ($role == 'adviser') {
+
+        $role = $user->role;
+        $documents = [];
+        $students = null;
+        $advisers = null;
+        $college = null;
+        $program = null;
+
+        if ($role == 'student') {
+            $documents = $this->setTableForStudent();
+        } elseif ($role == 'adviser') {
             $documents = $this->setTableForAdviser();
-        } 
-        else if ($role == 'admin') {
+        } elseif ($role == 'admin') {
             $program = $this->fetchProgram();
             $college = $this->fetchCollege();
             $advisers = $this->fetchAdviser();
@@ -27,7 +39,13 @@ class DocumentStudentController extends Controller
             $documents = $this->setTableForAdmin();
         }
 
-        return view('dashboard', data: ['documents' => $documents, 'students' => $students, 'advisers' => $advisers, 'college' => $college, 'program' => $program]);
+        return view('dashboard', [
+            'documents' => $documents,
+            'students' => $students ?? null,
+            'advisers' => $advisers ?? null,
+            'college' => $college ?? null,
+            'program' => $program ?? null
+        ]);
     }
 
     public function setTableForAdviser(){
@@ -128,5 +146,14 @@ class DocumentStudentController extends Controller
         $student->save();
     
         return redirect()->back()->with('success', 'Student updated successfully!');
+    }
+
+    public function filterProgram(Request $request) {
+        $collegeId = $request->input('college_id');
+    
+        // Fetch programs only for the selected college
+        $programs = Program::where('college_id', $collegeId)->get();
+    
+        return response()->json($programs);
     }
 }
