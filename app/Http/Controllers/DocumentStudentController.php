@@ -8,6 +8,8 @@ use App\Models\College;
 use App\Models\Program;
 use App\Models\Student;
 use App\Models\Adviser;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -142,6 +144,10 @@ class DocumentStudentController extends Controller
         $student->year_id = $request->year_id;
         $student->college_id = $request->college_id;
         $student->save();
+
+        $user = User::findOrFail($student->user_id);
+        $user->email = $request->email;
+        $user->save();
     
         return redirect()->back()->with('success', 'Student updated successfully!');
     }
@@ -152,6 +158,10 @@ class DocumentStudentController extends Controller
         $adviser->last_name = $request->last_name;
         $adviser->college_id = $request->college_id;
         $adviser->save();
+
+        $user = User::findOrFail($adviser->user_id);
+        $user->email = $request->email;
+        $user->save();
     
         return redirect()->back()->with('success', 'Adviser updated successfully!');
     }
@@ -164,4 +174,145 @@ class DocumentStudentController extends Controller
     
         return response()->json($programs);
     }
+    public function storeCollege(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    College::create([
+        'name' => $request->name,
+    ]);
+
+    return redirect()->back()->with('success', 'College added successfully!');
+}
+
+public function updateCollege(Request $request)
+{
+    $college = College::findOrFail($request->college_id);
+    $college->name = $request->name;
+    $college->save();
+
+    return redirect()->back()->with('success', 'College updated successfully!');
+}
+
+public function destroyCollege($id)
+{
+    $college = College::findOrFail($id);
+    $college->delete();
+
+    return redirect()->back()->with('success', 'College deleted successfully!');
+}
+
+public function storeProgram(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'abbreviation' => 'required|string|max:10',
+        'college_id' => 'required|exists:college,id',
+    ]);
+
+    Program::create([
+        'name' => $request->name,
+        'abbreviation' => $request->abbreviation,
+        'college_id' => $request->college_id,
+    ]);
+
+    return redirect()->back()->with('success', 'Program added successfully!');
+}
+
+public function updateProgram(Request $request)
+{
+    $program = Program::findOrFail($request->program_id);
+    $program->name = $request->name;
+    $program->abbreviation = $request->abbreviation;
+    $program->college_id = $request->college_id;
+    $program->save();
+
+    return redirect()->back()->with('success', 'Program updated successfully!');
+}
+
+public function destroyProgram($id)
+{
+    $program = Program::findOrFail($id);
+    $program->delete();
+
+    return redirect()->back()->with('success', 'Program deleted successfully!');
+}
+
+// Store a new student
+public function storeStudent(Request $request)
+{
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'college_id' => 'required|exists:college,id',
+        'program_id' => 'nullable|exists:program,id',
+    ]);
+
+    User::create([
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'email' => $validated['email'],
+        'role' => 'student',
+        'password' => bcrypt('defaultpassword'), // Default password
+    ]);
+
+    Student::create([
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'user_id' => User::where('email', $validated['email'])->first()->id,
+        'college_id' => $validated['college_id'],
+        'program_id' => $validated['program_id'] ?? null,
+    ]);
+
+    return redirect()->back()->with('success', 'Student added successfully!');
+}
+
+public function storeAdviser(Request $request)
+{
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'college_id' => 'required|exists:college,id',
+    ]);
+
+    User::create([
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'email' => $validated['email'],
+        'role' => 'adviser',
+        'college_id' => $validated['college_id'],
+        'password' => bcrypt('defaultpassword'),
+    ]);
+
+    Adviser::create([
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'user_id' => User::where('email', $validated['email'])->first()->id,
+        'college_id' => $validated['college_id'],
+    ]);
+
+    return redirect()->back()->with('success', 'Adviser added successfully!');
+}
+
+// Delete a student
+public function destroyStudent($id)
+{
+    $student = Student::findOrFail($id);
+    $student->delete();
+
+    return redirect()->back()->with('success', 'Student deleted successfully.');
+}
+
+// Delete an adviser
+public function destroyAdviser($id)
+{
+    $adviser = Adviser::findOrFail($id);
+    $adviser->delete();
+
+    return redirect()->back()->with('success', 'Adviser deleted successfully.');
+}
 }

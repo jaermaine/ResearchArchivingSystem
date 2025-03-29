@@ -79,7 +79,14 @@
     </div>
 
     <div x-show="activeTab === 'users'"
-        x-data="{ userType: 'students', openEditModal: false, selectedStudent: {}, selectedAdviser: {} }"
+        x-data="{ 
+        userType: 'students', 
+        openAddModal: false, 
+        openEditModal: false, 
+        selectedStudent: {}, 
+        selectedAdviser: {},
+        newUser: { first_name: '', last_name: '', email: '', section: '', year_level: '', college_id: '', program_id: '' }
+    }"
         class="p-4 border rounded-md shadow-md bg-white">
 
         <!-- Toggle Buttons -->
@@ -93,6 +100,12 @@
                 Advisers
             </button>
         </div>
+
+        <!-- Add Button -->
+        <button @click="openAddModal = true; newUser = { first_name: '', last_name: '', email: '', section: '', year_level: '', college_id: '', program_id: '' }"
+            class="bg-green-600 text-white px-4 py-2 rounded-md mb-4">
+            Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
+        </button>
 
         <!-- Students Section -->
         <div x-show="userType === 'students'">
@@ -110,6 +123,15 @@
                         class="bg-gray-800 text-white px-4 py-2 mt-3 rounded-md w-full">
                         Edit
                     </button>
+
+                    <!-- Delete Button -->
+                    <form method="POST" action="{{ route('delete-student', $student->id) }}" onsubmit="return confirm('Are you sure?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-600 text-white px-4 py-2 mt-2 rounded-md w-full">
+                            Remove
+                        </button>
+                    </form>
                 </div>
                 @endforeach
             </div>
@@ -204,9 +226,19 @@
                         class="bg-gray-800 text-white px-4 py-2 mt-3 rounded-md w-full">
                         Edit
                     </button>
+
+                    <!-- Delete Button -->
+                    <form method="POST" action="{{ route('delete-adviser', $adviser->id) }}" onsubmit="return confirm('Are you sure?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-600 text-white px-4 py-2 mt-2 rounded-md w-full">
+                            Remove
+                        </button>
+                    </form>
                 </div>
                 @endforeach
             </div>
+
             <div x-show="openEditModal"
                 class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
@@ -251,51 +283,265 @@
                 </div>
             </div>
         </div>
-    </div>
+        <!-- Add User Modal -->
+        <div x-show="openAddModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
+        x-data="{
+            filteredPrograms: [],
+            updatePrograms() {
+                if (!this.newUser.college_id) return;
+                fetch('{{ route('filter-programs') }}?college_id=' + this.newUser.college_id)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.filteredPrograms = data;
+                    });
+            },
+            get formAction() {
+                return this.userType === 'students' ? '{{ route('add-student') }}' : '{{ route('add-adviser') }}';
+            }
+        }"
+        x-init="updatePrograms()"
+    >
+        <h2 class="text-xl font-semibold mb-4">
+            Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
+        </h2>
 
-    <div x-show="activeTab === 'programs'" x-data="{ selectedCollege: null }" class="p-4 border rounded-md shadow-md bg-white">
+        <form method="POST" x-bind:action="formAction" x-ref="addUserForm">
+            @csrf
+            <input type="hidden" name="user_type" x-model="userType">
 
-        <!-- College Filter Buttons -->
-        <div class="flex flex-wrap gap-2 mb-4">
-            <button @click="selectedCollege = null"
-                :class="selectedCollege === null ? 'bg-red-600' : 'bg-gray-800'"
-                class="px-4 py-2 text-white rounded-md hover:bg-gray-700">
-                Show All
-            </button>
-            @foreach ($college as $colleges)
-            <button @click="selectedCollege = {{ $colleges->id }}"
-                :class="selectedCollege === {{ $colleges->id }} ? 'bg-red-600' : 'bg-gray-800'"
-                class="px-4 py-2 text-white rounded-md hover:bg-gray-700">
-                {{ $colleges->name }}
-            </button>
-            @endforeach
-        </div>
+            <!-- First Name -->
+            <label class="block">First Name</label>
+            <input type="text" name="first_name" class="w-full border p-2 rounded" x-model="newUser.first_name" required>
 
-        <!-- Unified Programs List -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            @foreach ($college as $colleges)
-            @foreach ($colleges->program as $programs)
-            <div x-show="selectedCollege === null || selectedCollege === {{ $colleges->id }}" class="bg-white rounded shadow-lg p-4">
-                <p><strong>Name:</strong> {{ $programs->name }}</p>
-                <p><strong>Abbreviation:</strong> {{ $programs->abbreviation }}</p>
+            <!-- Last Name -->
+            <label class="block mt-2">Last Name</label>
+            <input type="text" name="last_name" class="w-full border p-2 rounded" x-model="newUser.last_name" required>
+
+            <!-- Email -->
+            <label class="block mt-2">Email</label>
+            <input type="email" name="email" class="w-full border p-2 rounded" x-model="newUser.email" required>
+
+            <!-- Section & Year Level (Only for Students) -->
+            <template x-if="userType === 'students'">
+                <div>
+                    <label class="block mt-2">Section</label>
+                    <input type="text" name="section" class="w-full border p-2 rounded" x-model="newUser.section">
+
+                    <label class="block mt-2">Year Level</label>
+                    <input type="text" name="year_level" class="w-full border p-2 rounded" x-model="newUser.year_level">
+                </div>
+            </template>
+
+            <!-- College Selection -->
+            <label class="block mt-2">College</label>
+            <select name="college_id" class="w-full border p-2 rounded" x-model="newUser.college_id" @change="updatePrograms()">
+                <option value="" disabled selected>Select a College</option>
+                @foreach($college as $colleges)
+                <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+                @endforeach
+            </select>
+
+            <!-- Program Selection (Only for Students) -->
+            <template x-show="userType === 'students'">
+                <div>
+                    <label class="block mt-2">Program</label>
+                    <select name="program_id" class="w-full border p-2 rounded" x-model="newUser.program_id">
+                        <option value="" disabled selected>Select a Program</option>
+                        <template x-for="program in filteredPrograms" :key="program.id">
+                            <option :value="program.id" x-text="program.name"></option>
+                        </template>
+                    </select>
+                </div>
+            </template>
+
+            <!-- Modal Buttons -->
+            <div class="flex justify-end mt-4">
+                <button type="button" @click="openAddModal = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                    Cancel
+                </button>
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                    Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
+                </button>
             </div>
-            @endforeach
-            @endforeach
-        </div>
+        </form>
+    </div>
+</div>
     </div>
 
-    <div x-show="activeTab === 'colleges'" class="p-4 border rounded-md shadow-md bg-white">
+    <div x-show="activeTab === 'programs'" 
+     x-data="{ selectedCollege: '', showForm: false, formType: '', form: { id: '', name: '', abbreviation: '', college_id: '' } }" 
+     class="p-4 border rounded-md shadow-md bg-white">
+    
+    <!-- College Selection -->
+    <div class="mb-4">
+        <select x-model="selectedCollege" class="w-full p-2 border rounded-md">
+            <option value="">Show All</option>
+            @foreach ($college as $colleges)
+                <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <!-- Add Program Button -->
+    <button @click="showForm = true; formType = 'add'; form = { id: '', name: '', abbreviation: '', college_id: '' }"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+        + Add Program
+    </button>
+
+    <!-- Programs List -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        @foreach ($college as $colleges)
+        @foreach ($colleges->program as $programs)
+        <div x-show="selectedCollege === '' || selectedCollege == {{ $colleges->id }}" class="bg-white rounded-md shadow-md p-4 border">
+            <p class="text-lg font-semibold">{{ $programs->name }}</p>
+            <p class="text-gray-600">Abbreviation: <span class="font-medium">{{ $programs->abbreviation }}</span></p>
+
+            <div class="mt-3 flex gap-2">
+                <button @click="showForm = true; formType = 'edit'; form = { id: '{{ $programs->id }}', name: '{{ $programs->name }}', abbreviation: '{{ $programs->abbreviation }}', college_id: '{{ $colleges->id }}' }"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
+                    Edit
+                </button>
+                <form method="POST" action="{{ route('delete-program', $programs->id) }}" onsubmit="return confirm('Are you sure?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
+                        Remove
+                    </button>
+                </form>
+            </div>
+        </div>
+        @endforeach
+        @endforeach
+    </div>
+
+    <!-- Program Form (Add/Edit) Modal -->
+    <div x-show="showForm" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg shadow-md w-96">
+            <h2 x-text="formType === 'add' ? 'Add Program' : 'Edit Program'" class="text-xl font-semibold mb-4"></h2>
+
+            <form :action="formType === 'add' ? '{{ route('add-program') }}' : '{{ route('update-program') }}'" method="POST">
+                @csrf
+                <template x-if="formType === 'edit'">
+                    <input type="hidden" name="id" x-model="form.id">
+                </template>
+
+                <label class="block mb-2">Program Name:</label>
+                <input type="text" name="name" x-model="form.name" required class="w-full p-2 border rounded-md mb-2">
+
+                <label class="block mb-2">Abbreviation:</label>
+                <input type="text" name="abbreviation" x-model="form.abbreviation" required class="w-full p-2 border rounded-md mb-2">
+
+                <label class="block mb-2">College:</label>
+                <select name="college_id" x-model="form.college_id" required class="w-full p-2 border rounded-md mb-4">
+                    @foreach ($college as $colleges)
+                        <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+                    @endforeach
+                </select>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" @click="showForm = false" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div x-show="activeTab === 'colleges'" x-data="{ openAddModal: false, openEditModal: false, selectedCollege: {} }" class="p-4 border rounded-md shadow-md bg-white">
+        <!-- Add College Button -->
+        <button @click="openAddModal = true" class="bg-green-600 text-white px-4 py-2 mb-4 rounded-md hover:bg-green-700">
+            Add College
+        </button>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             @foreach ($college as $colleges)
             <div class="bg-white rounded shadow-lg p-4 relative mb-4">
                 <p><strong>Name:</strong> {{ $colleges->name }}</p>
+
+                <!-- Edit Button -->
+                <button @click="openEditModal = true; selectedCollege = {{ json_encode($colleges) }}"
+                    class="bg-gray-800 text-white px-4 py-2 mt-3 rounded-md w-full">
+                    Edit
+                </button>
+
+                <!-- Remove Button -->
+                <form action="{{ route('delete-college', $colleges->id) }}" method="POST" class="mt-2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md w-full hover:bg-red-700"
+                        onclick="return confirm('Are you sure you want to delete this college?')">
+                        Remove
+                    </button>
+                </form>
             </div>
             @endforeach
         </div>
 
+        <!-- Add College Modal -->
+        <div x-show="openAddModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                <h2 class="text-xl font-semibold mb-4">Add College</h2>
+                <form action="{{ route('add-college') }}" method="POST">
+                    @csrf
+                    <label class="block">College Name</label>
+                    <input type="text" name="name" class="w-full border p-2 rounded" required>
+
+                    <div class="flex justify-end mt-4">
+                        <button type="button" @click="openAddModal = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                            Add College
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit College Modal -->
+        <div x-show="openEditModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                <h2 class="text-xl font-semibold mb-4">Edit College</h2>
+                <form action="{{ route('update-college') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <input type="hidden" name="college_id" x-model="selectedCollege.id">
+
+                    <label class="block">College Name</label>
+                    <input type="text" name="name" class="w-full border p-2 rounded" x-model="selectedCollege.name" required>
+
+                    <div class="flex justify-end mt-4">
+                        <button type="button" @click="openEditModal = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Add Alpine.js -->
-    <script src="//unpkg.com/alpinejs" defer></script>
-
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('userForm', () => ({
+                userType: 'students',
+                submitForm() {
+                    let form = this.$refs.addUserForm;
+                    form.action = this.userType === 'students' ? "{{ route('add-student') }}" : "{{ route('add-adviser') }}";
+                    form.submit();
+                }
+            }));
+        });
+    </script>
     @endsection
