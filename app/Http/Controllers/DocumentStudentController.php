@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Student;
+use App\Models\Adviser;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -114,17 +115,14 @@ class DocumentStudentController extends Controller
     {
         $advisers = DB::table('adviser')
             ->join('users', 'adviser.user_id', '=', 'users.id')
-            ->select('adviser.id', 'adviser.first_name', 'adviser.last_name', 'users.email')
+            ->join('college', 'college_id', '=', 'college.id')
+            ->select('adviser.id', 'adviser.first_name', 'adviser.last_name', 'users.email', 'college.name as college')
             ->get();
 
         return $advisers;
-    }
-    public function fetchCollege()
+    }public function fetchCollege()
     {
-        $college = DB::table('college')
-            ->select('id', 'name')
-            ->get();
-
+        $college = College::with('program')->get(); // Load programs within each college
         return $college;
     }
     public function fetchProgram()
@@ -146,6 +144,16 @@ class DocumentStudentController extends Controller
         $student->save();
     
         return redirect()->back()->with('success', 'Student updated successfully!');
+    }
+
+    public function updateAdviser(Request $request) {
+        $adviser = Adviser::findOrFail($request->adviser_id);
+        $adviser->first_name = $request->first_name;
+        $adviser->last_name = $request->last_name;
+        $adviser->college_id = $request->college_id;
+        $adviser->save();
+    
+        return redirect()->back()->with('success', 'Adviser updated successfully!');
     }
 
     public function filterProgram(Request $request) {

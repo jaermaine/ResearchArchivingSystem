@@ -79,6 +79,7 @@ Route::get('/admin-dashboard', [AdminController::class, 'fetchStudents'])->name(
 Route::put('/admin/edit/{id}', action: [DocumentStatusController::class, 'admin_edit'])->name('admin-edit');
 Route::delete('/admin/delete/{id}', action: [DocumentStatusController::class, 'admin_delete'])->name('admin-delete');
 Route::put('/update-student', [DocumentStudentController::class, 'updateStudent'])->name('update-student');
+Route::put('/update-adviser', [DocumentStudentController::class, 'updateAdviser'])->name('update-adviser');
 Route::get('/filter-programs', [DocumentStudentController::class, 'filterProgram'])->name('filter-programs');
 
 require __DIR__ . '/auth.php';
