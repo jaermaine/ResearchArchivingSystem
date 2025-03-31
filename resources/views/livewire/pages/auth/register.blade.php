@@ -50,8 +50,7 @@ new #[Layout('layouts.guest')] class extends Component
                 ->mixedCase()
                 ->symbols()
                 ->numbers()],
-            'role' => ['required', 'in:student,faculty'],
-                        //'program_id' => ['required', 'exists:program,id'], // Add department_id validation
+            'role' => ['required', 'in:student,adviser'],
         ]);
 
 
