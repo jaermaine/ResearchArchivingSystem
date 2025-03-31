@@ -1,5 +1,5 @@
 @section('content')
-<div class="grid gap-6 lg:grid-cols-1 lg:gap-8">
+<div class="grid gap-6 lg:grid-cols-1 lg:gap-8 rounded-md shadow border border-[#ffcccc]">
     <a
         id="docs-card"
         class="flex flex-col lg:flex-row items-start gap-4 p-6 bg-white rounded-md shadow-lg ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20]">
