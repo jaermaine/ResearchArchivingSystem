@@ -14,6 +14,7 @@ use App\Http\Controllers\SearchDocumentsController;
 use App\Http\Controllers\DocumentInformationPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -73,10 +74,26 @@ Route::post('/settings/update-name', [SettingsController::class, 'updateName'])-
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::post('/settings/update-profile-picture', [SettingsController::class, 'updateProfilePicture'])->name('settings.updateProfilePicture');
 
-Route::get('/admin', [AdminController::class, 'setTableForAdmin'])->name('admin.dashboard');
+Route::get('/admin-dashboard', [AdminController::class, 'fetchStudents'])->name('admin-dashboard');
 
 Route::put('/admin/edit/{id}', action: [DocumentStatusController::class, 'admin_edit'])->name('admin-edit');
-
 Route::delete('/admin/delete/{id}', action: [DocumentStatusController::class, 'admin_delete'])->name('admin-delete');
+Route::put('/update-student', [DocumentStudentController::class, 'updateStudent'])->name('update-student');
+Route::put('/update-adviser', [DocumentStudentController::class, 'updateAdviser'])->name('update-adviser');
+Route::get('/filter-programs', [DocumentStudentController::class, 'filterProgram'])->name('filter-programs');
+
+Route::post('/colleges/add', [DocumentStudentController::class, 'storeCollege'])->name('add-college');
+Route::put('/colleges/update', [DocumentStudentController::class, 'updateCollege'])->name('update-college');
+Route::delete('/colleges/{id}/delete', [DocumentStudentController::class, 'destroyCollege'])->name('delete-college');
+
+Route::post('/programs/add', [DocumentStudentController::class, 'storeProgram'])->name('add-program');
+Route::put('/programs/update', [DocumentStudentController::class, 'updateProgram'])->name('update-program');
+Route::delete('/programs/{id}/delete', [DocumentStudentController::class, 'destroyProgram'])->name('delete-program');
+
+Route::post('/students/add', [DocumentStudentController::class, 'storeStudent'])->name('add-student');
+Route::delete('/students/{id}/delete', [DocumentStudentController::class, 'destroyStudent'])->name('delete-student');
+
+Route::post('/advisers/add', [DocumentStudentController::class, 'storeAdviser'])->name('add-adviser');
+Route::delete('/advisers/{id}/delete', [DocumentStudentController::class, 'destroyAdviser'])->name('delete-adviser');
 
 require __DIR__ . '/auth.php';

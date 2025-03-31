@@ -33,6 +33,6 @@ class College extends Model
 
     public function program(): HasMany
     {
-        return $this->hasMany(Program::class);
+        return $this->hasMany(Program::class, 'college_id', 'id');    
     }
 }
