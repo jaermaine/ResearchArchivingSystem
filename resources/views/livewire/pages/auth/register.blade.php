@@ -42,15 +42,15 @@ new #[Layout('layouts.guest')] class extends Component
     public function register(): void
     {
         $validated = $this->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'suffix' => ['nullable', 'string', 'max:255'], // Ensure suffix validation
+            'first_name' => ['required', 'string', 'max:30'],
+            'last_name' => ['required', 'string', 'max:30'],
+            'suffix' => ['nullable', 'string', 'max:30'], // Ensure suffix validation
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)
                 ->mixedCase()
                 ->symbols()
                 ->numbers()],
-            'role' => ['required', 'in:student,faculty'],
+            'role' => ['required', 'in:student,adviser'],
                         //'program_id' => ['required', 'exists:program,id'], // Add department_id validation
         ]);
 
