@@ -96,4 +96,14 @@ Route::delete('/students/{id}/delete', [DocumentStudentController::class, 'destr
 Route::post('/advisers/add', [DocumentStudentController::class, 'storeAdviser'])->name('add-adviser');
 Route::delete('/advisers/{id}/delete', [DocumentStudentController::class, 'destroyAdviser'])->name('delete-adviser');
 
+Route::get('settings/edit-academic', [SettingsController::class, 'edit_academic'])->name('edit_academic');
+Route::post('settings/update-academic', [SettingsController::class, 'update_academic'])->name('update_academic');
+Route::get('settings/back', [SettingsController::class, 'back'])->name('back');
+
+Route::get('settings/edit-profile', [SettingsController::class, 'edit_profile'])->name('edit_profile');
+Route::post('settings/update-profile', [SettingsController::class, 'update_profile'])->name('update_profile');
+
+Route::get('settings/edit-password', [SettingsController::class, 'edit_password'])->name('edit_password');
+Route::post('settings/update-password', [SettingsController::class, 'update_password'])->name('update_password');
+
 require __DIR__ . '/auth.php';
