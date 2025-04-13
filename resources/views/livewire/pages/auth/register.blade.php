@@ -9,6 +9,7 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\DB;
+use App\Rules\ValidEmail;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -45,7 +46,7 @@ new #[Layout('layouts.guest')] class extends Component
             'first_name' => ['required', 'string', 'max:30'],
             'last_name' => ['required', 'string', 'max:30'],
             'suffix' => ['nullable', 'string', 'max:30'], // Ensure suffix validation
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, new ValidEmail],
             'password' => ['required', 'string', 'confirmed', Rules\Password::min(8)
                 ->mixedCase()
                 ->symbols()
