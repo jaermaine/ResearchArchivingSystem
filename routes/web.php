@@ -37,9 +37,11 @@ Route::get('document/info/{id?}', [SearchDocumentsController::class, 'document_i
 
 Route::view('/', 'welcome')->name('home');
 
-Route::get('/welcome', function () {
+Route::get('/welcome', function (){
+    Session::forget('selectedCategory');
     return view('welcome');
-})->name('welcome');
+}
+)->name('welcome');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
