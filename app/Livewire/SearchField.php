@@ -20,8 +20,7 @@ class SearchField extends Component
     {
         //store values remains the same after reloading/proceeding to another page
         session([
-            'selectedCategory' => $this->selectedCategory,
-            'searchInput' => $this->searchInput,
+            'selectedCategory' => $this->selectedCategory
         ]);
 
         return redirect()->route('search.documents', [
