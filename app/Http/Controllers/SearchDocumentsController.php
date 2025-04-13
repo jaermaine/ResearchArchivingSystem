@@ -9,27 +9,28 @@ class SearchDocumentsController extends Controller
 {
     public function search_document(Request $request)
     {
+        $validated = $request->validate([
+            'search_input' => 'nullable|string|max:255',
+            'category' => 'nullable|string|in:title,author,keyword,program,date',
+        ]);
+        
         $searchInput = $request->input('search_input', '');
         $category = $request->input('category', '');
 
         $query = DB::table('documents')
             ->join('document_student', 'documents.id', '=', 'document_student.document_id')
             ->join('student', 'document_student.student_id', '=', 'student.id')
+            ->join('program', 'documents.program_id', '=', 'program.id')
             ->where('document_status_id', '=', 2);
-
-        // If no category is selected, fetch all documents
-        if (!$category) {
-            $searchResults = $query->select(
-                'documents.id',
-                'documents.title',
-                'student.first_name',
-                'student.last_name',
-                'documents.keyword'
-            )->get();
-
-            $hasResults = count($searchResults);
-
-            return view('layouts.search-results', compact('searchResults', 'hasResults'));
+        
+        if(!$category && $searchInput){
+            $query
+                ->where('documents.title', 'like', '%' . $searchInput . '%')
+                ->orWhere(DB::raw("CONCAT(student.first_name, ' ', student.last_name)"), 'like', '%' . $searchInput . '%')
+                ->orWhere('documents.keyword', 'like', '%' . $searchInput . '%')
+                ->orWhere('documents.abstract', 'like', '%' . $searchInput . '%')
+                ->orWhere('program.name', 'like', '%' . $searchInput . '%')
+                ->orWhere('documents.created_at', 'like', '%' . $searchInput . '%');
         }
 
         // Apply category-specific filters if a category is selected
@@ -45,7 +46,7 @@ class SearchDocumentsController extends Controller
                     $query->where('documents.keyword', 'like', '%' . $searchInput . '%');
                     break;
                 case 'program':
-                    $query->join('program', 'documents.program_id', '=', 'program.id')
+                    $query
                     ->where('program.name', 'like', '%' . $searchInput . '%');
                     break;
                 case 'date':
