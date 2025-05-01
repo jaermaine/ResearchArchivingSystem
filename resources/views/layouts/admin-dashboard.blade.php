@@ -285,8 +285,8 @@
         </div>
         <!-- Add User Modal -->
         <div x-show="openAddModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
-        x-data="{
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
+                x-data="{
             filteredPrograms: [],
             updatePrograms() {
                 if (!this.newUser.college_id) return;
@@ -300,159 +300,252 @@
                 return this.userType === 'students' ? '{{ route('add-student') }}' : '{{ route('add-adviser') }}';
             }
         }"
-        x-init="updatePrograms()"
-    >
-        <h2 class="text-xl font-semibold mb-4">
-            Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
-        </h2>
-
-        <form method="POST" x-bind:action="formAction" x-ref="addUserForm">
-            @csrf
-            <input type="hidden" name="user_type" x-model="userType">
-
-            <!-- First Name -->
-            <label class="block">First Name</label>
-            <input type="text" name="first_name" class="w-full border p-2 rounded" x-model="newUser.first_name" required>
-
-            <!-- Last Name -->
-            <label class="block mt-2">Last Name</label>
-            <input type="text" name="last_name" class="w-full border p-2 rounded" x-model="newUser.last_name" required>
-
-            <!-- Email -->
-            <label class="block mt-2">Email</label>
-            <input type="email" name="email" class="w-full border p-2 rounded" x-model="newUser.email" required>
-
-            <!-- Section & Year Level (Only for Students) -->
-            <template x-if="userType === 'students'">
-                <div>
-                    <label class="block mt-2">Section</label>
-                    <input type="text" name="section" class="w-full border p-2 rounded" x-model="newUser.section">
-
-                    <label class="block mt-2">Year Level</label>
-                    <input type="text" name="year_level" class="w-full border p-2 rounded" x-model="newUser.year_level">
-                </div>
-            </template>
-
-            <!-- College Selection -->
-            <label class="block mt-2">College</label>
-            <select name="college_id" class="w-full border p-2 rounded" x-model="newUser.college_id" @change="updatePrograms()">
-                <option value="" disabled selected>Select a College</option>
-                @foreach($college as $colleges)
-                <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
-                @endforeach
-            </select>
-
-            <!-- Program Selection (Only for Students) -->
-            <template x-show="userType === 'students'">
-                <div>
-                    <label class="block mt-2">Program</label>
-                    <select name="program_id" class="w-full border p-2 rounded" x-model="newUser.program_id">
-                        <option value="" disabled selected>Select a Program</option>
-                        <template x-for="program in filteredPrograms" :key="program.id">
-                            <option :value="program.id" x-text="program.name"></option>
-                        </template>
-                    </select>
-                </div>
-            </template>
-
-            <!-- Modal Buttons -->
-            <div class="flex justify-end mt-4">
-                <button type="button" @click="openAddModal = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">
-                    Cancel
-                </button>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                x-init="updatePrograms()">
+                <h2 class="text-xl font-semibold mb-4">
                     Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-    </div>
+                </h2>
 
-    <div x-show="activeTab === 'programs'" 
-     x-data="{ selectedCollege: '', showForm: false, formType: '', form: { id: '', name: '', abbreviation: '', college_id: '' } }" 
-     class="p-4 border rounded-md shadow-md bg-white">
-    
-    <!-- College Selection -->
-    <div class="mb-4">
-        <select x-model="selectedCollege" class="w-full p-2 border rounded-md">
-            <option value="">Show All</option>
-            @foreach ($college as $colleges)
-                <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <!-- Add Program Button -->
-    <button @click="showForm = true; formType = 'add'; form = { id: '', name: '', abbreviation: '', college_id: '' }"
-        class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
-        + Add Program
-    </button>
-
-    <!-- Programs List -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        @foreach ($college as $colleges)
-        @foreach ($colleges->program as $programs)
-        <div x-show="selectedCollege === '' || selectedCollege == {{ $colleges->id }}" class="bg-white rounded-md shadow-md p-4 border">
-            <p class="text-lg font-semibold">{{ $programs->name }}</p>
-            <p class="text-gray-600">Abbreviation: <span class="font-medium">{{ $programs->abbreviation }}</span></p>
-
-            <div class="mt-3 flex gap-2">
-                <button @click="showForm = true; formType = 'edit'; form = { id: '{{ $programs->id }}', name: '{{ $programs->name }}', abbreviation: '{{ $programs->abbreviation }}', college_id: '{{ $colleges->id }}' }"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
-                    Edit
-                </button>
-                <form method="POST" action="{{ route('delete-program', $programs->id) }}" onsubmit="return confirm('Are you sure?')">
+                <form method="POST" x-bind:action="formAction" x-ref="addUserForm">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
-                        Remove
-                    </button>
+                    <input type="hidden" name="user_type" x-model="userType">
+
+                    <!-- First Name -->
+                    <label class="block">First Name</label>
+                    <input type="text" name="first_name" class="w-full border p-2 rounded" x-model="newUser.first_name" required>
+
+                    <!-- Last Name -->
+                    <label class="block mt-2">Last Name</label>
+                    <input type="text" name="last_name" class="w-full border p-2 rounded" x-model="newUser.last_name" required>
+
+                    <!-- Email -->
+                    <label class="block mt-2">Email</label>
+                    <input type="email" name="email" class="w-full border p-2 rounded" x-model="newUser.email" required>
+
+                    <!-- Section & Year Level (Only for Students) -->
+                    <template x-if="userType === 'students'">
+                        <div>
+                            <label class="block mt-2">Section</label>
+                            <input type="text" name="section" class="w-full border p-2 rounded" x-model="newUser.section">
+
+                            <label class="block mt-2">Year Level</label>
+                            <input type="text" name="year_level" class="w-full border p-2 rounded" x-model="newUser.year_level">
+                        </div>
+                    </template>
+
+                    <!-- College Selection -->
+                    <label class="block mt-2">College</label>
+                    <select name="college_id" class="w-full border p-2 rounded" x-model="newUser.college_id" @change="updatePrograms()">
+                        <option value="" disabled selected>Select a College</option>
+                        @foreach($college as $colleges)
+                        <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <!-- Program Selection (Only for Students) -->
+                    <template x-show="userType === 'students'">
+                        <div>
+                            <label class="block mt-2">Program</label>
+                            <select name="program_id" class="w-full border p-2 rounded" x-model="newUser.program_id">
+                                <option value="" disabled selected>Select a Program</option>
+                                <template x-for="program in filteredPrograms" :key="program.id">
+                                    <option :value="program.id" x-text="program.name"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <!-- Modal Buttons -->
+                    <div class="flex justify-end mt-4">
+                        <button type="button" @click="openAddModal = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                            Add <span x-text="userType === 'students' ? 'Student' : 'Adviser'"></span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
-        @endforeach
-        @endforeach
     </div>
 
-    <!-- Program Form (Add/Edit) Modal -->
-    <div x-show="showForm" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg shadow-md w-96">
-            <h2 x-text="formType === 'add' ? 'Add Program' : 'Edit Program'" class="text-xl font-semibold mb-4"></h2>
+    <div x-show="activeTab === 'programs'"
+        x-data="{ 
+        selectedCollege: '', 
+        showForm: false, 
+        formType: '', 
+        form: { id: '', name: '', abbreviation: '', college_id: '' },
+        currentPage: 1,
+        itemsPerPage: 6,
+        get filteredPrograms() {
+            let programs = [];
+            @foreach ($college as $colleges)
+                @foreach ($colleges->program as $program)
+                    if(this.selectedCollege === '' || this.selectedCollege == {{ $colleges->id }}) {
+                        programs.push({
+                            id: {{ $program->id }},
+                            name: '{{ $program->name }}',
+                            abbreviation: '{{ $program->abbreviation }}',
+                            college_id: {{ $colleges->id }},
+                            college_name: '{{ $colleges->name }}'
+                        });
+                    }
+                @endforeach
+            @endforeach
+            return programs;
+        },
+        get totalPages() {
+            return Math.ceil(this.filteredPrograms.length / this.itemsPerPage);
+        },
+        get paginatedPrograms() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredPrograms.slice(start, end);
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+            }
+        }
+     }"
+        class="p-4 border rounded-md shadow-md bg-white">
 
-            <form :action="formType === 'add' ? '{{ route('add-program') }}' : '{{ route('update-program') }}'" method="POST">
-                @csrf
-                <template x-if="formType === 'edit'">
-                    <input type="hidden" name="id" x-model="form.id">
-                </template>
+        <!-- College Selection -->
+        <div class="mb-4">
+            <select x-model="selectedCollege" @change="currentPage = 1" class="w-full p-2 border rounded-md">
+                <option value="">Show All</option>
+                @foreach ($college as $colleges)
+                <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                <label class="block mb-2">Program Name:</label>
-                <input type="text" name="name" x-model="form.name" required class="w-full p-2 border rounded-md mb-2">
+        <!-- Add Program Button -->
+        <button @click="showForm = true; formType = 'add'; form = { id: '', name: '', abbreviation: '', college_id: '' }"
+            class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+            + Add Program
+        </button>
 
-                <label class="block mb-2">Abbreviation:</label>
-                <input type="text" name="abbreviation" x-model="form.abbreviation" required class="w-full p-2 border rounded-md mb-2">
+        <!-- Programs List -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <template x-for="program in paginatedPrograms" :key="program.id">
+                <div class="bg-white rounded-md shadow-md p-4 border">
+                    <p class="text-lg font-semibold" x-text="program.name"></p>
+                    <p class="text-gray-600">Abbreviation: <span class="font-medium" x-text="program.abbreviation"></span></p>
+                    <p class="text-gray-500 text-sm">College: <span x-text="program.college_name"></span></p>
 
-                <label class="block mb-2">College:</label>
-                <select name="college_id" x-model="form.college_id" required class="w-full p-2 border rounded-md mb-4">
-                    @foreach ($college as $colleges)
-                        <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
-                    @endforeach
-                </select>
-
-                <div class="flex justify-end gap-2">
-                    <button type="button" @click="showForm = false" 
-                        class="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
-                        Cancel
-                    </button>
-                    <button type="submit" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
-                        Save
-                    </button>
+                    <div class="mt-3 flex gap-2">
+                        <button @click="showForm = true; formType = 'edit'; form = { 
+                            id: program.id, 
+                            name: program.name, 
+                            abbreviation: program.abbreviation, 
+                            college_id: program.college_id 
+                        }"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
+                            Edit
+                        </button>
+                        <form :action="'/admin/delete-program/' + program.id" method="POST" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-1 rounded-md transition duration-200">
+                                Remove
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </template>
+        </div>
+
+        <!-- Empty state message when no programs match the filter -->
+        <div x-show="filteredPrograms.length === 0" class="text-center py-8 text-gray-500">
+            <p>No programs found. Please add a new program or change the college filter.</p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex items-center justify-between mt-6" x-show="filteredPrograms.length > 0">
+            <div class="text-sm text-gray-700">
+                Showing <span x-text="((currentPage - 1) * itemsPerPage) + 1"></span>
+                to <span x-text="Math.min(currentPage * itemsPerPage, filteredPrograms.length)"></span>
+                of <span x-text="filteredPrograms.length"></span> programs
+            </div>
+
+            <div class="flex space-x-2">
+                <!-- Previous Button -->
+                <button @click="prevPage()"
+                    :disabled="currentPage === 1"
+                    :class="{'opacity-50 cursor-not-allowed': currentPage === 1}"
+                    class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition">
+                    Previous
+                </button>
+
+                <!-- Page Numbers -->
+                <div class="flex space-x-1">
+                    <template x-for="page in totalPages" :key="page">
+                        <button @click="goToPage(page)"
+                            :class="{'bg-[#800000] text-white': currentPage === page, 'bg-gray-200 hover:bg-gray-300': currentPage !== page}"
+                            class="px-3 py-1 rounded-md transition">
+                            <span x-text="page"></span>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Next Button -->
+                <button @click="nextPage()"
+                    :disabled="currentPage === totalPages"
+                    :class="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
+                    class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Program Form (Add/Edit) Modal -->
+        <div x-show="showForm" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-md w-96">
+                <h2 x-text="formType === 'add' ? 'Add Program' : 'Edit Program'" class="text-xl font-semibold mb-4"></h2>
+
+                <form :action="formType === 'add' ? '{{ route('add-program') }}' : '{{ route('update-program') }}'" method="POST">
+                    @csrf
+                    <template x-if="formType === 'edit'">
+                        <input type="hidden" name="id" x-model="form.id">
+                    </template>
+
+                    <label class="block mb-2">Program Name:</label>
+                    <input type="text" name="name" x-model="form.name" required class="w-full p-2 border rounded-md mb-2">
+
+                    <label class="block mb-2">Abbreviation:</label>
+                    <input type="text" name="abbreviation" x-model="form.abbreviation" required class="w-full p-2 border rounded-md mb-2">
+
+                    <label class="block mb-2">College:</label>
+                    <select name="college_id" x-model="form.college_id" required class="w-full p-2 border rounded-md mb-4">
+                        @foreach ($college as $colleges)
+                        <option value="{{ $colleges->id }}">{{ $colleges->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <div class="flex justify-end gap-2">
+                        <button type="button" @click="showForm = false"
+                            class="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition duration-200">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
     <div x-show="activeTab === 'colleges'" x-data="{ openAddModal: false, openEditModal: false, selectedCollege: {} }" class="p-4 border rounded-md shadow-md bg-white">
         <!-- Add College Button -->
