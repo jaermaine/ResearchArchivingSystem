@@ -13,15 +13,13 @@ class SearchField extends Component
     {
         //selected values will remain the same
         $this->selectedCategory = session('selectedCategory', '');
-        $this->searchInput = session('searchInput', '');
     }
 
     public function search()
     {
         //store values remains the same after reloading/proceeding to another page
         session([
-            'selectedCategory' => $this->selectedCategory,
-            'searchInput' => $this->searchInput,
+            'selectedCategory' => $this->selectedCategory
         ]);
 
         return redirect()->route('search.documents', [
