@@ -29,6 +29,9 @@ class SettingsController extends Controller
         $student = Student::where('user_id', $userId)->first();
         $adviser = Adviser::where('user_id', $userId)->first();
 
+        // Profile picture
+        $profile_picture = $user->profile_picture;
+
         // Set first name and last name based on user type
         if ($student) {
             $first_name = $student->first_name;
@@ -37,6 +40,16 @@ class SettingsController extends Controller
             $program = Program::where('id', $student->program_id)->first();
             $year = Year::where('id', $student->year_id)->first();
             $section = Section::where('id', $student->section_id)->first();
+
+            $information = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'college' => $college,
+                'program' => $program,
+                'year' => $year,
+                'section' => $section,
+                'profile_picture' => $profile_picture,
+            ];
         } elseif ($adviser) {
             $first_name = $adviser->first_name;
             $last_name = $adviser->last_name;
@@ -44,11 +57,21 @@ class SettingsController extends Controller
             $program = Program::where('id', $adviser->program_id)->first();
             $year = null;
             $section = null;
+
+            $information = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'college' => $college,
+                'program' => $program,
+                'year' => null,
+                'section' => null,
+                'profile_picture' => $profile_picture,
+            ];
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
         }
 
-        return view('layouts.settings', compact('user', 'email', 'first_name', 'last_name', 'user', 'college', 'program', 'year', 'section'));
+        return view('layouts.settings', compact('information', 'email', 'first_name', 'last_name', 'college', 'program', 'year', 'section'));
     }
 
     public function updateProfilePicture(Request $request)
