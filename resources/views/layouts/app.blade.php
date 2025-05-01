@@ -6,9 +6,6 @@ use App\Models\Documents;
 
 new class extends Component
 {
-    public string $title = '';
-    public string $abstract = '';
-    public string $adviser = '';
     /**
      * Log the current user out of the application.
      */
@@ -47,19 +44,6 @@ new class extends Component
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        function openModal() {
-            document.getElementById('modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
-            document.getElementById('title').value = '';
-            document.getElementById('abstract').value = '';
-            document.getElementById('field_topic').value = '';
-            document.getElementById('adviser').value = '';
-        }
-    </script>
 </head>
 
 <body class="font-sans antialiased" style="background-image: url('/background.png'); background-size: cover; background-position: center;">
@@ -70,14 +54,14 @@ new class extends Component
 
                 <body class="font-sans antialiased" style="background-image: url('/background.png'); background-size: cover; background-position: center;">
                     <div class="text-black/50">
-                        
+
                         <!-- Added white header box with shadow -->
                         <div class="w-full bg-white fixed top-0 left-0 right-0 p-2 z-10" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
                             <div class="container mx-auto px-2 py-3">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
                                         <a href="/welcome" class="text-xl font-bold text-[#b30000]">
-                                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="img/lpuc-logo.png" alt="LPU Logo" />
+                                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="{{ asset('img/lpuc-logo.png') }}" alt="LPU Logo" />
                                         </a>
                                     </div>
                                     <!-- You can add navigation or other header elements here -->
