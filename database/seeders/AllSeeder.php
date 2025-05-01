@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Year;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,8 @@ class AllSeeder extends Seeder
         $this->call([
             CollegeSeeder::class,
             ProgramSeeder::class,
+            YearSeeder::class,
+            SectionSeeder::class,
             DocumentStatusSeeder::class,
             DocumentSeeder::class,
             UserSeeder::class,

@@ -16,7 +16,7 @@ class CollegeSeeder extends Seeder
         $colleges = [
             'College of Allied Medical Sciences',
             'College of Liberal Arts and Education',
-            'College of Business Administration)',
+            'College of Business Administration',
             'College of Engineering, Computer Studies and Architecture',
             'College of Fine Arts and Design',
             'College of International Tourism and Hospitality Management',

@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('section', function (Blueprint $table) {
             $table->id()->primary();
-            $table->foreignId('program_id')->constrained('program');
-            $table->foreignId('year_id')->constrained('year');
             $table->string('section_number');
             $table->timestamps();
         });
