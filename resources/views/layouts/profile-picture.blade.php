@@ -1,15 +1,23 @@
 @php
-    // Extract the user data from the passed variable
-    // Default to empty if not passed
-    $user = $user ?? null;
+    $user = (object) $user;
+
+    $profile_picture = $user->profile_picture ?? null;
+
+    Log::info('User Profile Picture:', ['profile_picture' => $profile_picture]);
     
+    // Get user name for avatar
+    $userName = '';
+    if ($user && isset($user->first_name) && isset($user->last_name)) {
+        $userName = $user->first_name . ' ' . $user->last_name;
+    }
+
     // Generate avatar URL
-    if ($user && $user->profile_picture) {
+    if ($user && !empty($user->profile_picture)) {
+        Log::info('Profile picture found:', ['profile_picture' => $user->profile_picture]);
         $imageUrl = asset('storage/profile_pictures/' . $user->profile_picture);
-    } elseif ($user) {
-        $imageUrl = 'https://ui-avatars.com/api/?name='.urlencode($user->first_name.' '.$user->last_name).'&background=800000&color=ffffff&size=150';
     } else {
-        $imageUrl = 'https://ui-avatars.com/api/?name=User&background=800000&color=ffffff&size=150';
+        Log::info('No profile picture found, using avatar:', ['userName' => $userName]);
+        $imageUrl = 'https://ui-avatars.com/api/?name=' . urlencode($userName) . '&background=800000&color=ffffff&size=150';
     }
 @endphp
 
@@ -18,6 +26,7 @@
         <img 
             src="{{ $imageUrl }}"
             alt="User profile image"
+            title="{{ $user->first_name ?? 'User' }} {{ $user->last_name ?? 'User' }}"
             class="absolute inset-0 w-full h-full rounded-full shadow-md object-cover"
             onerror="this.src='https://ui-avatars.com/api/?name=User&background=800000&color=ffffff&size=150'">
     </div>

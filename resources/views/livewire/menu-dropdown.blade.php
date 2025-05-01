@@ -20,10 +20,10 @@
             <!-- User Info -->
             <div class="px-4 py-3 border-b border-gray-100">
                 <div class="h-12 w-12 rounded-full overflow-hidden">
-                    @include('layouts/profile-picture')
+                    @include('layouts/profile-picture', ['user' => $information])
                 </div>
                 <div class="text-sm font-medium text-gray-900">{{ "{$first_name} {$last_name}" }}</div>
-                <div class="text-xs text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="text-xs text-gray-500">{{ $user->email }}</div>
             </div>
 
             <!-- Navigation Links -->
