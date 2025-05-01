@@ -16,15 +16,15 @@
 </head>
 
 <body class="antialiased font-sans">
-        <div class="bg-gray-50 text-black/50">
+    <div class="min-h-screen bg-gray-50 text-black/50 flex flex-col">
 
-        <!-- FIXED HEADER - always stays at top -->
-        <div class="w-full bg-white fixed top-0 left-0 right-0 p-2 z-20" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-            <div class="container mx-auto px-2 py-3">
-                <div class="flex items-center justify-between">
+        <!-- FIXED HEADER - responsive for all devices -->
+        <div class="w-full bg-white fixed top-0 left-0 right-0 z-20" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="container mx-auto px-4 py-2">
+                <div class="flex items-center justify-between relative">
                     <div class="flex items-center">
                         <a href="/welcome" class="text-xl font-bold text-[#b30000]">
-                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="{{ asset('img/lpuc-logo.png') }}" alt="LPU Logo" />
+                            <img class="w-[120px] h-auto sm:w-[150px] md:w-[190px]" src="{{ asset('img/lpuc-logo.png') }}" alt="LPU Logo" />
                         </a>
                     </div>
                     @if (Route::has('login'))
@@ -34,25 +34,31 @@
             </div>
         </div>
 
-        <!-- SEARCH BAR - scrolls with the page -->
+
+
+        <!-- SEARCH BAR - responsive positioning -->
         @if (Route::currentRouteName() != 'document-info')
-        <div class="w-full bg-gray-50 relative top-[120px] sm:top-[150px] sm:left-[140px] right-0 z-10 py-4">
-            <div class="container mx-auto">
+        <div class="w-full bg-gray-50 pt-[80px] sm:pt-[100px] md:pt-[120px] pb-4 px-4">
+            <div class="container mx-auto max-w-6xl">
                 <livewire:search-field />
             </div>
         </div>
         @endif
 
-        <!-- MAIN CONTENT - scrollable area with appropriate padding -->
-        <div class="container mx-auto pt-[180px] sm:pt-[200px] pb-16 md:w-[1250px] overflow-hidden">
+        <!-- MAIN CONTENT - responsive container -->
+        <div class="flex-grow container mx-auto px-4 pt-4 pb-16 sm:pb-20 @if(Route::currentRouteName() == 'document-info') pt-[80px] sm:pt-[100px] md:pt-[120px] @endif">
             @yield('content')
         </div>
 
-        <!-- FIXED FOOTER -->
-        <div class="fixed bottom-0 left-0 right-0 py-4 bg-white text-center text-sm text-black z-10" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
-            Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
+        <!-- FIXED FOOTER - responsive for all devices -->
+        <div class="fixed bottom-0 left-0 right-0 py-3 sm:py-4 bg-white text-center text-xs sm:text-sm text-black z-10" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="container mx-auto px-4">
+                Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
+            </div>
         </div>
     </div>
+
+
 </body>
 
 </html>
