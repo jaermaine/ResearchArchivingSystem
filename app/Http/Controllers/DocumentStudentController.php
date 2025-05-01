@@ -65,7 +65,7 @@ class DocumentStudentController extends Controller
             ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.keyword', 
             'document_statuses.name', 'student.first_name', 'student.last_name', 'documents.document_status_id')
             ->where('adviser_id', '=', $adviser_id)
-            ->get();
+            ->paginate(6);
 
         return $documents;
     }
@@ -84,7 +84,7 @@ class DocumentStudentController extends Controller
             ->select('documents.id', 'documents.title', 'documents.abstract', 'documents.keyword', 
             'document_statuses.name', 'adviser.first_name', 'adviser.last_name')
             ->where('student_id', '=', $student_id)
-            ->get();
+            ->paginate(6);
 
         return $documents;
     }
