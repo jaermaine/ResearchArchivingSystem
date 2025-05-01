@@ -1,66 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>User Management</title>
-</head>
-
-<body>
-  <div>
-    @extends('layouts.app')
-    @section('content')
-
-    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
-      <!-- Header Section -->
-      <div class="flex flex-col items-center space-y-4">
-        <div class="w-24 h-24 rounded-full bg-[#800000] text-white flex items-center justify-center">
-          @include('layouts/profile-picture')
-        </div>
-        <div class="text-center">
-          <h1 class="text-2xl font-bold">{{ "{$first_name} {$last_name}" }}</h1>
-          <p class="text-gray-500 text-sm">{{ $email }}</p>
-        </div>
+@extends('layouts.app')
+@section('content')
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <!-- Profile Section -->
+  <div class="p-6 border-b border-gray-200">
+    <div class="flex flex-col items-center space-y-4">
+      <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#800000] text-white flex items-center justify-center overflow-hidden shadow-md">
+        @include('layouts/profile-picture', ['user' => $information])
       </div>
-
-      <!-- Buttons -->
-      <div class="mt-6 flex justify-center space-x-4">
-        <a href="{{ route('edit_profile') }}" class="bg-[#800000] hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 flex items-center">
-          <i class="fas fa-edit mr-2"></i> Edit Profile
-        </a>
-        <a href="{{ route('edit_password') }}" class="bg-[#800000] hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition duration-300 flex items-center">
-          <i class="fas fa-key mr-2"></i> Change Password
-        </a>
+      <div class="text-center">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{{ "{$first_name} {$last_name}" }}</h1>
+        <p class="text-sm text-gray-600">{{ $email }}</p>
       </div>
+    </div>
 
-      <!-- Information Sections -->
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Personal Information -->
-        <div class="bg-gray-50 p-4 rounded-lg shadow-md">
-          <h2 class="text-lg font-semibold mb-4">Personal Information</h2>
-          <p class="mb-2"><strong>Name:</strong> {{ "{$first_name} {$last_name}" }}</p>
-          <p><strong>Email:</strong> {{ $email }}</p>
+    <!-- Action Buttons -->
+    <div class="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+      <a href="{{ route('edit_profile') }}"
+        class="w-full bg-[#800000] hover:bg-red-700 text-white px-5 py-2 rounded-md shadow-sm transition duration-200 flex items-center justify-center group">
+        <i class="fas fa-edit mr-2 group-hover:scale-110 transition-transform"></i>
+        <span class="text-sm font-medium">Edit Profile</span>
+      </a>
+      <a href="{{ route('edit_password') }}"
+        class="w-full bg-[#800000] hover:bg-red-700 text-white px-5 py-2 rounded-md shadow-sm transition duration-200 flex items-center justify-center group">
+        <i class="fas fa-key mr-2 group-hover:scale-110 transition-transform"></i>
+        <span class="text-sm font-medium">Change Password</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Information Sections -->
+  <div class="p-6 space-y-6">
+    <!-- Personal Information -->
+    <div class="space-y-4">
+      <h2 class="text-lg font-semibold text-gray-800 pb-2 border-b border-gray-200">Personal Information</h2>
+      <div class="space-y-3">
+        <div class="flex flex-col gap-1">
+          <strong class="text-sm text-gray-600">Name</strong>
+          <span class="text-sm text-gray-800">{{ "{$first_name} {$last_name}" }}</span>
         </div>
-
-        <!-- Academic Information -->
-        <div class="bg-gray-50 p-4 rounded-lg shadow-md">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Academic Information</h2>
-            <a href="settings/edit-academic" class="hover:text-red-700 text-red-800 text-sm flex items-center">
-              <i class="fas fa-edit mr-1"></i> Edit
-            </a>
-          </div>
-          <p class="mb-2"><strong>College:</strong> {{ $college->name ?? 'Not set' }}</p>
-          <p class="mb-2"><strong>Program:</strong> {{ $program->name ?? 'Not set' }}</p>
-          <p><strong>Program/Year/Section:</strong>
-            {{ ($program?->abbreviation ?? 'Not set') . '' . ($year?->number ?? '') . '' . ($section?->section_number ?? '') }}
-          </p>
+        <div class="flex flex-col gap-1">
+          <strong class="text-sm text-gray-600">Email</strong>
+          <span class="text-sm text-gray-800 break-all">{{ $email }}</span>
         </div>
       </div>
     </div>
 
-    @endsection
-</body>
-
-</html>
+    <!-- Academic Information -->
+    <div class="space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-800">Academic Information</h2>
+        <a href="settings/edit-academic"
+          class="text-red-800 hover:text-red-700 text-sm flex items-center transition-colors group">
+          <i class="fas fa-edit mr-1 group-hover:scale-110 transition-transform"></i>
+          <span class="font-medium">Edit</span>
+        </a>
+      </div>
+      <div class="space-y-3">
+        <div class="flex flex-col gap-1">
+          <strong class="text-sm text-gray-600">College</strong>
+          <span class="text-sm text-gray-800">{{ $college->name ?? 'Not set' }}</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <strong class="text-sm text-gray-600">Program</strong>
+          <span class="text-sm text-gray-800">{{ $program->name ?? 'Not set' }}</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <strong class="text-sm text-gray-600">Section</strong>
+          <span class="text-sm text-gray-800">
+            {{ ($program?->abbreviation ?? 'Not set') . ' ' . ($year?->number ?? '') . ($section?->section_number ?? '') }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection

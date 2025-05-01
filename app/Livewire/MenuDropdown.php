@@ -20,15 +20,27 @@ class MenuDropdown extends Component
             $student = Student::where('user_id', $user->id)->first();
             $first_name = $student->first_name;
             $last_name = $student->last_name;
+            $information = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'profile_picture' => $user->profile_picture,
+            ];
         } elseif($user->role == 'adviser') {
             $adviser = Adviser::where('user_id', $user->id)->first();
             $first_name = $adviser->first_name;
             $last_name = $adviser->last_name;
+            $information = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'profile_picture' => $user->profile_picture,
+            ];
         } else {
             $userType = 'admin';
         }
 
         return view('livewire.menu-dropdown', [
+            'information' => $information,
+            'user' => $user,
             'first_name' => $first_name ?? null,
             'last_name' => $last_name ?? null,
         ]);

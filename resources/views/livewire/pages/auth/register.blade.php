@@ -83,148 +83,168 @@ new #[Layout('layouts.guest')] class extends Component
 
 @section('title', 'Registration Page')
 
-<div>
+<div class="min-h-screen flex flex-col items-center justify-center -mt-8 sm:-mt-12">
+    <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div>
-        <img class="w-[350px] h-[120px] mx-auto" src="img/lpuc-logo.png" alt="LPU Logo" /> <!-- Reduced logo size -->
+        <!-- Login Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <!-- Logo Section -->
+            <div class="pt-6 pb-4 px-4 border-b border-gray-100 flex justify-center">
+                <img class="w-[280px] h-auto sm:w-[320px]" src="img/lpuc-logo.png" alt="LPU Logo" />
+            </div>
 
-        <form wire:submit="register">
-            @csrf
-            <!-- Personal Information -->
-            <div class="space-y-4">
-                <h3 class="mt-6 text-sm font-medium text-gray-500 uppercase tracking-wider">Personal Information</h3>
+            <div class="bg-white px-8 py-6 sm:p-x-12 shadow-sm rounded-lg">
+                <form wire:submit="register">
+                    @csrf
+                    <!-- Personal Information -->
+                    <div class="space-y-4">
+                        <h3 class="mt-2 text-sm font-medium text-gray-500 uppercase tracking-wider">Personal Information</h3>
 
-                <div class="grid grid-cols-1 gap-4">
-                    <!-- All name fields in same row -->
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <!-- First Name (takes 40% of the row) -->
-                        <div class="w-full md:w-2/5">
-                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                            <input wire:model="first_name" id="first_name" type="text"
-                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
-                                required autofocus>
-                            @error('first_name')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+                        <div class="grid grid-cols-1 gap-4">
+                            <!-- All name fields - responsive stack on mobile, row on larger screens -->
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <!-- First Name (full width on mobile, 40% on larger screens) -->
+                                <div class="w-full sm:w-2/5">
+                                    <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input wire:model="first_name" id="first_name" type="text"
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
+                                        required autofocus>
+                                    @error('first_name')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Last Name (full width on mobile, 40% on larger screens) -->
+                                <div class="w-full sm:w-2/5">
+                                    <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input wire:model="last_name" id="last_name" type="text"
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
+                                        required>
+                                    @error('last_name')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Suffix (full width on mobile, 20% on larger screens) -->
+                                <div class="w-full sm:w-1/5">
+                                    <label for="suffix" class="block text-sm font-medium text-gray-700 mb-1">Suffix</label>
+                                    <input wire:model="suffix" id="suffix" type="text"
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
+                                        placeholder="Jr., Sr., etc.">
+                                    @error('suffix')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
-                        <!-- Last Name (takes 40% of the row) -->
-                        <div class="w-full md:w-2/5">
-                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                            <input wire:model="last_name" id="last_name" type="text"
+                    <!-- Account Information -->
+                    <div class="space-y-4 pt-4">
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Account Information</h3>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input wire:model="email" id="email" type="email"
                                 class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
                                 required>
-                            @error('last_name')
+                            @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Suffix (takes 20% of the row) -->
-                        <div class="w-full md:w-1/5">
-                            <label for="suffix" class="block text-sm font-medium text-gray-700 mb-1">Suffix</label>
-                            <input wire:model="suffix" id="suffix" type="text"
+                        <!-- Password -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input wire:model="password" id="password" type="password"
                                 class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
-                                placeholder="Jr., Sr., etc.">
-                            @error('suffix')
+                                required>
+                            @error('password')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div>
+                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                            <input wire:model="password_confirmation" id="password_confirmation" type="password"
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
+                                required>
+                            @error('password_confirmation')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Account Information -->
-            <div class="space-y-4 pt-4">
-                <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Account Information</h3>
+                    <!-- Role Selection - Responsive Layout -->
+                    <div class="pt-4">
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Account Type</h3>
 
-                <!-- Email -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input wire:model="email" id="email" type="email"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
-                        required>
-                    @error('email')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                        <div class="flex flex-col sm:flex-row gap-3 max-w-xl">
+                            <!-- Student Option -->
+                            <label class="flex-1 flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#800000] hover:bg-red-50 {{ $role === 'student' ? 'ring-1 ring-[#800000] bg-red-50' : '' }}">
+                                <input type="radio" wire:model.live="role" name="role" value="student" class="sr-only">
+                                <div class="flex items-center justify-center w-8 h-8 mr-2 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Student</span>
+                            </label>
 
-                <!-- Password -->
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input wire:model="password" id="password" type="password"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
-                        required>
-                    @error('password')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Confirm Password -->
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                    <input wire:model="password_confirmation" id="password_confirmation" type="password"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#800000] focus:border-[#800000] transition duration-150"
-                        required>
-                    @error('password_confirmation')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <!-- Role Selection - More Compact Design -->
-            <div class="pt-2">
-                <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">Account Type</h3>
-
-                <div class="flex gap-3 max-w-xl">
-                    <!-- Student Option -->
-                    <label class="flex-1 flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#800000] hover:bg-red-50 {{ $role === 'student' ? 'ring-1 ring-[#800000] bg-red-50' : '' }}">
-                        <input type="radio" wire:model.live="role" name="role" value="student" class="sr-only">
-                        <div class="flex items-center justify-center w-8 h-8 mr-2 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                            </svg>
+                            <!-- Adviser Option -->
+                            <label class="flex-1 flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#800000] hover:bg-red-50 {{ $role === 'adviser' ? 'ring-1 ring-[#800000] bg-red-50' : '' }}">
+                                <input type="radio" wire:model.live="role" name="role" value="adviser" class="sr-only">
+                                <div class="flex items-center justify-center w-8 h-8 mr-2 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Adviser</span>
+                            </label>
                         </div>
-                        <span class="text-sm font-medium text-gray-700">Student</span>
-                    </label>
+                        @error('role')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                    <!-- Adviser Option -->
-                    <label class="flex-1 flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-[#800000] hover:bg-red-50 {{ $role === 'adviser' ? 'ring-1 ring-[#800000] bg-red-50' : '' }}">
-                        <input type="radio" wire:model.live="role" name="role" value="adviser" class="sr-only">
-                        <div class="flex items-center justify-center w-8 h-8 mr-2 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    <!-- Register Button -->
+                    <div class="mt-6 mb-2">
+                        <x-primary-button class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#800000] hover:bg-[#6a0000] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#800000] transition duration-150" style="background-color: #800000; color: #FFFFFF;">
+                            {{ __('Register') }}
+                        </x-primary-button>
+                    </div>
+                </form>
+
+                <!-- Card Footer - Responsive Layout -->
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <div class="flex sm:flex-row items-center justify-between gap-4 sm:gap-0">
+                        <a href="/welcome"
+                            class="inline-flex items-center text-sm text-gray-600 hover:text-[#800000] transition duration-150">
+                            <svg class="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6" />
                             </svg>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">Adviser</span>
-                    </label>
+                            Back to Home
+                        </a>
+                        <a href="{{ route('login') }}"
+                            class="inline-flex items-center text-sm text-gray-600 hover:text-[#800000] transition duration-150">
+                            Login
+                            <svg class="ml-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                @error('role')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                </>
             </div>
 
-            <!-- Register Button -->
-            <div class="mt-6 flex items-center justify-end mb-2">
-                <x-primary-button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#800000] hover:bg-[#6a0000] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#800000] transition duration-150" style="background-color: #800000; color: #FFFFFF;">
-                    {{ __('Register') }}
-                </x-primary-button>
+            <!-- FIXED FOOTER with responsive text size -->
+            <div class="fixed bottom-0 left-0 right-0 py-3 px-4 bg-white text-center text-xs sm:text-sm text-black z-10" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
+                Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
             </div>
-        </form>
-        <!-- Card Footer -->
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-            <a href="/welcome" class="inline-flex items-center text-sm text-gray-600 hover:text-[#800000] transition duration-150">
-                <svg class="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
-                </svg>
-                Back to Home
-            </a>
-            <a href="{{ route('login') }}" class="inline-flex items-center text-sm text-gray-600 hover:text-[#800000] transition duration-150">
-                Already have an account?
-                <svg class="ml-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                </svg>
-            </a>
         </div>
     </div>
-</div>

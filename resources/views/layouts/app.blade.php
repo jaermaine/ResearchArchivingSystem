@@ -80,16 +80,13 @@ new class extends Component
                             </div>
                         </header>
 
-                        <main class="mt-6">
-                            <div class="container mx-auto p-6">
-                                <!-- Main Wrapper with border -->
-                                <div class="flex flex-col md:flex-row gap-6 border-2 border-[#b30000] rounded-lg p-6" style="background-color: rgba(255, 255, 255, 0.9);">
-
-                                    @yield('content')
-
-                                    @yield('button')
-                                </div>
-
+                        <!-- Main Content Container -->
+                        <main class="flex-1 py-8 sm:py-12">
+                            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <!-- Content goes here -->
+                                @yield('content')
+                                @yield('button')
+                            </div>
                         </main>
                     </div>
             </div>
