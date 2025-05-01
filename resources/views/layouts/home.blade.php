@@ -35,11 +35,13 @@
         </div>
 
         <!-- SEARCH BAR - scrolls with the page -->
+        @if (Route::currentRouteName() != 'document-info')
         <div class="w-full bg-gray-50 relative top-[120px] sm:top-[150px] sm:left-[140px] right-0 z-10 py-4">
             <div class="container mx-auto">
                 <livewire:search-field />
             </div>
         </div>
+        @endif
 
         <!-- MAIN CONTENT - scrollable area with appropriate padding -->
         <div class="container mx-auto pt-[180px] sm:pt-[200px] pb-16 md:w-[1250px] overflow-hidden">

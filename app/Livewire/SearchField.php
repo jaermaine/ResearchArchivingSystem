@@ -13,7 +13,6 @@ class SearchField extends Component
     {
         //selected values will remain the same
         $this->selectedCategory = session('selectedCategory', '');
-        $this->searchInput = session('searchInput', '');
     }
 
     public function search()

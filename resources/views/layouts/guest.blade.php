@@ -34,11 +34,26 @@
 
 <body class="font-sans text-gray-900 antialiased" style="background-image: url('img/BG - REGISTER.png'); background-size: cover; background-position: center;">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div class="flex space-x-4"> <!-- Add 'flex' and 'space-x-4' for side-by-side alignment with spacing -->
+        <!-- FIXED HEADER - always stays at top -->
+        <div class="w-full bg-white fixed top-0 left-0 right-0 p-2 z-20" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="container mx-auto px-2 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="/welcome" class="text-xl font-bold text-[#b30000]">
+                            <img class="w-[190px] h-[70px] sm:w-[260px] sm:h-[90px]" src="{{ asset('img/lpuc-logo.png') }}" alt="LPU Logo" />
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="w-full sm:max-w-xl mt-20 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
+        </div>
+
+        <!-- FIXED FOOTER -->
+        <div class="fixed bottom-0 left-0 right-0 py-4 bg-white text-center text-sm text-black z-10" style="box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);">
+            Cloud-Based Research Archiving Systems: A Design Framework for Scalable Repositories
         </div>
     </div>
 </body>
