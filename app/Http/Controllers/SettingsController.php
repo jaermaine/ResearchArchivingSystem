@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Year;
+use App\Models\Section;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 
@@ -21,6 +22,7 @@ class SettingsController extends Controller
     {
         /** @var \App\Models\User $user **/
         $user = Auth::user();
+        $email = $user->email;
         $userId = $user->id;
 
         // Check if the user is a student or adviser
@@ -29,23 +31,24 @@ class SettingsController extends Controller
 
         // Set first name and last name based on user type
         if ($student) {
-            $firstName = $student->first_name;
-            $lastName = $student->last_name;
+            $first_name = $student->first_name;
+            $last_name = $student->last_name;
             $college = College::where('id', $student->college_id)->first();
             $program = Program::where('id', $student->program_id)->first();
             $year = Year::where('id', $student->year_id)->first();
+            $section = Section::where('id', $student->section_id)->first();
         } elseif ($adviser) {
-            $firstName = $adviser->first_name;
-            $lastName = $adviser->last_name;
+            $first_name = $adviser->first_name;
+            $last_name = $adviser->last_name;
             $college = College::where('id', $adviser->college_id)->first();
             $program = Program::where('id', $adviser->program_id)->first();
+            $year = null;
+            $section = null;
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
         }
 
-        //Fetch colleges and programs
-
-        return view('layouts.settings', compact('firstName', 'lastName', 'user', 'college', 'program'));
+        return view('layouts.settings', compact('user', 'email', 'first_name', 'last_name', 'user', 'college', 'program', 'year', 'section'));
     }
 
     public function updateProfilePicture(Request $request)
@@ -97,15 +100,15 @@ class SettingsController extends Controller
         $student = Student::where('user_id', $userId)->first();
         $adviser = Adviser::where('user_id', $userId)->first();
         if ($student) {
-            $firstName = $student->first_name;
-            $lastName = $student->last_name;
+            $first_name = $student->first_name;
+            $last_name = $student->last_name;
         } elseif ($adviser) {
-            $firstName = $adviser->first_name;
-            $lastName = $adviser->last_name;
+            $first_name = $adviser->first_name;
+            $last_name = $adviser->last_name;
         } else {
             return redirect()->route('home')->with('error', 'User role not found.');
         }
-        return view('layouts.edit-profile', compact('firstName', 'lastName', 'user'));
+        return view('layouts.edit-profile', compact('first_name', 'last_name', 'user'));
     }
 
     public function update_profile(Request $request)
@@ -163,31 +166,69 @@ class SettingsController extends Controller
 
     public function edit_academic()
     {
+        // Fetch all colleges, programs, years, and sections
         $colleges = College::all();
         $programs = Program::all();
-        return view('layouts.edit-academic', compact('colleges', 'programs'));
+        $years = Year::all();
+        $sections = Section::all();
+        
+        // Get the authenticated user
+        $user = Auth::user();
+        $userId = $user->id;
+
+        // Check if the user is a student or adviser
+        $student = Student::where('user_id', $userId)->first();
+        $adviser = Adviser::where('user_id', $userId)->first();
+        
+        // Fetch the user's college, program, year, and section
+        if ($student) {
+            $college = College::where('id', $student->college_id)->first();
+            $program = Program::where('id', $student->program_id)->first();
+            $year = Year::where('id', $student->year_id)->first();
+            $section = Section::where('id', $student->section_id)->first();
+        } elseif ($adviser) {
+            $college = College::where('id', $adviser->college_id)->first();
+            $program = Program::where('id', $adviser->program_id)->first();
+            $year = null;
+            $section = null;
+        } else {
+            return redirect()->route('home')->with('error', 'User role not found.');
+        }
+        
+        return view('layouts.edit-academic', compact('colleges', 'programs', 'years', 'sections', 'college', 'program', 'year', 'section'));
     }
 
     public function update_academic(Request $request)
     {
-        // $request->validate([
-        //     'college_id' => 'required|exists:college,id',
-        //     'program_id' => 'exists:program,id',
-        //     //'year_id' => 'required|exists:years,id',
-        // ]);
+        $request->validate([
+            'college_id' => 'exists:college,id',
+            'program_id' => 'exists:program,id',
+            'year_id' => 'exists:year,id',
+            'section_id' => 'exists:section,id'
+        ]);
 
         $user = Auth::user();
         $student = Student::where('user_id', $user->id)->first();
         $adviser = Adviser::where('user_id', $user->id)->first();
 
         if ($student) {
-            $student->college_id = $request->college_id;
-            $student->program_id = $request->program_id;
-            //$student->year_id = $request->year_id;
+            if($request->filled('college_id')){
+                $student->college_id = $request->college_id;
+            }
+            if($request->filled('program_id')){
+                $student->program_id = $request->program_id;
+            }
+            if($request->filled('year_id')){
+                $student->year_id = $request->year_id;
+            }
+            if($request->filled('section_id')){
+                $student->section_id = $request->section_id;
+            }
             $student->update();
         } elseif ($adviser) {
-            $adviser->college_id = $request->college_id;
-            //$adviser->program_id = $request->program_id;
+            if($request->filled('college_id')){
+                $adviser->college_id = $request->college_id;
+            }
             $adviser->update();
         }
 
