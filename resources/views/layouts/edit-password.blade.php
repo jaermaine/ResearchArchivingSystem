@@ -1,44 +1,62 @@
 @extends('layouts.app')
+@section('title','Change Password')
 @section('content')
-<div>
-    <div class="md:w-1/2 md:pl-6">
-        <a class="underline inline-flex items-center text-xs text-gray-600 hover:text-red-300" href="/settings"> <!-- Smaller text -->
-            <svg class="h-3 w-3 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <!-- Smaller icon -->
-                <polyline points="15 18 9 12 15 6" />
-            </svg>
-            Back
-        </a>
-        <form action="{{ route('update_password') }}" method="POST">
-            @csrf
-            <div class="user-info flex items-center">
-                <label class="block font-medium text-base sm:text-xl text-gray-700 dark:text-gray-300 text-red-600" for="change_password" style="color: #b30000;">
-                    Change Password
-                </label>
-            </div>
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-6">
+    <!-- Back button with improved design -->
+    <a class="inline-flex items-center text-gray-600 hover:text-red-700 transition duration-200 mb-6" href="/settings">
+        <svg class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
+        <span>Back to Settings</span>
+    </a>
+    
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Change Your Password</h1>
+    
+    <form action="{{ route('update_password') }}" method="POST">
+        @csrf
+        
+        <!-- Password form container -->
+        <div class="bg-gray-50 p-6 rounded-lg mb-8 shadow-sm">
+            <!-- Password Fields -->
+            <div class="space-y-4">
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                    <input type="password" name="current_password" id="current_password"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="Enter your current password"
+                        autocomplete="off">
+                </div>
 
-            <div>
-                <input type="password" name="current_password" id="current_password"
-                    class="w-full sm:w-96 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full"
-                    style="color: black; border: 2px solid #b30000; background-color: #ffffff;" placeholder="Current Password">
-            </div>
-
-            <div>
-                <input type="password" name="new_password" id="new_password"
-                    class="w-full sm:w-96 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full"
-                    style="color: black; border: 2px solid #b30000; background-color: #ffffff;" placeholder="New Password">
+                <div>
+                    <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <input type="password" name="new_password" id="new_password"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="Enter your new password">
+                </div>
+                
+                <div>
+                    <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                    <input type="password" name="new_password_confirmation" id="new_password_confirmation"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        placeholder="Confirm your new password">
+                </div>
             </div>
             
-            <div>
-                <input type="password" name="new_password_confirmation" id="new_password_confirmation"
-                    class="w-full sm:w-96 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block mt-1 w-full"
-                    style="color: black; border: 2px solid #b30000; background-color: #ffffff;" placeholder="Confirm New Password">
+            <!-- Password guidelines (optional) -->
+            <div class="mt-4 text-sm text-gray-500">
+                <p>Password should be at least 8 characters long and include a mix of letters, numbers, and symbols.</p>
             </div>
+        </div>
 
-            <!-- Save Changes Button -->
-            <button type="submit" class="h-8 sm:h-10 px-4 sm:px-6 py-1 sm:py-2 bg-[#800000] hover:bg-red-700 text-white text-xs sm:text-sm font-medium font-['Inter'] rounded-md justify-center items-center gap-2 sm:gap-2.5 inline-flex">
+        <!-- Submit Button -->
+        <div class="flex justify-end">
+            <button type="submit" class="px-6 py-3 bg-[#800000] hover:bg-red-700 text-white font-medium rounded-lg shadow-md transition duration-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
                 Save Changes
             </button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 @endsection
