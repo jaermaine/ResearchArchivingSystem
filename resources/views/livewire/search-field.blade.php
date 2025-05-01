@@ -1,5 +1,6 @@
 <div class="w-full max-w-4xl px-4 py-8">
     <form wire:submit.prevent="search" class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+    @csrf
         <div class="flex flex-col md:flex-row p-4 gap-4">
             <!-- Category Dropdown -->
             <div class="w-full md:w-1/3">

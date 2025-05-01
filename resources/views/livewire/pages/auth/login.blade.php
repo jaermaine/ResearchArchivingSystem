@@ -14,6 +14,8 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function login(): void
     {
+        Session::flush();
+
         $this->validate();
 
         $this->form->authenticate();

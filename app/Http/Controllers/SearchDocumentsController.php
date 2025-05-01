@@ -9,6 +9,11 @@ class SearchDocumentsController extends Controller
 {
     public function search_document(Request $request)
     {
+        $validated = $request->validate([
+            'search_input' => 'nullable|string|max:255',
+            'category' => 'nullable|string|in:title,author,keyword,program,date',
+        ]);
+        
         $searchInput = $request->input('search_input', '');
         $category = $request->input('category', '');
         $perPage = 3;
